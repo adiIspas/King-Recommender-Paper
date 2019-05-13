@@ -1,0 +1,96 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{combelow}
+\usepackage[romanian]{babel}
+\usepackage{graphicx}
+\usepackage{subfiles}
+\usepackage{blindtext}
+\usepackage[export]{adjustbox} 
+\usepackage{geometry}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{indentfirst}
+\usepackage{amsthm}
+\usepackage{listings}
+\usepackage{float}
+\usepackage[toc,page]{appendix}
+\usepackage{subcaption}
+\usepackage{makeidx}
+\usepackage{geometry}
+\usepackage[verbose]{newunicodechar}
+\usepackage{hyperref}
+\usepackage{amsmath} 
+\usepackage[utf8]{inputenc}
+\usepackage{chngcntr}
+\usepackage{mathtools}
+\usepackage[section]{placeins}
+\graphicspath{{figures/}}
+\usepackage{array}
+\usepackage{afterpage}
+\usepackage[font=small,labelfont=bf]{caption}
+
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=25mm,
+	top=25mm,
+	bottom=25mm,
+	right=25mm,
+}
+
+% Line spacing
+\renewcommand{\baselinestretch}{1.5} 
+\renewcommand\appendixtocname{Anexe}
+\renewcommand\appendixname{Anexe}
+\renewcommand\appendixpagename{Anexe}
+\newcommand\blankpage{%
+	\null
+	\thispagestyle{empty}%
+	\addtocounter{page}{-1}%
+	\newpage}
+\newcommand*\xor{\mathbin{\oplus}}
+
+
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+
+\graphicspath{{images/}{../images/}{figures/}{../figures/}}
+
+\newunicodechar{ș}{\c{s}}
+\newunicodechar{Ș}{\c{S}}
+\newunicodechar{ț}{\c{t}}
+\newunicodechar{Ț}{\c{T}}
+
+\newtheorem{remark}{Observație}[chapter]
+\newtheorem{definition}{Definiție}[chapter]
+\newtheorem{lemma}{Lemă}[chapter]
+\newtheorem{theorem}{Teoremă}[chapter]
+
+\makeindex
+
+\begin{document}
+
+\afterpage{\blankpage}
+\subfile{chapters/0_first_page}
+\restoregeometry
+
+\setcounter{page}{3}
+\subfile{chapters/01_abstract_ro}
+
+\newpage
+\subfile{chapters/01_abstract_en}
+
+\tableofcontents
+
+\newpage
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+
+\newpage
+\addcontentsline{toc}{chapter}{Listă de tabele}
+\listoftables
+
+\input{bibliography/bibliography}
+
+\end{document}
