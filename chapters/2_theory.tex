@@ -58,7 +58,46 @@ Maximizează rangul exemplelor positive prin eșantionarea repetată a exemplelo
 
 \subsection{Noțiuni generale}
 
-Rețelele neurale convoluționale sunt foarte similare cu rețelele neurale, sunt formate din neuroni și învață ponderi ($w$) și baiasuri ($b$). Fiecare neuron primește un input și calculează produsul. Scopul rețelei este de a primi o imagine la input și de a scoate la output un scor pentru fiecare clasă ce corespunde imaginii. Pe ultimul strat se află o funcție de loss, de exemplu $softmax$ \hyperlink{cs231n}{[7]}.
+Rețelele neurale convoluționale sunt foarte similare cu rețelele neurale fiind formate din neuroni ce învață ponderi ($w$) și baiasuri ($b$). Scopul rețelei convoluționale este de a primi o imagine la input și de a scoate la output un scor pentru fiecare clasă ce corespunde imaginii. 
+
+Spre exemplu, la input se dă o imagine cu un autovehicul, iar rețeaua convoluțională poate spune că în imagine este o mașină în proporție de 80\%, un camion în proporție de 10\%, un avion în proporție de 6\%, o barcă în proporție de 3\% sau un cal în proporție de 1\%.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_3}
+	\caption[Exemplu rețea convoluțională]{Exemplu de rețea convoluțională care primește la input o imagine și produce la output o listă de clase ce pot descrie imaginea de input. Imagine preluată din \hyperlink{datameetsmedia}{[7]}.}
+\end{figure} 
+
+Rețelele convoluționale sunt compuse dintr-o secvență de layere ce poate fi împărțită în trei tipuri principale de layere \hyperlink{cs231n}{[7]}:
+
+\begin{enumerate}
+  \item Convolutional Layer este layerul de bază într-o rețea convoluțională. Parametrii acestui layer sunt reprezentați de filtre învățabile, unde fiecare filtru reprezintă o mică bucată din imaginea de input. De exemplu, un filtru pentru pentru acest layer poate avea dimensiunea de $5\times5\times3$, dimensiune ce reprezintă faptul că se iau 5 pixeli pe lațime și înălțime cu o adâncime de 3, unde adâncimea reprezintă canalele RGB. În continuare se glisează fiecare filtru peste input și se compune produsul dintre filtre și input la fiecare poziție. În urma acestei operații se produce un vector de activare 2-dimensional care reprezintă răspunsul filtrului la fiecare poziție. Altfel spun, rețeaua va învăța filtre care se activează atunci când sunt prezente anumite tipuri de caracteristici, precum culoarea sau orientarea.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_4}
+	\caption[Exemplu de filtru aplicat peste input]{Exemplu de filtru aplicat peste input într-un layer convoluțional. Imagine preluată din \hyperlink{datameetsmedia}{[7]}.}
+\end{figure}   
+  
+  \item Pooling Layer reprezintă o practică des folosită între mai multe layere convoluționale succesive. Această operație reduce numărul de parametrii (dimensiunea), computațiile din rețea și controlează overfittingul. Se execută indepedent pe fiecare nivel al adâncimii unui input și pastrează valoarea maximă a acelei zone. Rezultatul este o zonă de caracteristicii mai mică dar care păstrează cea mai relevantă statistică.
+
+\begin{figure}[!tbp]
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img_2_5}
+    \caption{Reducerea dimensiunii.}
+    \label{fig:f1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img_2_6}
+    \caption{Filtrul de $2\times2$ aplicat ce păstrează valoarea maximă.}
+    \label{fig:f2}
+  \end{subfigure}
+  \caption[Exemplu de pooling]{Exemplu de pooling. Imagine preluată din \hyperlink{datameetsmedia}{[7]}.}
+\end{figure}
+  
+  \item Fully-Connected Layer este stratul în care caracteristicile sunt vectorizate pentru a putea fi folosite.
+\end{enumerate}
 
 \subsection{VGG}
 
