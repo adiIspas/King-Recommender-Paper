@@ -48,11 +48,57 @@ Filtrarea bazată pe cunoștințe folosește cunoștințele despre utilizatori �
 
 \subsubsection*{BPR: Bayesian Personalised Ranking}
 
-Maximizează diferența de predicției dintre un exemplu pozitiv și un exemplu negativ ales aleator. Este utilă atunci când sunt prezente doar interacțiuni pozitive și se dorește optimizarea acurateții \hyperlink{lighfm}{[6]}.
+Maximizează diferența de predicției dintre un exemplu pozitiv și un exemplu negativ ales aleator. Este utilă atunci când sunt prezente doar interacțiuni pozitive și se dorește optimizarea acurateții.
+
+\hyperlink{SteffenRendleChristophFreudenthalerZenoGantnerLarsSchmidtThieme}{[9]}
 
 \subsubsection*{WARP: Weighted Approximate-Rank}
 
-Maximizează rangul exemplelor positive prin eșantionarea repetată a exemplelor negative până când se constată o încălcare a rangului. Este utilă atunci când sunt prezente doar interacțiuni pozitive și se dorește optimizarea preciziei@k \hyperlink{lighfm}{[6]}.
+Această metodă își are originile în procesarea imaginilor și anume pentru un set de reprezentări ale unor imagini $x \in R^d$ și pentru un set de reprezentări ale unor adnotări $i \in \Upsilon = \{1, ..., Y\}$ - inidici intr-un dicționar cu posibile adnotări, metoda învață să mapeze imagini din spațiul reprezentărilor într-un spațiu comun $R^D$
+
+\begin{align}
+	\Phi_{I}(x):R^d \rightarrow R^D
+\end{align}
+
+în același timp învățând și mapări pentru adnotări în același spațiu
+
+\begin{align}
+	\Phi_{W}(i):{1,...,Y} \rightarrow R^D
+\end{align}
+
+Scopul principal fiind acela de a oferi ranguri posibilelor adnotări pentru o imagine dată astfel încât cel mai mare rang să descrie cel mai bine conținutul semnatic al imaginii. 
+
+Modelul folosit este următorul:
+\begin{align}
+	f_{i}(x) = \Phi_{W}(i)^T \Phi_{I}(x)
+\end{align}
+
+Metoda învață să producă ranguri optimizate pentru primele adnotări din listă, ceea ce înseamnă că optimizează precizia@k.
+
+În ceea ce privește funcția de eroare definim: $f(x) \in R^Y$ ce produce un scor pentru fiecare etichetă și unde $f_i(x)$ este valoarea etichetei $i$. Definim funcția de eroare pentru ranguri ca fiind:
+\begin{align}
+	err(f(x),y) = L(rank_y(f(x)))
+\end{align}
+unde $rank_y(f(x))$ este rangul etichetei corecte data de $f(x)$:
+\begin{align}
+	rank_y(f(x)) = \sum_{i \neq y}I(f_i(x) \geq f_y(x))
+\end{align}
+unde I este funcția indicator, iar $L(\cdot)$ transformă rangul în penalizare
+\begin{align}
+	L(k) = \sum_{j=1}^k\alpha_j, \quad cu \quad \alpha_1 \geq \alpha_2 \geq ... \geq 0.
+\end{align}
+
+$L(\cdot)$ poate lua diferite forme în funcție de ce se dorește a se optimiza: $\alpha_j=\frac{1}{Y-1}$ optimizează rangul mediu, $\alpha_j=1$ și $\alpha_{j>1}=0$ optimizează proporția de ranguri corecte aflate în top, iar valorile mari ale lui $\alpha$ optimizează primele $k$ în lista de ranguri\hyperlink{JasonWestonSamyBengioNicolasUsunier}{[8]}.
+
+\vspace{5mm}
+
+Cu definițiile prezentate mai sus putem descrie algoritmul acestei metode după cum urmează.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_7}
+	\caption[Online WARP Loss Optimization]{Online WARP Loss Optimization. Imagine preluată din \hyperlink{JasonWestonSamyBengioNicolasUsunier}{[8]}.}
+\end{figure} 
 
 \section{Rețele neurale convoluționale}
 
