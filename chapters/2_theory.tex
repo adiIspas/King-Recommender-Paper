@@ -48,10 +48,43 @@ Filtrarea bazată pe cunoștințe folosește cunoștințele despre utilizatori �
 
 \subsubsection*{BPR: Bayesian Personalised Ranking}
 
-Maximizează diferența de predicției dintre un exemplu pozitiv și un exemplu negativ ales aleator. Este utilă atunci când sunt prezente doar interacțiuni pozitive și se dorește optimizarea acurateții.
+Este o metodă ce se bazează pe feedback implicit (click-uri, ratinguri, achiziții). Exită multe metode ce se bazează pe acest feedback implicit, precum matrix factorization (MF), k-nearest-neighbor (kNN), însă acestea nu sunt optimizate pentru ranguri. Metoda de învățare este bazată pe gradientul descendent. Metoda este recomandată atunci când se dorește optimizarea acurateții.
 
-\hyperlink{SteffenRendleChristophFreudenthalerZenoGantnerLarsSchmidtThieme}{[9]}
+Definim în continuare $U$ ca fiind mulțimea de utilizatori și $I$ ca fiind mulțimea de articole. Feedback-ul implicit este reprezentat de mulțimea $S \subseteq U \times I$. De asemenea, definim $I_u^+ := {i \in I:(u, i) \in S}$ și $U_i^+ := {u \in U:(u, i) \in S}$.
 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_8}
+	\caption[Matricea de interacțiuni]{Matricea de interacțiuni, mulțimea $S$. Imagine preluată din \hyperlink{SteffenRendleChristophFreudenthalerZenoGantnerLarsSchmidtThieme}{[9]}.}
+\end{figure} 
+
+O abordarea uzuală pentru recomandarea de articole este să fie prezis scorul $\hat{x}_{ui}$ care să reflecte preferința utilizatorului $u$ pentru articolul $i$. Apoi fiecare articol primește un rang după sortarea scorurilor.
+
+Setul de antrenare este definit de mulțimea $D_S := \{(u,i,j)|i \in I_u^+ \wedge j \in I \setminus I_u^+\}$ unde $(u,i,j)$ înseamnă că utilizatorul $u$ preferă articolul $i$ în detrimentul articolului $j$.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_9}
+	\caption[Setul de antrenare]{Setul de antrenare. $+$ reprezintă articolele $i$ pe care utilizatorul le preferă în locul articolelor $j$, $-$ utilizatorul preferă articolele $j$ în loc de $i$, iar $?$ reprezintă lipsa informației despre acea interacțiune. Imagine preluată din \hyperlink{SteffenRendleChristophFreudenthalerZenoGantnerLarsSchmidtThieme}{[9]}.}
+\end{figure} 
+
+Criteriul de optimizare pentru pentru rangurile personalizate este definit după cum urmează:
+\begin{align}
+	BPR-OPT := \sum_{(u,i,j) \in D_S} \ln{\sigma(\hat{x}_{uij})} - \lambda_\Theta||\Theta||^2
+\end{align}
+
+unde $\sigma$ este funcția sigmoid, $\sigma(x) := \frac{1}{1+e^{-x}}$, $\Theta$ reprezintă vectorul parametru al modelului care definește interacțiunea dintre utilizatorul $u$, articolul $i$ și articolul $j$, iar $\lambda_\Theta$ reprezintă parametrii de regularizare.
+
+\vspace{5mm}
+Cu aceste definiți putem defini și procedura de învățare a $BPR$ după cum urmează.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_10}
+	\caption[Procedura de învățarea BPR]{Optimizarea modelului bazată metoda gradientului descendent cu parametrul de învățare $\alpha$ și regularizarea $\lambda_\Theta$. Imagine preluată din \hyperlink{SteffenRendleChristophFreudenthalerZenoGantnerLarsSchmidtThieme}{[9]}.}
+\end{figure}
+
+\vspace{5mm}
 \subsubsection*{WARP: Weighted Approximate-Rank}
 
 Această metodă își are originile în procesarea imaginilor și anume pentru un set de reprezentări ale unor imagini $x \in R^d$ și pentru un set de reprezentări ale unor adnotări $i \in \Upsilon = \{1, ..., Y\}$ - inidici intr-un dicționar cu posibile adnotări, metoda învață să mapeze imagini din spațiul reprezentărilor într-un spațiu comun $R^D$
