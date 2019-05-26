@@ -180,9 +180,57 @@ Rețelele convoluționale sunt compuse dintr-o secvență de layere ce poate fi 
 
 \subsection{VGG}
 
+VGG este o arhitectură de rețea cu filtre convoluționale foarte mici, de dimensiune $3\times3$ și care poate avea o adâncime a straturilor de ponderi de 16 - 19.
+
+În ceea ce privește arhitectura, inputul în rețeaua convoluțională este de dimensiune fixă și anume $224\times224$ imagine RGB. Mai departe, imaginea este trecută printr-un set de straturi convoluționale unde sunt utilizate filtre de dimensiune mică, $3\times3$ - fiind cea mai mică dimensiune ce poate captura noțiunile de stânga/dreapta, sus/jos, centru. Într-una dintre configurații se utilizează un filtru convoluțional de dimensiune $1\times1$. Pasul în straturile convoluționale este fixat la 1 pixel.
+
+Poolingul este compus din cinci straturi de max-pooling care urmează după unele straturi convoluționale. Max-poolingul este calculat cu ferestre de $2\times2$ pixel și cu pas de 2 pixeli.
+
+Odată trecută imaginea prin straturile convoluționale și cele de pooling ajunge în trei straturi fully-connected. Primele două straturi au câte 4096 de canale fiecare, iar al treilea are 1000 de canale. Canalele celui de-al treilea strat sunt asociate claselor, fiecare canal reprezintă o clasă.
+
+Ultimul strat din rețea este un strat soft-max \hyperlink{SimonyanKarenZissermanAndrew}{[10]}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_2_11}
+	\caption[Configurații VGG]{Configurații ale rețelei VGG. Imagine preluată din \hyperlink{SimonyanKarenZissermanAndrew}{[10]}.}
+\end{figure}   
+
 \subsection{InceptionV3}
 
 \subsection{ResNet}
+Fie $H(x)$ maparea de bază unde $x$ reprezintă inputul. Funcția reziduală poate fi aproximată cu $F(x) := H(x) - x$, maparea de bază fiind $F(x) + x$.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_12}
+	\caption[Învățarea reziduală]{Învățarea reziduală. Imagine preluată din \hyperlink{KaimingHeXiangyuZhangShaoqingRenJianSun}{[11]}.}
+\end{figure}  
+
+Învățarea reziduală se aplică la câtva grupuri de straturi. Putem defini un bloc de straturi ca fiind 
+\begin{align}
+	y = F(x,\{W_i\}) + x
+\end{align}
+unde $x$ și $y$ reprezintă inputul și outputul straturilor considerate. Funcția $F(x, \{W_i\})$ reprezintă maparea reziduală ce trebuie învățată.
+
+Dimensiunea lui $x$ și $F$ din ecuația de mai sus trebuie să fie egale. Redefinim ecuația după cum urmează
+\begin{align}
+	y = F(x,\{W_i\}) + W_sx
+\end{align}
+unde $W_s$ este o proiecție liniară a scurtăturilor conexiunilor pentru ca dimensiunile să se potrivească.
+
+ResNet pleacă de la o rețea simplă. Rețeaua simplă fiind inspirată de rețeaua VGG. Straturile convoluționale au în general filtre de dimensiune $3\times3$ și se bazează de două reguli de design: - pentru outputuri cu același număr de caracteristici, straturile vor avea același număr de filtre; - dacă numărul de caracteristicii este injumătățit, numărul de filtre este dublat astfel încât să fie păstrată complexitatea de timp pe strat.
+
+Poolingul se realizează dupa straturile convoluționale cu un pas de 2 pixeli. Rețeaua se termină cu un strat de pooling mediu și un strat fully-connected softmax cu 1000 de canale.
+
+Bazată pe rețeaua descrisă mai sus, rețeaua reziduală presupune inserția unor scurtături. Scurtăturile identice (vezi formula 2.8) pot fi direct utilizate când inputul și outputul au aceași dimensiune. Când dimensiunea crește considerăm două opțiuni: - scurtătura calculează în continuare maparea identității. Această opțiune nu introduce parametrii noi; - proiecția scurtăturii din formula 2.9 este utilizată pentru a potrivi dimensiunile. În ambele situații când se folosesc scurtăturile pentru pentru a sări peste două straturi sunt calculate cu un pas de 2.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=20cm,keepaspectratio]{img_2_13}
+	\caption[Rețeaua ResNet]{Prima rețea (stânga) este o rețea VGG19. A doua rețea (centru) este o rețea simplă cu 34 de straturi. A treia rețea (dreapta) este o rețea reziduală cu 34 de straturi. Imagine preluată din \hyperlink{KaimingHeXiangyuZhangShaoqingRenJianSun}{[11]}.}
+\end{figure}  
+
 
 \subsection{NASNet}
 
