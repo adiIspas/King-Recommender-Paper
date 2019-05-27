@@ -213,10 +213,24 @@ Factorizarea spațială în convoluții asimetrice presupune înlocuirea stratul
 	\caption[Factorizarea spațială în convoluții asimetrice]{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $3 \times 3$ înlocuit cu două de dimensiune $3 \times 1$ și $1 \times 3$.  Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
 \end{figure}
 
-Clasificatori auxiliari ...
+Clasificatorul auxiliar este utilizat în InceptionV3 ca regulizator și este poziționat în partea superioară a utimelor $17 \times 17$ straturi. Batch-urile normalizate sunt de asemeanea folosite în clasificatorul auxiliar.
 
-Reducerea eficientă a dimensiunii ...
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_19}
+	\caption[Clasificator auxiliar]{Clasificatorul auxiliar. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
+\end{figure}
 
+Reducerea eficientă a dimensiunii se face prin utilizarea a două blocuri paralele, fie P și C. Primul dintre acestea, P, fiind un strat de activare de pooling(media sau maxim pooling). Ambele straturi au filtre cu pas 2 care sunt concatenate.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=17cm,max height=12cm,keepaspectratio]{img_2_20}
+	\caption[Reducerea eficientă a dimensiunii]{Modulul care reduce dimensiunea. Diagrama din dreapta reprezintă aceași soluție însă din perspectiva dimensiunii rețelei. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
+\end{figure}   
+
+
+
+Arhitectura completă este prezentată în continuare.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=17cm,max height=12cm,keepaspectratio]{img_2_16}
