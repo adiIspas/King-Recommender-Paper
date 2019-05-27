@@ -197,6 +197,31 @@ Ultimul strat din rețea este un strat soft-max \hyperlink{SimonyanKarenZisserma
 \end{figure}   
 
 \subsection{InceptionV3}
+Prima arhitectura de Inception a apărut sub numele de GoogLeNet. O a doua versiune de Inception a fost definită prin introducerea de batch-uri normalizate. Iar mai apoi, versiunea a treia în care a fost adăugate idea de factorizare.
+
+Factorizarea în filtre convoluționale mici presupune înlocuirea stratului cu filtru de dimensiune $5 \times 5$ cu două straturi de dimensiune $3 \times 3$ astfel reducânduse dimensiunea de la $5 \times 5 = 25$ la $3 \times 3 + 3 \times 3 = 18$.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=7cm,max height=7cm,keepaspectratio]{img_2_17}
+	\caption[Factorizarea în filtre convoluționale mici]{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $5 \times 5$ înlocuit cu două de dimensiune $3 \times 3$.  Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
+\end{figure}   
+
+Factorizarea spațială în convoluții asimetrice presupune înlocuirea stratului cu filtru de dimensiune $3 \times 3$ cu două straturi de dimensiune $3 \times 1$ și $1 \times 3$ astfel reducânduse dimensiunea de la $3 \times 3 = 9$ la $3 \times 1 + 1 \times 3 = 6$. 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=7cm,max height=7cm,keepaspectratio]{img_2_18}
+	\caption[Factorizarea spațială în convoluții asimetrice]{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $3 \times 3$ înlocuit cu două de dimensiune $3 \times 1$ și $1 \times 3$.  Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
+\end{figure}
+
+Clasificatori auxiliari ...
+
+Reducerea eficientă a dimensiunii ...
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=17cm,max height=12cm,keepaspectratio]{img_2_16}
+	\caption[Arhitectura InceptionV3]{Arhitectura rețelei InceptionV3. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
+\end{figure}   
 
 
 \subsection{ResNet}
