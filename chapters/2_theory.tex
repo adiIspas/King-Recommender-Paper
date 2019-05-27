@@ -198,6 +198,7 @@ Ultimul strat din rețea este un strat soft-max \hyperlink{SimonyanKarenZisserma
 
 \subsection{InceptionV3}
 
+
 \subsection{ResNet}
 Fie $H(x)$ maparea de bază unde $x$ reprezintă inputul. Funcția reziduală poate fi aproximată cu $F(x) := H(x) - x$, maparea de bază fiind $F(x) + x$.
 
@@ -233,8 +234,23 @@ Bazată pe rețeaua descrisă mai sus, rețeaua reziduală presupune inserția u
 
 
 \subsection{NASNet}
+NASNet este o arhitectură de rețea bazată pe tehnica de căutare Neural Architecture Search (NAS). NAS presupune un controler cu o rețea neurală recurentă care conține mai multe rețele copii cu arhitecturi diferite. Rețelele copii sunt antrenate să conveargă pentru a obține o anumită precizie pe un set de antrenare. Rezultatele sunt utilizate pentru a actualiza controlerul ceea ce înseamnă că acest controler va genera arhitecturi mai bune în timp.
 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=20cm,keepaspectratio]{img_2_14}
+	\caption[NAS]{Privire de ansamblu asupra unei Neural Architecture Search. Imagine preluată din \hyperlink{Zoph2018LearningTA}{[13]}.}
+\end{figure}  
 
+Plusul principal pe care îl aduce rețeaua NASnet este reprezentat de proiectarea unui nou spațiu de căutare astfel încât cea mai bună arhitectură pe setul de date CIFAR-10 poate scala către rezoluții ale imaginilor cât mai mari într-un interval definit. Astfel, acest spațiu poartă numele de \textit{NASNet search space}. În abordarea NASNet arhitecturile rețelelor convoluționale manual predeterminate, fiind compuse din celule convoluționale repetate de multe ori unde, fiecare celulă convoluțională are aceași arhitectură dar ponderi diferite.
+
+Pentru a construi mai ușor arhitecturi scalabile pentru imagini de orice dimensiune este nevoie de două tipuri de celule convoluționale pentru a îndeplini două funcții principale: - celule convoluționale care returnează o hartă de caracteristici cu aceași dimensiune. Acest tip de celule se numesc \textit{Celulă Normal}; - celule convoluționale care returnează o hartă de caracteristici cu înălțimea și lungimea harții divizată cu un factor doi. Acest tip de celule se numesc \textit{Celulă de reducere}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=17cm,max height=17cm,keepaspectratio]{img_2_15}
+	\caption[Celule normale și de reducere]{Celule normale (dreapta). Celule de reducere (stânga). Imagine preluată din \hyperlink{Zoph2018LearningTA}{[13]}.}
+\end{figure}  
 
 \section{Clustere}
 
