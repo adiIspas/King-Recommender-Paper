@@ -295,4 +295,23 @@ Pentru a construi mai ușor arhitecturi scalabile pentru imagini de orice dimens
 
 \subsection{Noțiuni generale}
 
+Clusterizarea este un proces de grupare a unor articole în sensul în care articolele din același cluster sunt foarte similare între ele din punct de vedere al caracteristicilor. Această metodă este des utilizată în data mining, analiza datelor, machine learning, recunoașterea tiparelor sau regăsirea informației. Există mai multe tipuri de algoritmi de clusterizare, însă, ideea de bază este aceași: clusterele sunt grupuri cu distanțe foarte mici între membrii grupului (fie distanța euclidiană, de exemplu).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_21}
+	\caption[Exemplu clustere]{Exemplu de două clustere (sus). Exemplu de trei clustere (jos). Imagine preluată din \hyperlink{dataclusteringtechniques}{[15]}.}
+\end{figure}  
+
+Procesul de clustering poate fi împărțit în etape după cum urmează \hyperlink{dataclusteringtechniques}{[15]}:
+\begin{enumerate}
+	\item Colectarea datelor: alegerea articolelor pentru care se va aplica clusterizarea;
+	\item Screening-ul inițial: presupune extragerea caracteristicilor relevante pentru fiecare articol din dataset;
+	\item Reprezentarea: presupune pregătirea datelor pentru a putea fi folosite de către algoritmul de clusterizare, tot aici alegânduse și măsura de similaritate;
+	\item Tendința de grupare: se verifică dacă datele au o tendință naturală de grupare; poate fi sărită pentru baze de date mari;
+	\item Strategia de clusterizare: se alege algoritmul de clusterizare și parametrii inițiali;
+	\item Validarea: se evaluează manual/vizual sau prin alte metode definite rezultatele obținute în urma clusterizări;
+	\item Interpretarea: în această se compară rezultatele pe mai multe clustere, combinații de clustere și se trag concluziile.
+\end{enumerate}
+
 \subsection{K-nearest neighbors}
