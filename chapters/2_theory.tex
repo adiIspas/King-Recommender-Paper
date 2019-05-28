@@ -315,3 +315,72 @@ Procesul de clustering poate fi împărțit în etape după cum urmează \hyperl
 \end{enumerate}
 
 \subsection{K-nearest neighbors}
+KNN reprezintă un model de clasificare simplu și eficient în multe cazuri. Pentru ca un articol $t$ să fie clasificat sunt căutați cei mai propiați $k$ vecini formând regiunea lui $t$. Cei mai apropiați veci sunt căutați cu o măsură de similaritate, de obicei distanța euclidiană sau similaritatea cosinus. Votul majoritar din acea regiune este folosit pentru a decide clasificarea lui $t$. $k$-ul este valoarea de care depinde destul de mult rata de succes a calsificării, cea mai simplă metodă de a alege un $k$ optim fiind reprezentată de rularea algoritmului pentru mai multe valori ale lui și observarea evoluției rezultelor.
+
+\vspace{5mm}
+Fie $D$ o colecție de $n$ clase cunoscute $\{d_1, d_2,..., d_n\}$. $Sim(d_i)$ - similaritatea celui mai indepărtat punct din regiunea locală, $N(d_i)$ - numărul de puncte din interiorul unei regiuni locale. Algoritmul de construcție al modelului este definit după cum urmează \hyperlink{gongdeguo}{[15]}:
+\begin{enumerate}
+	\item selectăm o măsură de similaritate și creem o matrice de similaritate peste baza de date de antrenare;
+	\item setăm toate datele cu eticheta neclasificate;
+	\item pentru fiecare intrare cu eticheta de neclasificat căutăm cea mai mare regiune locală care acoperă cel mai mare număr de vecini cu aceași categorie.
+	\item căutam intrarea $d_i$ cu cea mai mare regiune $N_i$ printre toate regiunile locale și creem o reprezentare $<Cls(d_i), Sim(d_i), Num(d_i), Rep(d_i)>$ în modelul $M$ pentru a reprezenta toate intrările acoperite de regiunea $N_i$ și setăm etichete pentru toate aceste intrări;
+	\item repetăm pași 3 și 4 până când toate intrările din baza de date de antrenare au fost clasificate;
+	\item modelul $M$ este format din toate reprezentările setate în procesul de învățatare descris mai sus.
+\end{enumerate}
+
+Algoritmul de clasificare este definit după cum urmează:
+\begin{enumerate}
+	\item pentru ca o nouă intrare $d_t$ să fie clasificată, calculăm similaritatea ei cu toate celelalte reprezentări din model;
+	\item dacă $d_t$ este acoperit doar de o reprezentare $<Cls(d_j), Sim(d_j), Num(d_j), Rep(d_j)>$ în sensul că distanța de la $d_t$ la $d_j$ este mai mică decât $Sim(d_j)$, $d_t$ este astfel clasificat ca făcând parte din clasa lui $d_j$;
+	\item dacă $d_t$ este acoperit de două sau mai multe clase, clasificăm $d_t$ ca făcând parte din reprezentarea cu cea mai mare valoare a $Num(d_j)$, adică regiunea care acoperă cel mai mare număr de intrări din baza de date de antrenare;
+	\item dacă nu există nicio reprezentare în modelul M care să acopere $d_t$, clasificăm $d_t$ cu o clasă nouă.
+\end{enumerate}
+
+Un exemplu vizual de execuție a algoritmului de kNN, parcurs pas cu pas, este prezentat în figura 2.21:
+
+Exemplu conține 36 de intrări din 2 clase marcate prin pătrat și cerc. Datele de test sunt reprezentate prin tringhiuri.
+\begin{figure}[!tbp]
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img_2_22}
+    \caption{Distribuția inițială a datelor (stânga) și prima reprezentare obținută (dreapta)}
+    \label{fig:f1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img_2_23}
+    \caption{A doua reprezentare obținută (stânga) și modelul înainte de triere (dreapta)}
+    \label{fig:f2}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img_2_24}
+    \caption{Modelul după triere (stânga) și distribuția datelor de test (dreapta)}
+    \label{fig:f3}
+  \end{subfigure}
+  \caption[Exemplu 1 de clasificare cu kNN]{Exemplu 1 de clasificare cu kNN. Imagine preluată din \hyperlink{gongdeguo}{[15]}.}
+\end{figure}  
+
+Un al doilea exemplu de clasificare este prezentat în figura 2.22:
+\begin{figure}[!tbp]
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img_2_25}
+    \caption{Prima reprezentare obținută (stânga) și a doua reprezentare obținută(dreapta)}
+    \label{fig:f1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img_2_26}
+    \caption{A treia reprezentare obținută (stânga) și modelul final (dreapta)}
+    \label{fig:f2}
+  \end{subfigure}
+  \caption[Exemplu 2 de clasificare cu kNN]{Exemplu 2 de clasificare cu kNN. Imagine preluată din \hyperlink{gongdeguo}{[15]}.}
+\end{figure}
+
+\subsection{Metrici de evaluare a clusterelor}
+
+\subsubsection{Coeficientul silhouette}
+Coeficient (formula 2.10) este folosit pentru a evalua clusterele în învățarea nesupervizată. Este calculat utilizând distanța medie intra-clustere ($a$) și distanța medie către cel mai apropiat cluster ($b$) pentru fiecare intrare, adică distanța dintre o intrare și cel mai apropiat cluster din care nu face parte. Numărul de etichete trebuie să respecte constrangerea $2 \leq nr_{etichete} \leq nr_{etichete} - 1$. Valorile returnate de acest coeficient sunt cuprinse în intervalul $[-1, 1]$. Valorile apropiate de 0 indică clustere care se suprapun, valorile negative în general indică că există intrări asignate în clusterul greșit, iar valorile apropiate de 1 indică o separație bună intre clustere \hyperlink{silhouette}{[16]}.
+
+\begin{align}
+	\frac{b-a}{max(a,b)}
+\end{align}
