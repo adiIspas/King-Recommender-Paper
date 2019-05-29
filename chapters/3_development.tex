@@ -1,0 +1,85 @@
+\section{Definirea modelului de recomandare}
+
+\section{Clasterizarea posterelor}
+
+\section{Inițializarea bazei de date}
+
+\section{Optimizarea parametrilor modelului}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{||c | c | c | c | c ||} 
+		\hline
+		\textbf{Features} & \textbf{Loss} & \textbf{Optimize} & \textbf{Optimal params} & \textbf{Results} \\ [0.5ex] 
+		\hline\hline
+		cordova1 & 250 & 449 & 467 & 91.31\% \\ 
+		washington1 & 336 & 667 & 662 & 88.48\% \\
+		washington2 & 232 & 448 & 454 & 97.10\% \\ 		
+		\hline
+	\end{tabular}
+	\caption{Rezultate evaluare detecție bandă}
+	\label{table:1}
+\end{table}
+
+
+
+\begin{table}
+\centering
+\caption{Parametrii optimizați pentru modelul de recomandare}
+\label{table:1}
+\resizebox{\textwidth}{!}{\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|} 
+\hline
+\multirow{2}{*}{\textbf{Features}} & \multirow{2}{*}{\textbf{Loss}} & \multirow{2}{*}{\textbf{Optimize}} & \multicolumn{6}{l|}{\textbf{Optimal params}}                                                                               & \multirow{2}{*}{\textbf{Results}}  \\ 
+\cline{4-9}
+                                   &                                &                                    & \textbf{epochs} & \textbf{learning rate} & \textbf{no components} & \textbf{Item alpha} & \textbf{scaling} & \textbf{k os} &                                    \\ 
+\hline
+None                               & warp                           & precision\_at\_k                   & 141             & 0.043040684            & 21                     & 0.00541555          & 0.014726505      &               & 0.092                              \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\ 
+\hline
+                                   &                                &                                    &                 &                        &                        &                     &                  &               &                                    \\
+\hline
+\end{tabular}}
+\end{table}
