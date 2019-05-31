@@ -119,7 +119,54 @@ Cu definițiile prezentate mai sus putem descrie algoritmul acestei metode după
 De completat ...
 
 \section{Modelul LightFM}
+Modelul LightFM este un model hibrid de matrix factorisation în care utilizatorii și articolele sunt reprezentate sub formă de combinații liniare de factorilor latenți a caracteristicilor. Modelul fiind hibrid, utilizează două strategii de învățare și anume învățarea coloborativă și filtrarea bazată pe conținut.
 
+\vspace{5mm}
+Cerințele de la care a fost dezvoltată structura modelului LightFM sunt \hyperlink{maciejlightfm}{[18]}:
+\begin{enumerate}
+	\item Modelul trebui să învețe reprezentările utilizatorilor și articolele din datele de interacțiune: această cerință este realizată prin utilizarea reprezentărilor latente. De exemplu, dacă două articole, fie $X$ și $Y$ sunt apreciate de aceași utilizatori, atunci reprezentările celor două articole, $X$ și $Y$, vor fi apropiate. Pe de altă parte, dacă articolele $X$ și $Y$ nu sunt apreciate de aceași utilizatori, atunci reprezentările celor două articole vor fi îndepărtate. Astfel, dacă reprezentările celor două articole $X$ și $Y$ sunt similare putem recomanda cu un grad ridicat de încredere articolul $Y$ unui utilizator dacă acel utilizator a interacționat cu articolul $X$;
+	\item Modelul trebuie să poată face recomandări pentru articole și utilizatori noi: această cerință este indeplinită cu ajutorul prin reprezentarea articolelor și utilizatorilor sub formă de combinații liniare a caracteristicilor. Se aplică această abordare deoarece caracteristicile unui articol sau utilizator sunt cunoscute în momentul în care intră în sistem (de cele mai multe ori). De exemplu, Un film științifico-fantastic cu Leonardo DiCaprio poate fi reprezentat ca sumă a reprezentării genului științifico-fantastic și a reprezentării actorului Leonardo DiCaprio. Unu utilizator masculin din România poate fi reprezentat ca sumă a reprezentării utilizatorilor masculini și reprezentării țării România.
+\end{enumerate}
+
+\vspace{5mm}
+Din punct de vedere formal modelul LightFM este definit după cum urmează în continuare \hyperlink{maciejlightfm}{[18]}.
+Fie $U$ mulțimea de utilizatori, $I$ mulțimea de articole, $F^U$ mulțimea caracteristicilor utilizatorilor, $F^I$ mulțimea caracteristicilor articolelor. Fiecare utilizator interacționează cu un număr de elemente prin interacțiuni pozitive sau prin interacțiuni negative. Mulțimea tuturor interacțiunilor user - articol este definită ca $(u,i) \in U \times I$, unde în această reuniune sunt incluse atât interacțiunile pozitive cât și interacțiunile negative.
+
+Utilizatorii și articolele sunt complet descrise de caracteristicile lor. Fiecare user $u$ este descris de un set de caracteristici $f_u \subset F^U$. Similar și pentru fiecare articol $i$, este descris de un set de caracteristici $f_i \subset F^I$. Caracteristicile sunt cunoscute dinainte și sunt reprezentate de metadatelor utilizatorilor sau articolelor.
+
+Modelul este parametrizat d-dimensional pentru caracteristicile encodate ale utilizatorilor și articolelor și anume $e_f^U$ și $e_f^I$ pentru fiecare caracteristică $f$. Fiecărui feature i se mai adaugă un bias, $b_f^U$ pentru caracteristicile utilizatorilor și $b_f^I$ pentru caracteristicile articolelor.
+
+Reprezentarea latentă a unui utilizator $u$ este dată de suma vectorilor latenți de caracteristici:
+\begin{align}
+	q_u = \sum_{j \in f_u} e_j^U
+\end{align}
+Similar și pentru articolul $i$:
+\begin{align}
+	p_i = \sum_{j \in f_i} e_j^I
+\end{align}
+Biasul pentru utilizatorul $u$ este dat de suma biasurilor caracteristicilor:
+caracteristici:
+\begin{align}
+	b_u = \sum_{j \in f_u} b_j^U
+\end{align}
+Similar și pentru articolul $i$:
+\begin{align}
+	b_i = \sum_{j \in f_i} b_j^I
+\end{align}
+
+Predicția modelului pentru utilizatorul $u$ și articolul $i$ este dată de produsul dintre reprezentarea utilizatorului și reprezentarea articolului, ajustată cu biasurile pentru utilizator și articol:
+\begin{align}
+	\hat{r_{ui}} = f(q_u \cdot p_i + b_u + b_i)
+\end{align}
+unde $f$ poate fi reprezentat de multe tipuri de funcții, însă în acest model $f$ este setat ca fiind funcția sigmoid:
+\begin{align}
+	f(x) = \frac{1}{1 + exp(-x)}
+\end{align}
+
+Obiectivul de optimizare al modelului constă în maximizarea probabilității următoare:
+\begin{align}
+	L(e^U, e^I, b^U, b^I) = \prod_{(u,i) \in S^+} \hat{r}_{ui} \times \prod_{(u,i) \in S^-} (1 -\hat{r}_{ui})
+\end{align}
 
 \section{Rețele neurale convoluționale}
 
