@@ -116,7 +116,60 @@ Cu definițiile prezentate mai sus putem descrie algoritmul acestei metode după
 
 \vspace{5mm}
 \subsubsection*{k-OS WARP}
-De completat ...
+Abordarea k-OS WARP a fost studiata în viața reală pe două sisteme, Google Music și YouTube unde au fost obținute îmbunătățiri ale metricilor de evaluare, iar în cazul YouTube a dus la creșterea numărului de clickuri și la creșterea duratei de vizionare.
+
+Fie $D$ o mulțime de articole pentru un utilizator pentru care trebuie să se facă ranguri astfel încât cele mai relevante articole să fie în top. Fie $U$ o mulțime de antrenare de utilizatori cu o mulțime de ranguri cunoscute. Considerăm interacțiunile pozitive ca fiind date de articole pe care un utilizator le-a cumpărat, vizualizat, plăcut. Toate celelalte interacțiuni sunt considerate ca având ratinguri necunoscute. Definim $D_u$ ca reprezentând articolele pozitive pentru utilizatorul $u$. Modelul factorizat este următorul:
+\begin{align}
+	f_d(u) = \frac{1}{|D_u|} \sum_{i \in D_u} V_i^T V_d
+\end{align}
+unde $V$ este o matrice de dimensiune $m \times |D|$, câte un vector pentru fiecare articol conținând parametrii ce trebuie învățați. Definim în continuare $f(u)$ ca fiind vectorul tuturor scorurilor articolelor $1,...,|D|$ pentru un utilizator $u$. Pentru a învăța $f$, putem considera funcția de minimizare a obiectivului ca fiind:
+\begin{align}
+	\sum_{u=1}^{|U|}L(f(u),D_u)
+\end{align}
+unde $L$ este funcția de eroare care măsoară discrepanța dintre ratingurile cunoscute $D_u$ și predicțiile făcute pentru utilizatorul $u$. În acest sens putem defini două funcții de eroare: eroare AUC și eroare WARP.
+\begin{align}
+	L_{AUC}(f(u),D_u) = \sum_{d \in D_u} \sum_{\bar{d} \in D \setminus D_u} max(0, 1 - f_d(u) + f_{\bar{d}}(u))
+\end{align}
+Această funcție este optimizată prin metoda gradientului descendent, se selectează un utilizator, un articol pozitiv și un articol negativ aleator și se face un pas al gradientului.
+Însă această funcție nu optimizează foarte bine rangurile elementelor din top. O funcție care face acest lucru mai bine este:
+\begin{align}
+	L_{WARP}(f(u), D_u) = \sum_{d \in D_u} \Phi(rank_d(f(u)))
+\end{align}
+unde $\Phi(n)$ convertește rangul elementului pozitiv $d$ într-o pondere unde rangul este definit după cum urmează:
+\begin{align}
+	rank_d{u} = \sum_{\bar{d} \not\in D_u} I(f_d(u) \geq 1 + f_{\bar{d}}(u))
+\end{align}
+unde $I$ este funcția indicator.
+
+Pentru a generaliza funcțiile de mai sus se propune funcția de eroare numită \textit{k-Order Statistic (k-OS} după cum urmează: pentru un utilizator dat, $u$, fie $o$ vectorul care indică ordinea elementelor pozitive în lista de ranguri $f_{D_{U_{o_1}}}(u) > f_{D_{U_{o_2}}}(u) > ... > f_{D_{U_{o{|s|}}}}(u)$.
+\begin{align}
+	L_{K-OS}(f(u),D_u) = \frac{1}{Z} \sum_{i=1}^{|D_u|}P(\frac{i}{|D_u|}\Phi(rank_{D_{u_{o_i}}}(f(u)))
+\end{align}
+unde $Z = \sum_iP(\frac{i}{|D_u|}$ normalizează ponderile introduse de $P$. $P(\frac{j}{100})$ este ponderea asignată fracțiunii $j$ a elementelor pozitiv ordonate. 
+
+Cu aceste noțiuni definite putem defini alogoritmii pentru funcțiile de eroare AUC și WARP în contextul K-os după cum urmează în figura 2.8.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_27}
+	\caption[Algoritmul k-os pentru alegerea unui element pozitiv]{Algoritmul k-os pentru alegerea unui element pozitiv. Imagine preluată din \hyperlink{jasonkos}{[19]}.}
+\end{figure} 
+
+\begin{figure}[!tbp]
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img_2_28}
+    \caption{K-os WARP}
+    \label{fig:f1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics[width=\textwidth]{img_2_29}
+    \caption{K-os AUC}
+    \label{fig:f2}
+  \end{subfigure}
+  \caption[Algoritmii k-os AUC și WARP]{Algoritmii k-os AUC și WARP. Imagine preluată din \hyperlink{jasonkos}{[19]}.}
+\end{figure}
+
+\section{Optimizarea cu metoda gradientului descendent}
 
 \section{Modelul LightFM}
 Modelul LightFM este un model hibrid de matrix factorisation în care utilizatorii și articolele sunt reprezentate sub formă de combinații liniare de factorilor latenți a caracteristicilor. Modelul fiind hibrid, utilizează două strategii de învățare și anume învățarea coloborativă și filtrarea bazată pe conținut.
