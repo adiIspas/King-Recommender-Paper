@@ -170,6 +170,50 @@ Cu aceste noțiuni definite putem defini alogoritmii pentru funcțiile de eroare
 \end{figure}
 
 \section{Optimizarea cu metoda gradientului descendent}
+\subsection{Noțiuni generale}
+Metoda gradientului descendent este unul dintre cei mai populari algoritmi folosiți pentru optimizarea rețelelor neurale. Metoda gradientului descendent presupune optimizarea funcției obiectiv, fie $J(\theta)$ - parametrizată cu parametrii modelului $\theta \in R^d$, actualizând parametrii în direcția opusă gradientului funcției obiectiv $\nabla_{\theta}J(\theta)$. Rata de învățare $\eta$ determină dimensiunea pașilor pe care metoda îi face pentru a ajunge la minimul local \hyperlink{ruder2016}{[20]}.
+
+\subsection{Variante ale metodei}
+\subsubsection{Batch gradient descent}
+Batch gradient descent calculează gradientul funcției de cost pentru întreg setul de antrenare:
+\begin{align}
+	\theta = \theta - \eta \cdot \nabla_{\theta}J(\theta)
+\end{align}
+Pentru a face o actualizare trebuie să calculăm gradienții pentru întreg setul, astfel gradientul descendent poate fi foarte încet. De asemeanea nu se poate actualiza live un model cu exemple noi.
+
+Batch gradient descent converge garantat către un minim global pentru suprafețele convexe sau către un minim local pentru suprafețele nonconvexe.
+
+\subsubsection{Stochastic gradient descent}
+Spre deosebire de metoda prezentată anterior, stochastic gradient descent realizează o actualizare pentru fiecare exemplu de antrenare $x^{(i)}$ și pentru fiecare etichetă $y^{i}$:
+\begin{align}
+	\theta = \theta - \eta \cdot \nabla_{\theta}J(\theta;x^{(i)};y^{i})
+\end{align}
+Această abordare realizează calcule rendundante pentru un set de antrenare mare în sensul că recalculează gradienți pentru exemple similare. Această redundanță poate fi eliminată printr-o singură actualizare la un anumit moment, ceea ce o face și mai rapidă. Metoda prezintă fluctuații puternice. Fluctuațiile pot ajuta metoda să ajungă la un minim local mai bun însă aceste fluctuații pot convergența către un minim exact. Din punct de vedere al convergenței această metodă converge către un minim global pentru suprafețele convexe sau către un minim local pentru suprafețele nonconvexe.
+
+\subsubsection{Mini-batch gradient descent}
+Mini-batch gradient descent poate fi considerată ca o îmbinare a celor mai bune părți din cele două metode prezentate mai sus în sensul că se realizează o actualizare pentru fiecare mini-batch de $n$ exemple de antrenare:
+\begin{align}
+	\theta = \theta - \eta \cdot \nabla_{\theta}J(\theta;x^{(i:i+n)};y^{(i:i+n)})
+\end{align} 
+În această abordare pot fi remarcate: a) poate conduce către o convergență mai stabilă prin reducerea varianței parametrilor actualizați; b) poate folosi foarte optimizat optimizarea matricelor.
+
+Cele mai comune valori alese pentru dimensiunea mini-batchurilor sunt cuprinse între 50 și 256, însă aceste valori pot varia foarte mult de la aplicație la aplicație.
+
+\subsection{Algoritmi de optimizare}
+\subsubsection{Adagrad}
+Adagrad este un algoritm utilizat pentru optimizarea gradientului care își adaptează rata de învățarea la parametrii. Realizează actualizări mari pentru parametrii rari și actualizări mici pentru parametrii frecvenți, ceea ce îl face potrivi pentru seturi de date sparse.
+
+Adagrad utilizează o rată de învățare diferită pentru fiecare parametru $\theta_i$ la fiecare pas $t$. Vom seta $g_{t,i}$ ca fiind gradientul funcției obiectiv cu parametrul $\theta_i$ la pasul $t$:
+\begin{align}
+	g_{t,i} = \nabla_{\theta_t}J(\theta_t, i)
+\end{align}
+Algoritmul modifică rata generală de învățare la fiecare pas $t$ pentru fiecare parametru $\theta_i$ bazânduse pe gradienții precedenți calculați pentru $\theta_i$:
+\begin{align}
+	\theta_{t+1,i} = \theta_{t,i} - \frac{\eta}{\sqrt{G_{t,ii} + \epsilon}} \cdot g_{t,i}
+\end{align}
+unde $G_t \in R^{d \times d}$ este o matrice diagonală unde fiecare element de pe diagonala, $(i,i)$, reprezintă suma pătratelor gradienților, $\epsilon$ este o variabilă cu valoare mică, de obicei $1e-8$ folosită pentru a evita împărțirea la 0.
+
+Unul dintre principalele avantaje pe care îl aduce algoritmul de optimizare Adagrad este reprezentat de faptul că elimină necesitatea de a tuna manual rata de învățare, care de cele mai multe ori este setata la $0.01$ și de prea puține ori modificată.
 
 \section{Modelul LightFM}
 Modelul LightFM este un model hibrid de matrix factorisation în care utilizatorii și articolele sunt reprezentate sub formă de combinații liniare de factorilor latenți a caracteristicilor. Modelul fiind hibrid, utilizează două strategii de învățare și anume învățarea coloborativă și filtrarea bazată pe conținut.
