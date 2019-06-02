@@ -1,8 +1,123 @@
-\section{Definirea modelului de recomandare}
+\section{Implementarea modelului de recomandare}
+\subsection{Inițializarea}
+În implementarea prezentei aplicații a fost folosit framework-ul de construcție a sistemelor de recomandare $LightFM$ \hyperlink{lightfm}{[21]} peste care am construit un wrapper. 
+$LightFM$ conține o implemntare în Python a unor algoritmi de recomandare atât pentru feedback implicit cât și pentru feedback explicit. Metadatele articolelor și utilizatorilor pot fi încorporate intr-un algoritm tradițional de matrix factorization. Reprezentarea fiecărui articol și utilizator este o sumă a reprezentărilor latente ale caracteristicilor, ceea ce îi permite să generalizeze recomandările și către articole sau utilizatori noi.   
+
+În continuare este prezentată inițializarea modelului de recomandare și explicația parametrilor folosiți atât cei definiți ca fiind maleabili cât și ceilalți parametrii puși la dispoziție de framework dar asupra cărora nu s-a intervenit în prezenta implementare:
+\begin{lstlisting}[language=Python, caption=Definirea modelului de recomandare]
+from lightfm import LightFM
+
+__all__ = ['KingRec']
+
+
+class KingRec(object):
+    def __init__(self, no_components=50, loss='warp', learning_rate=0.05, alpha=0.02, scale=0.07):
+        self.no_components = no_components
+        self.loss = loss
+        self.learning_rate = learning_rate
+        self.item_alpha = alpha
+        self.user_alpha = alpha * scale
+        
+        self.model = LightFM(no_components=no_components, 
+        					 learning_rate=learning_rate, loss=loss,
+                             item_alpha=self.item_alpha, 
+                             user_alpha=self.user_alpha, 
+                             random_state=2019)                       
+\end{lstlisting}
+
+Parametrii maleabili:
+\begin{itemize}
+  \item \textbf{no\_components}: numărul de componente reprezintă dimensiunea encodării latente a caracteristicilor utilizatorilor și articolelor. Spre exemplu, numărul de caracteristici pe fiecare user este de 1000 și avem 100 de utilizatori, ceea ce înseamnă o matrice de dimensiune $100 \times 1000$. Cu numărul de componente setat la 50, cum este prezentat în fragmentul de cod de mai sus, înseamnă ca numărul caracteristicilor pe fiecare user va fi redus la 50 de unde rezulta noua matrice a encodărilor latente a caracteristicilor de dimensiune $100 \times 50$.
+  \item \textbf{learning\_rate}: reprezintă rata de învățare de start pe care o foloseștesistemul de recomandare. Această rată se poate schimba pe parcusul rulării ca urmare a faptului că s-a folosit algoritmul de optimizare Adagrad. Mai multe detalii despre acest algoritmi au fost prezentate în capitolul 2.2.3.
+  \item \textbf{loss} funcția de eroare care poate fi una dintre următoarele funcții implementate: logistic, bpr, warp, warp-kos. Mai multe detalii despre funcțiile de eroare au fost prezentate în capitolul 2.1.3.
+  \item \textbf{item\_alpha} penalizarea L2 norm a caracteristicilor articolelor. Este asignată direct din parametrul $alpha$.
+  \item \textbf{user\_alpha} similar cu $item\_alpha$ și este rezultatul înmulțirii dintre parametrul $alpha$ și $scale$.
+  \item \textbf{random\_state}: definește starea din care pleacă modelul de recomandare și este folosită de obicei pentru o reproducere mai ușoară a acelorași rezultate de la o rulare la alta.
+\end{itemize}
+
+Alți parametrii asupra carora nu s-a intervenit în prezenta implementare:
+\begin{itemize}
+	\item \textbf{k}: utilizat atunci când se folosește algoritmul k-OS și reprezintă al $k$-lea exemplu pozitiv ce va fi selectat din $n$ exemple pozitive pentru fiecare utilizator. Valoarea predefinită este setată la 5.
+	\item \textbf{n}: utilizat atunci când se folosește algoritmul k-OS și reprezintă numărul maxim de exemple pozitive pentru fiecare actualizare. Valoarea predefinită este setată la 10.
+	\item \textbf{learning\_schedule}: reprezintă algoritmul de optimizare și poate fi unul dintre adagrad sau adadelta. În experimentele realizate în această lucrare s-a folosit valoarea predefinită din model și anume adagrad.
+	\item \textbf{max\_sampled}: reprezintă numărul maxim de exemple negative folosite în antrenarea cu WARP. Valoarea predefinită este setată la 10.
+\end{itemize}
+
+Odată definit modelul de recomandare putem crea o instanță a acestuia cu parametrii doriți dupa cum urmează:
+\begin{lstlisting}[language=Python, caption=Instanțierea unui model]
+from kingrec import KingRec
+
+_, learning_rate, no_components, alpha, scaling = load_params(optimized_for='auc_clusters')
+
+king_rec = KingRec(no_components=no_components, learning_rate=learning_rate, alpha=alpha, scale=scaling, loss='warp')
+\end{lstlisting}
+Această instanță va fi folosită în continuare în antrenarea și evaluarea modelului.
+Funcția $load\_params$ încarcă parametrii optimi pentru pentru o anumită configurație. Mai multe detalii despre această optimizare a parametrilor este prezentată în capitolul 3.4.
+
+\subsection{Antrenarea}
+Cu o instanță a unui model creată putem antrena acel model pe un set de antrenare. Pentru a încărca un set de antrenare putem folosi funcția $init\_movielens$ care încarcă datasetul pus la dispoziție de grouplens \hyperlink{movielens}{[22]}. Mai multe detalii despre structura setului de date se pot găsi în capitolul 4.1.
+
+\begin{lstlisting}[language=Python, caption=Funcția de inițializare a bazei de date]
+def init_movielens(path, min_rating=0.0, k=3, item_features=None, cluster_n=18, model='vgg19')
+\end{lstlisting}
+unde:
+\begin{itemize}
+	\item \textbf{path}: este calea către folderul cu fișierele din setul de date;
+	\item \textbf{min\_rating}: este ratingul minim pentru de la care vor fi construite interacțiunile dintre utilizatori și articole. Spre exemplu, dacă setăm un rating minim de $3.5$, mulțimea interacțiunilor pozitive va fi definită de acele interacțiuni pentru care utilizatorii au acordat cel puțin un rating de $3.5$, acestea fiind considerate interacțiuni pozitive. Restul interacțiunilor sunt considerate negative;
+	\item \textbf{k}: este un parametru folosit doar pentru statisticii, în contextul de față prezintă câți utilizatori au minim $k$ interacțiuni în setul de date. Valoarea $k$ este folosită în metrica de evaluare $precizie@k$ după cum este prezentat în capitolul 3.1.1; 
+	\item \textbf{item\_features}: poate lua una sau mai multe valori din mulțimea ${'genres', 'clusters'}$ și descrie tipurile de metadate ale articolelor care se doresc a fi prezente în setul de date. Desigur, acest parametru poate fi omis, astfel nefiind adăugate metadate suplimentare pe lângă interacțiunile dintre utilizatori și articole.
+	\item \textbf{cluster\_n}: parametru folosit doar atunci când în $item\_features$ este prezentă valoarea $clusters$ și descrie în câte clastere trebuie să fie împărțite posterele filmelor. Clasterele sunt generate în prealabil și se găsesc în path-ul menționat;
+	\item \textbf{model}: specifică modelul cu care au fost create posterele. Poate fi unul dintre următoarele: vgg19, inception\_v3, resnet50.
+\end{itemize}
+Funcția $init\_movielens$ returnează atât setul de date de antrenare cât și pe cel de testare. De asemenea, dacă este specificat prin parametrii returnează și metadatele filmelor.
+
+Cu setul de date încarcat, putem face antrenarea cu funcția $fit$ sau $fit\_partial$. Diferența principală dintre cele două funcții este reprezentată de faptul că $fit\_partial$ reia antrenarea din starea curentă a modelului pe când $fit$ începe dintr-o stare nouă. 
+
+\begin{lstlisting}[language=Python, caption=Antrenarea modelului]
+model = king_rec.model
+model.fit(interactions=train, item_features=item_features, epochs=epochs, verbose=True, num_threads=threads)
+\end{lstlisting}
+unde:
+\begin{itemize}
+	\item \textbf{interactions}: primește interacțiunile definite dintre utilizatori și filme;
+	\item \textbf{item\_features}: reprezintă metadatele filmelor, dacă este cazul;
+	\item \textbf{epochs}: reprezintă numărul de epoci pentru care vrem să facem antrenarea
+	\item \textbf{verbose}: dacă este setat pe $True$ afișează progresul antrenării;
+	\item \textbf{num\_threads}: numărul de threaduri pe care să fie executată antrenarea.
+\end{itemize}
+
+\subsection{Evaluarea}
+Pe un model antrenat vom evalua două metrici pe setul de date de testare și anume \textit{acuratețea} și \textit{precizia@k}.
+Prima dintre ele, \textit{acuratețea} este definită ca fiind probabilitatea ca un exemplu pozitiv ales în mod aleator să fie clasat mai sus în recomandări decât un exemplu negativ ales în mod aleator. Cea de-a doua, \textit{precizia@k} este definită de numărul de exemple pozitive aflate în primele $k$ recomandări.
+
+Acuratețea poate fi calculată cu funcția $auc\_score$:
+\begin{lstlisting}[language=Python, caption=Acuratețea unui model]
+test_auc = auc_score(model, test_interactions, item_features=item_features, num_threads=threads).mean()
+\end{lstlisting}
+unde:
+\begin{itemize}
+	\item \textbf{model}: este modelul antrenat anterior;
+	\item \textbf{test\_interactions}: reprezintă interacțiunile de test create cu funcția de inițializare a bazei de date;
+	\item \textbf{item\_features}: reprezintă metadatele filmelor create cu funcția de intițializare a bazei de date;
+	\item \textbf{num\_threads}: numărul de threaduri pe care se va executa evaluarea modelului.
+\end{itemize}
+Rezultatul produs este reprezentat de un scor de acuratețe pentru fiecare utilizator din setul de antrenare, iar rezultatul final al modelului este reprezentat de $mean$-ul tuturor rezultatelor de acuratețe per utilizator.
+
+Precizia@k poate fi calculată cu funcția $precision\_at\_k$:
+
+\begin{lstlisting}[language=Python, caption=Precizia@k a unui model]
+test_precision = precision_at_k(model, test_interactions, item_features=item_features, k=k, num_threads=threads).mean()
+\end{lstlisting}
+unde:
+\begin{itemize}
+	\item \textbf{model, test\_interactions, item\_features și num\_threads}: descrise ca mai sus;
+	\item \textbf{k}: numărul de recomandări peste care se calculează precizia pentru un utilizator.
+\end{itemize}
+Rezultatul produs este reprezentat de un scor de precizie@k pentru fiecare utilizator din setul de antrenare, iar rezultatul final al modelului este reprezentat de $mean$-ul tuturor rezultatelor de precizie per utilizator.
 
 \section{Clasterizarea posterelor}
 
-\section{Inițializarea bazei de date}
+\section{Construcția bazei de date}
 
 \section{Optimizarea parametrilor modelului}
 
