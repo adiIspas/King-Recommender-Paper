@@ -149,6 +149,68 @@ Fie un set de date cu 500 de utilizatori și 1000 de filme. Numărul total de ge
 \end{figure} 
 
 \section{Optimizarea parametrilor modelului}
+De multe ori în algoritmi de machine learning parametrii aleși precum rata de învățare sau numărul de epoci pot influența semnificativ rezultatul final. Astfel, pentru a reduce acest deficit există două variante: prima dintre ele presupune alegerea manuală a acestor parametrii prin diverse încercări; o a doua metodă presupune folosirea unor scripturi/librării specializate în minimizarea unor funcții definite fapt ce automatizează procesul de găsire a parametrilor optimi.
+
+O astfel de librărie este folosită în prezenta lucrare de disertație și anume librăria skopt \hyperlink{skopt}{[22]}. Skopt este o librărie simplă și eficientă care minimizează funcții. Aceasta primește ca input o funcție de minimizat și un spațiu. Spațiul este definit ca fiind mulțimea parametrilor de optimizat și intervalele în care aceștia iau valori, spre exemplu:
+\begin{lstlisting}[language=Python, caption=Spațiul parametrilor de optimizat]
+space = [(1, 250),  # epochs
+        (10 ** -4, 1.0, 'log-uniform'),  # learning_rate
+        (20, 200),  # no_components
+        (10 ** -6, 10 ** -1, 'log-uniform'),  # item_alpha
+        (0.001, 1., 'log-uniform'),  # user_scaling
+        (1, 5),  # k for k-OS training
+        ] 
+\end{lstlisting}
+
+Un exemplu de funcție obiectiv de optimizare este următorul:
+\begin{lstlisting}[language=Python, caption=Funcție obiectiv de minimizat]
+def objective(params):
+    epochs, learning_rate, no_components, item_alpha, scale = params  # 'k_os'
+
+    user_alpha = item_alpha * scale
+
+    model = LightFM(loss=loss, random_state=2019, learning_rate=learning_rate,
+                    no_components=no_components, user_alpha=user_alpha, item_alpha=item_alpha)
+    model.fit(train, item_features=item_features, epochs=epochs, num_threads=threads, verbose=True)
+
+    patks = function_to_optimize(model, test, item_features=item_features, num_threads=threads)
+    mapatk = np.mean(patks)
+
+    # Make negative because we want to minimize objective
+    out = -mapatk
+
+    # Handle some weird numerical shit going on
+    if np.abs(out + 1) < 0.01 or out < -1.0:
+        return 0.0
+    else:
+        return out
+\end{lstlisting}
+unde function\_to\_optimize poate fi una dintre funcțiile de precizie@k sau de acuratețe. De menționat că în cazul acestor două funcții o valoare mai bună înseamnă o valoare mai mare vom face outputul funcției obiectiv negativ astfel încât minimizând funcția obiectiv de fapt să aveam o valoare mai bună pentru funcția de precizie și acuratețe.
+
+Scriptul de a fost rulat pentru a optimiza parametrii modelului în următoarele situații:
+\begin{enumerate}
+	\item \textbf{fără metadate}
+	\item \textbf{cu genuri}
+	\item \textbf{cu clastere pe rețeaua vgg19, 18 clastere}
+	\item \textbf{cu genuri și clastere pe rețeaua vgg19, 18 clastere}
+	\item \textbf{cu clastere pe toate celelalte rețele preantrenat, 18 clastere}
+	\item \textbf{cu genuri și clastere pe toate celelalte rețele preantrenate, 18 clastere}
+\end{enumerate}
+Rezultatele obținute se pot vedea în tabelele 3.1 și 3.2. Analizând cele două tabele putem trage următoarele concluzii, pe baza tabelului 3.1:
+\begin{enumerate}
+	\item funcția de eroare $warp$ obține cele mai bune rezultate atât pe precizie@k cât și pe acuratețe fie că alegem să folosim metadatele în orice combinație a lor, fie că alegem să nu le folosim, fapt pentru care în experimentele efectuate și relatate în tabelul 3.2 am ales să folosim doar această funcție de eroare;
+	\item introducerea de metadate este clar o îmbunătățire față de varianta fără aceste metadate;
+	\item există o corelație între genuri și clastere pe postere, rezultatele pe acuratețe și precizie fiind destul de apropiate;
+	\item modelul de recomandare cu metadatele de clustere converge mai repede către un rezultat optim decât cu metadatele de genuri, atât pe precizie cât și pe acuratețe;
+	\item folosite împreună, genurile + clasterele, se obține o îmbunătățire a sistemului de recomandare de aproximativ $1\%$ atât pe acuratețe cât și pe precizie față de modelul fără aceste metadate.
+\end{enumerate}
+
+Analizând tabelul 3.2 observăm următoarele:
+\begin{enumerate}
+	\item cea mai bună precizie și acuratețe pentru un model care folosește doar clastere a fost obținută cu clasterele create prin rețeaua resnet50;
+	\item cea mai bună precizie atunci când se folosesc atât genurile cât și clusterele a fost obținută cu clasterele create prin rețeaua vgg19;
+	\item cea mai bună acuratețe atunci când se folosesc atât genurile cât și clusterele a fost obținută cu clasterele create prin rețeaua inception\_v3.
+\end{enumerate}
 
 \begin{table}
 \centering
@@ -247,3 +309,5 @@ genres, clusters                    & warp                            & auc\_sco
 \hline
 \end{tabular}}
 \end{table}
+
+În capitolul următor va utiliza acești parametrii optimi găsiți pentru a studia evoluția performanței modelului în timp, studiu ce ne va permite să tragem concluziile finale.
