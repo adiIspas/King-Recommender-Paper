@@ -19,10 +19,108 @@ Structura fișierelor din baza de date:
 \end{itemize}
 
 \section{Bază de date postere}
+În ceea ce privește baza de date pentru postere, aceasta a fost construită în cadrul dezvoltării prezentei lucrări cu ajutorul a două elemente: fișierul de \textit{links} din setul de date \textit{ml-latest-small} și cu API-ul pus la dispoziție de către platforma \textbf{themoviedb.org} \hyperlink{themoviedb}{[24]}.
+
+Procesul de construcție a acestui set de postere pentru filme poate fi rezumat pe pași după cum urmează:
+\begin{enumerate}
+	\item \textbf{Pasul 1}: extragerea id-urilor filmelor aferente platformei themoviedb.org;
+	\item \textbf{Pasul 2}: pentru fiecare film se face un request către API pentru a lua lista de postere pentru filmul curent;
+	\item \textbf{Pasul 3}: având adresele posterelor pentru filmul curent, se descarcă și se salvează posterele la dimensiunea originală într-un folder specific filmului.
+\end{enumerate}
+Din punct de vedere al implementării putem menționa funcțiile:
+\begin{lstlisting}[language=Python, caption=Construcția setul de date cu postere]
+def get_tmdb_posters(tmdb_api_key, max_movie_posters=10):
+    # pasul 1    
+    tmdb_movies_id = get_tmdb_ids()
+    # pasul 2 - 3
+    download_images(tmdb_api_key, tmdb_movies_id, max_movie_posters)
+
+# unde download_images are urmatoarea definitie:
+def download_images(tmdb_api_key, tmdb_movies_id, max_movie_posters=10):
+\end{lstlisting}
+unde:
+\begin{itemize}
+	\item \textbf{tmdb\_api\_key} este api key-ul unic asociat unui cont pe platforma themoviedb.org care a solicitat acces la API-ul platformei;
+	\item \textbf{max\_movie\_posters} definește care este numărul maxim de postere care va fi descărcat pentru un film. Numărul de postere descărcate poate fi mai mic în cazul în care nu sunt cel puțin max\_movie\_posters.
+\end{itemize}
+
+\begin{figure}[!tbp]
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=9cm,height=5cm,keepaspectratio]{img_4_1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=9cm,height=5cm,keepaspectratio]{img_4_2}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=9cm,height=5cm,keepaspectratio]{img_4_3}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=9cm,height=5cm,keepaspectratio]{img_4_4}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=9cm,height=5cm,keepaspectratio]{img_4_5}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=9cm,height=5cm,keepaspectratio]{img_4_6}
+  \end{subfigure}
+  \caption[Exemple de postere]{Exemplu de postere pentru filmul Paddington 2.}
+\end{figure}
 
 \section{Rezultate clusterizare postere}
 
 \subsection{Sanity check}
+Pentru testarea validității clasterelor un test de sanity check în care s-au luat opt filme și s-a încercat clasificarea lor în șapte clastere folosind caracteristicile extrase din rețelele preantrenate VGG16, VGG19, InceptionV3, ResNet50 și NASNet, clasterele create cu kNN iar evaluarea este făcută atât vizual cât și prin urmărirea evoluției metricii silhouette de la 2 la 7 clastere. Posterele de input pentru sanity check sunt prezentate în figura 4.2.
+\begin{figure}[!tbp]
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img_4_7}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img_4_8}
+  \end{subfigure}
+    \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img_4_9}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img_4_10}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img_4_11}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img_4_12}
+  \end{subfigure}
+    \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img_4_13}
+  \end{subfigure}
+    \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img_4_14}
+  \end{subfigure}
+      \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{img_4_15}
+  \end{subfigure}
+  \caption[Postere input sanity check]{Posterele de input pentru sanity check.}
+\end{figure}
+
+Din punct de vedere al metricii de evaluare silhouette rezultatele se prezintă după cum urmează în figura 4.3.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_16}
+	\caption[Silhouette score pentru clasterele din sanity check]{Silhouette score pentru clasterele din sanity check.}
+\end{figure} 
 
 \subsection{Rezultate generale}
 
