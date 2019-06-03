@@ -1,4 +1,22 @@
 \section{Bază de date filme}
+În cadrul prezentei diserații a fost folosită ca bază de date pentru evaluarea experimentală baza oferita de grouplens \hyperlink{movielens}{[22]}. Aceștia pun la dispoziție mai multe seturi de date printre care:
+\begin{enumerate}
+	\item \textbf{MovieLens 20M Dataset}: conține 20 milioane de ratinguri oferite de 138 000 de utilizatori peste 27 000 de filme;
+	\item \textbf{MovieLens 10M Dataset}: conține 10 milioane de ratinguri oferite de 72 000 de utilizatori peste 10 000 de filme;
+	\item \textbf{MovieLens 1M Dataset}: conține 1 milion de ratinguri oferite de 6 000 de utilizatori peste 4 000 de filme.
+\end{enumerate}
+
+În evaluarea curentă a fost folosită cea mai recentă versiune de bază de date, actualizată la 9/2018, de dimensiune mică și anume \textit{ml-latest-small}. Această bază de date conține 100 000 de ratinguri și 3 600 de taguri aplicate peste 9 000 de filme de 600 de utilizatori. Această bază de date este un subset dintr-o bază de date cu 27 de milioane de ratinguri și 1 milion de taguri, aplicate peste 58 000 de filme de 280 000 de utilizatori.
+
+Fiecare utilizator din \textit{ml-latest-small} a acordat ratinguri pentru cel puțin 20 de filme. Baza de date nu conține informații demografice, fiecare utilizator fiind reprezentat doar de un id.
+
+Structura fișierelor din baza de date:
+\begin{itemize}
+	\item \textbf{ratings.csv}: fiecare linie din acest fișier reprezintă un rating dat de un utilizator unui film, fișierul având formatul $userId, movieId, rating, timestamp$, unde $timestamp$ reprezintă momentul de timp când a fost acordat ratingul. Fiecare rating este cuprins între 0 și 5, iar între ratinguri este unpas de 0.5;
+	\item \textbf{movies.csv}: conține metadate despre filme precum titlul și genul. Formatul fișierului este următorul: $movieId, title, genres$. Titlul conține și anul de apariție a filmului sub forma \textit{Titlu (an)}. Genul poate fi unul sau mai multe dintre următoarele: \textit{Action, Adventure, Animation, Children's, Comedy, Crime, Documentary, Drama, Fantasy, Film-Noir, Horror, Musical, Mystery Romance, Sci-Fi, Thriller, War Western, (no genres listed)}.
+	\item \textbf{links.csv}: conține referințele către site-urile movielens, imdb și themoviedb sub următorul format: $movieId,imdbId,tmdbId$.
+	\item \textbf{tags.csv}: fiecare linie conține un tag aplicat de un utilizator unui film, fișierul având următorul format $userId,movieId,tag,timestamp$. Fiecare tag este reprezentat de un cuvânt sau de o scurtă frază.
+\end{itemize}
 
 \section{Bază de date postere}
 
