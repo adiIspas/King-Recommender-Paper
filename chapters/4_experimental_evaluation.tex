@@ -340,7 +340,20 @@ Se observă că rețeaua InceptionV3 are scorurile pentru toate clasterele de la
 \section{Rezultate sistem de recomandare}
 În continuare vom studia rezultatele obținute de metricile de evaluare \textbf{precizie@k} și \textbf{acuratețe} pe timp de antrenare în epoci, pe metadate folosite în antrenarea modelului și pe tipuri de rețele preantrenate cu care au fost generate clasterele posterelor. Toate mențiunile către parametrii optimi pentru o anumite configurație se referă la parametrii prezentați în tabelele 3.1 și 3.2.
 
-Rezultatele metricii de acuratețe sunt prezentate în figura 4.10. Aceste rezultate sun obținute utilizând parametrii optimi din tabelul 3.1. Reamintim că toate clasterele folosite pentru obținerea parametrilor optimi din din acest tabel au fost create folosind rețeaua VGG19.
+Înainte de a prezenta rezultatele metricilor trebuie menționate două aspecte importante legate de configurația setului de date utilizat:
+\begin{enumerate}
+	\item ratingul minim pentru interacțiuni a fost setat la 3.5, ceea ce înseamnă că s-au folosit ca interacțiuni pozitive doar acele interacțiuni care au cel puțin acest rating;
+	\item rezultatul maxim al metricii de precizie@k este direct influențat de numărul interacțiuni dintre utilizatori și filme. Spre exemplu, dacă un utilizator are un număr total de interacțiuni de 5, iar metrica noastră de precizie are k-ul setat la 10, atunci rezultatul maxim pentru precizie@5 va fi 0.5, deoarece doar maxim $50\%$ deoarece nu există mai multe de 5 interacțiuni pozitive pentru acel utiliator.
+\end{enumerate}
+
+În cazul împărțirii utilizate numărul de interacțiuni se prezintă după cum urmează:
+\begin{itemize}
+	\item per tot setul de date, numărul de interacțiuni pe utilizator: minim: 1; mediu: 101; maxim: 1459; <k=10: 20/609 
+	\item per setul de date de train, numărul de interacțiuni pe utilizator: minim: 1; mediu: 81; maxim: 1165; <k=10: 38/609
+	\item per setul de date de test, numărul de interacțiuni pe utilizator: minim: 1; mediu: 20; maxim: 294; <k=10: 296/598
+\end{itemize}
+
+Rezultatele metricii de acuratețe sunt prezentate în figura 4.10. Aceste rezultate sun obținute utilizând parametrii optimi din tabelul 3.1. Reamintim că toate clasterele folosite pentru obținerea parametrilor optimi din acest tabel au fost create folosind rețeaua VGG19.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_18}
@@ -353,6 +366,7 @@ Principalele concluzii pe care e putem trage pe baza acestui grafic sunt următo
 	\item modelul cu metadatele de clastere are cel mai bun start și în același timp cea mai scurtă perioadă de antrenare pentru a obține cel mai optim rezultat dintre toate modelele testate. Acuratețea obținută de acest model este peste acurateșea obținută de modelul fără metadate dar sub cea obținută de modelul cu genuri însă destul de apropiată de aceasta;
 	\item cel mai bun rezultat din acest experiment este obținut de modelul în care se folosesc atât metadatele de genuri cât și cele de clastere. Modelul are cel mai slab start însă cel mai bun rezultat final. Observăm că modul în care este obținut rezultatul este o combinație a avantajelor modelelor cu metadate de genuri și clastere. Pe de-o parte, acuratețea crește semnificativ față de modelul fără metadate și este apropiată de acuratețea modelului cu genuri. Pe de alta parte timpul de necesar obținerii acelui rezultat optim este mai scăzut decât la modelul cu genuri, timp influențat de metadatele de clastere.
 \end{itemize}
+
 Concluzia principală a acestui experiment este că un model ce conține genuri și clastere are o performanță de până la $1\%$ în plus față de modelul fără metadate și mai mare față de oricare alt model, iar timpul necesar pentru obținerea acestei performanțe este mai mic în comparație cu cel mai apropiat model din punct de vedere al metricii evaluate.
 
 Pentru a avea o imagine mai completă de cum se pot comporta aceste modele în timp am eliminat parametrul optimi găsit pe numărul de epoci și l-am setat pentru fiecare model la un număr de 300 de epoci. Iar după cum se observă în figura 4.11 toate modele după punctul optim în care ating performanța maximă încep să scadă. Modelele fără metadate, cu metadatele de genuri și cu metadatele de clastere au o scădere destul de lină în timp, pe când scăderea este mai acelărată în cazul modelului ce folosește metadatele de clastere față de celelalte modele. 
@@ -361,4 +375,44 @@ Acest al doilea grafic conturează și mai bine o concluzie pe care o putem trag
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_19}
 	\caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de metadate cu număr setat de epoci]{Comparație acuratețea modelului cu parametrii optimi pe tipuri de metadate cu număr setat de epoci.}
+\end{figure}
+
+\vspace{5mm}
+Rezultatele modelelor pe metrica precizie@k cu $k=10$ sunt prezentate în figura 4.12. Un lucru care se poate remarca este faptul că, la fel ca în cazul metricii de acuratețe, se păstrează atât ordinea modelelor în rezultatele de precizie cât și în ordinea modelelor în timp de antrenare, în sensul celui mai bun rezultat, precizie mare, timp de antrenare mic.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_20}
+	\caption[Comparație precizie@k a modelului cu parametrii optimi pe tipuri de metadate]{Comparație precizie@k a modelului cu parametrii optimi pe tipuri de metadate, unde k = 10.}
+\end{figure}
+Aceași corespondență între specificațiile rezultatelor obținute de metrici se regăsește și în situația în care mărim perioada de antrenare pentru a vedea o imagine de ansamblu dupa cum se poate observa în figura 4.13.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_21}
+	\caption[Comparație precizie@k a modelului cu parametrii optimi pe tipuri de metadate cu număr setat de epoci]{Comparație precizie@k a modelului cu parametrii optimi pe tipuri de metadate cu număr setat de epoci, unde k = 10.}
+\end{figure}
+
+În continuare vom prezenta rezultatele metricilor obținute prin creearea clasterelor cu rețelele preantrenate VGG19, InceptionV3 și ResNet50, atât clasterele singure cât și în combinație cu metadatele de genuri.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_22}
+	\caption[Comparație acurateții modelului cu parametrii optimi pe tipuri de rețele preantrenate]{Comparație acurateții modelului cu parametrii optimi pe tipuri de rețele preantrenate.}
+\end{figure}
+După cum se poate observa în figura 4.14 rețeaua VGG19 își menține timpul de antrenare scăzut plus celelalte specificații descriese în experimentele anterioare. Rețeaua ResNet50 are cel mai bun rezultat al acurateții, iar ca timp de antrenare este situată între VGG19 și InceptionV3. În cele din urmă, rețeaua InceptionV3 are un rezultat mai bun decât VGG19 însă timpul de antrenare necesar este cel mai mare dintre toate rețelele.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_23}
+	\caption[Comparație acurateții modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{Comparație acurateții modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri.}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_24}
+	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate.}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_25}
+	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri.}
 \end{figure}
