@@ -1,4 +1,4 @@
-\section{Bază de date filme}
+\section{Baza de date cu filme}
 În cadrul prezentei diserații a fost folosită ca bază de date pentru evaluarea experimentală baza oferita de grouplens \hyperlink{movielens}{[22]}. Aceștia pun la dispoziție mai multe seturi de date printre care:
 \begin{enumerate}
 	\item \textbf{MovieLens 20M Dataset}: conține 20 milioane de ratinguri oferite de 138 000 de utilizatori peste 27 000 de filme;
@@ -18,7 +18,7 @@ Structura fișierelor din baza de date:
 	\item \textbf{tags.csv}: fiecare linie conține un tag aplicat de un utilizator unui film, fișierul având următorul format $userId,movieId,tag,timestamp$. Fiecare tag este reprezentat de un cuvânt sau de o scurtă frază.
 \end{itemize}
 
-\section{Bază de date postere}
+\section{Baza de date cu postere}
 În ceea ce privește baza de date pentru postere, aceasta a fost construită în cadrul dezvoltării prezentei lucrări cu ajutorul a două elemente: fișierul de \textit{links} din setul de date \textit{ml-latest-small} și cu API-ul pus la dispoziție de către platforma \textbf{themoviedb.org} \hyperlink{themoviedb}{[24]}.
 
 Procesul de construcție a acestui set de postere pentru filme poate fi rezumat pe pași după cum urmează:
@@ -28,7 +28,7 @@ Procesul de construcție a acestui set de postere pentru filme poate fi rezumat 
 	\item \textbf{Pasul 3}: având adresele posterelor pentru filmul curent, se descarcă și se salvează posterele la dimensiunea originală într-un folder specific filmului.
 \end{enumerate}
 Din punct de vedere al implementării putem menționa funcțiile:
-\begin{lstlisting}[language=Python, caption=Construcția setul de date cu postere]
+\begin{lstlisting}[language=Python, caption=Construcția setului de date cu postere]
 def get_tmdb_posters(tmdb_api_key, max_movie_posters=10):
     # pasul 1    
     tmdb_movies_id = get_tmdb_ids()
@@ -74,7 +74,7 @@ unde:
 \section{Rezultate clusterizare postere}
 
 \subsection{Sanity check}
-Pentru testarea validității clasterelor un test de sanity check în care s-au luat opt filme și s-a încercat clasificarea lor în șapte clastere folosind caracteristicile extrase din rețelele preantrenate VGG16, VGG19, InceptionV3, ResNet50 și NASNet, clasterele create cu kNN iar evaluarea este făcută atât vizual cât și prin urmărirea evoluției metricii silhouette de la 2 la 7 clastere. Posterele de input pentru sanity check sunt prezentate în figura 4.2.
+Pentru testarea validității clusterelor un test de sanity check în care s-au luat opt filme și s-a încercat clasificarea lor în șapte clustere folosind caracteristicile extrase din rețelele preantrenate VGG16, VGG19, InceptionV3, ResNet50 și NASNet, clusterele create cu kNN iar evaluarea este făcută atât vizual cât și prin urmărirea evoluției metricii silhouette de la 2 la 7 clustere. Posterele de input pentru sanity check sunt prezentate în figura 4.2.
 \begin{figure}[!tbp]
   \centering
   \begin{subfigure}[b]{0.48\textwidth}
@@ -119,51 +119,51 @@ Din punct de vedere al metricii de evaluare silhouette rezultatele se prezintă 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_16}
-	\caption[Silhouette score pentru clasterele din sanity check]{Silhouette score pentru clasterele din sanity check.}
+	\caption[Silhouette score pentru clusterele din sanity check]{Silhouette score pentru clusterele din sanity check.}
 \end{figure} 
 După cum se oberservă reţelele InceptionV3 şi NASNet pare a ieşi
 mereu mai bine decât celelalte, cu un avantaj al reţelei InceptionV3. Această observaţie
-fiind valabile pentru toate clasterele de la 2 la 7. Toate celelalte reţele sunt destul de
-apropiate în rezultate în special începând cu clasterul 3 şi mai puţin la clasterul 2. Toate
+fiind valabile pentru toate clusterele de la 2 la 7. Toate celelalte reţele sunt destul de
+apropiate în rezultate în special începând cu clusterul 3 şi mai puţin la clusterul 2. Toate
 celelalte reţele, cu excepţia ResNet50 au fluctuaţii. ResNet50 este singura care păstrează
-în mod continuu trendul ascendent de la clasterul 2 până la clasterul 7.
+în mod continuu trendul ascendent de la clusterul 2 până la clusterul 7.
 
-Din punct de vedere vizual, rezultatatele clasterelor sunt prezentate în figurile 4.4 - 4.8.
+Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figurile 4.4 - 4.8.
 \begin{figure}[!tbp]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_vgg16_c1}
-    \caption{claster 1}
+    \caption{cluster 1}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_vgg16_c2}
-    \caption{claster 2}
+    \caption{cluster 2}
   \end{subfigure}
    \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_vgg16_c3}
-    \caption{claster 3}
+    \caption{cluster 3}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_vgg16_c4}
-    \caption{claster 4}
+    \caption{cluster 4}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_vgg16_c5}
-    \caption{claster 5}
+    \caption{cluster 5}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_vgg16_c6}
-    \caption{claster 6}
+    \caption{cluster 6}
   \end{subfigure}
     \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_vgg16_c7}
-    \caption{claster 7}
+    \caption{cluster 7}
   \end{subfigure}
   \caption[Rezultate sanity check pentru rețeaua VGG16]{Rezultate sanity check pentru rețeaua VGG16}
 \end{figure}
@@ -172,37 +172,37 @@ Din punct de vedere vizual, rezultatatele clasterelor sunt prezentate în figuri
   \centering
   \begin{subfigure}[b]{0.50\textwidth}
     \includegraphics[width=\textwidth]{img_vgg19_c1}
-    \caption{claster 1}
+    \caption{cluster 1}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.50\textwidth}
     \includegraphics[width=\textwidth]{img_vgg19_c2}
-    \caption{claster 2}
+    \caption{cluster 2}
   \end{subfigure}
    \hfill
   \begin{subfigure}[b]{0.50\textwidth}
     \includegraphics[width=\textwidth]{img_vgg19_c3}
-    \caption{claster 3}
+    \caption{cluster 3}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.50\textwidth}
     \includegraphics[width=\textwidth]{img_vgg19_c4}
-    \caption{claster 4}
+    \caption{cluster 4}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.50\textwidth}
     \includegraphics[width=\textwidth]{img_vgg19_c5}
-    \caption{claster 5}
+    \caption{cluster 5}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.50\textwidth}
     \includegraphics[width=\textwidth]{img_vgg19_c6}
-    \caption{claster 6}
+    \caption{cluster 6}
   \end{subfigure}
     \hfill
   \begin{subfigure}[b]{0.50\textwidth}
     \includegraphics[width=\textwidth]{img_vgg19_c7}
-    \caption{claster 7}
+    \caption{cluster 7}
   \end{subfigure}
   \caption[Rezultate sanity check pentru rețeaua VGG19]{Rezultate sanity check pentru rețeaua VGG19}
 \end{figure}
@@ -211,37 +211,37 @@ Din punct de vedere vizual, rezultatatele clasterelor sunt prezentate în figuri
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_inceptionv3_c1}
-    \caption{claster 1}
+    \caption{cluster 1}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_inceptionv3_c2}
-    \caption{claster 2}
+    \caption{cluster 2}
   \end{subfigure}
    \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_inceptionv3_c3}
-    \caption{claster 3}
+    \caption{cluster 3}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_inceptionv3_c4}
-    \caption{claster 4}
+    \caption{cluster 4}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_inceptionv3_c5}
-    \caption{claster 5}
+    \caption{cluster 5}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_inceptionv3_c6}
-    \caption{claster 6}
+    \caption{cluster 6}
   \end{subfigure}
     \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_inceptionv3_c7}
-    \caption{claster 7}
+    \caption{cluster 7}
   \end{subfigure}
   \caption[Rezultate sanity check pentru rețeaua InceptionV3]{Rezultate sanity check pentru rețeaua InceptionV3}
 \end{figure}
@@ -250,37 +250,37 @@ Din punct de vedere vizual, rezultatatele clasterelor sunt prezentate în figuri
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_resnet50_c1}
-    \caption{claster 1}
+    \caption{cluster 1}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_resnet50_c2}
-    \caption{claster 2}
+    \caption{cluster 2}
   \end{subfigure}
    \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_resnet50_c3}
-    \caption{claster 3}
+    \caption{cluster 3}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_resnet50_c4}
-    \caption{claster 4}
+    \caption{cluster 4}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_resnet50_c5}
-    \caption{claster 5}
+    \caption{cluster 5}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_resnet50_c6}
-    \caption{claster 6}
+    \caption{cluster 6}
   \end{subfigure}
     \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_resnet50_c7}
-    \caption{claster 7}
+    \caption{cluster 7}
   \end{subfigure}
   \caption[Rezultate sanity check pentru rețeaua ResNet50]{Rezultate sanity check pentru rețeaua ResNet50}
 \end{figure}
@@ -289,73 +289,73 @@ Din punct de vedere vizual, rezultatatele clasterelor sunt prezentate în figuri
   \centering
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_nasnet_c1}
-    \caption{claster 1}
+    \caption{cluster 1}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_nasnet_c2}
-    \caption{claster 2}
+    \caption{cluster 2}
   \end{subfigure}
    \hfill
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_nasnet_c3}
-    \caption{claster 3}
+    \caption{cluster 3}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_nasnet_c4}
-    \caption{claster 4}
+    \caption{cluster 4}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_nasnet_c5}
-    \caption{claster 5}
+    \caption{cluster 5}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_nasnet_c6}
-    \caption{claster 6}
+    \caption{cluster 6}
   \end{subfigure}
     \hfill
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_nasnet_c7}
-    \caption{claster 7}
+    \caption{cluster 7}
   \end{subfigure}
   \caption[Rezultate sanity check pentru rețeaua NASNet]{Rezultate sanity check pentru rețeaua NASNet}
 \end{figure}
 
-După cum se observă, din punct de vedere vizual doar rețeaua ResNet50 reușește să treacă acest sanity check clasificând sașe filme în șase clastere diferite, iar două filme în același claster. Din punct de vedere vizual posterele celor două filme clasificate în același cluster sunt destul de similare având în prim plan mai multe persoane, predominant începând cu partea de jos a posterelor, iar in partea de sus fiind conținut alb, în general, cu text.
+După cum se observă, din punct de vedere vizual doar rețeaua ResNet50 reușește să treacă acest sanity check clasificând sașe filme în șase clustere diferite, iar două filme în același cluster. Din punct de vedere vizual posterele celor două filme clasificate în același cluster sunt destul de similare având în prim plan mai multe persoane, predominant începând cu partea de jos a posterelor, iar in partea de sus fiind conținut alb, în general, cu text.
 
-Observăm că deși InceptionV3 și NASNet aveau scoruri mai mari pe coeficientul silhouette, rețeaua ResNet50 are rezultate vizuale mai bune pe sanity check. De remarcat corelația dintre faptul că rețeaua ResNet50 este singura a cărui coeficient silhouette creștea de la un claster la altul, ceea ce înseamnă că acele clastere deveneau din ce în ce mai bune pe măsură ce ne apropiam de numărul de clastere din realitate.
+Observăm că deși InceptionV3 și NASNet aveau scoruri mai mari pe coeficientul silhouette, rețeaua ResNet50 are rezultate vizuale mai bune pe sanity check. De remarcat corelația dintre faptul că rețeaua ResNet50 este singura a cărui coeficient silhouette creștea de la un cluster la altul, ceea ce înseamnă că acele clustere deveneau din ce în ce mai bune pe măsură ce ne apropiam de numărul de clustere din realitate.
 
 \subsection{Rezultate generale}
-Pentru evaluarea clasterelor pe toate pe toate posterele filmelor, aproximativ 9 000, au fost eliminate din evaluare rețelele VGG16 și NASNet în baza rezultatelor prezentate în tabelul 3.1, în cazul rețelei VGG16 și a costului de memorie și timp de execuție din timpul experimentelor, în cazul rețelei NASNet.
+Pentru evaluarea clusterelor pe toate pe toate posterele filmelor, aproximativ 9 000, au fost eliminate din evaluare rețelele VGG16 și NASNet în baza rezultatelor prezentate în tabelul 3.1, în cazul rețelei VGG16 și a costului de memorie și timp de execuție din timpul experimentelor, în cazul rețelei NASNet.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_17}
 	\caption[Scorul silhouette pe setul de date de postere]{Scorul silhouette pe setul de date de postere.}
 \end{figure} 
-Se observă că rețeaua InceptionV3 are scorurile pentru toate clasterele de la 2 la 20 pozitive. Rețelele ResNet50 și VGG19 sunt negative, însă apropiate de 0 cu un avantaj de scoruri mai bune pentru rețeaua ResNet50.
+Se observă că rețeaua InceptionV3 are scorurile pentru toate clusterele de la 2 la 20 pozitive. Rețelele ResNet50 și VGG19 sunt negative, însă apropiate de 0 cu un avantaj de scoruri mai bune pentru rețeaua ResNet50.
 
-În figurile 4.10 - 4.12 sunt prezentate rezultatele vizuale din trei clastere create cu rețeaua preantrenată ResNet50.
+În figurile 4.10 - 4.12 sunt prezentate rezultatele vizuale din trei clustere create cu rețeaua preantrenată ResNet50.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=16cm,max height=12cm,keepaspectratio]{img_4_26}
-	\caption[Claster cu postere predominant negre]{Claster cu postere predominant negre.}
+	\caption[Cluster cu postere predominant negre]{Cluster cu postere predominant negre.}
 \end{figure} 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=16cm,max height=12cm,keepaspectratio]{img_4_27}
-	\caption[Claster cu postere predominant din filme de animație]{Claster cu postere predominant din filme de animație.}
+	\caption[Cluster cu postere predominant din filme de animație]{Cluster cu postere predominant din filme de animație.}
 \end{figure} 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=16cm,max height=12cm,keepaspectratio]{img_4_28}
-	\caption[Claster cu postere combinate]{Claster cu postere combinate.}
+	\caption[Cluster cu postere combinate]{Cluster cu postere combinate.}
 \end{figure} 
 
 \section{Rezultate sistem de recomandare}
-În continuare vom studia rezultatele obținute de metricile de evaluare \textbf{precizie@k} și \textbf{acuratețe} pe timp de antrenare în epoci, pe metadate folosite în antrenarea modelului și pe tipuri de rețele preantrenate cu care au fost generate clasterele posterelor. Toate mențiunile către parametrii optimi pentru o anumite configurație se referă la parametrii prezentați în tabelele 3.1 și 3.2.
+În continuare vom studia rezultatele obținute de metricile de evaluare \textbf{precizie@k} și \textbf{acuratețe} pe timp de antrenare în epoci, pe metadate folosite în antrenarea modelului și pe tipuri de rețele preantrenate cu care au fost generate clusterele posterelor. Toate mențiunile către parametrii optimi pentru o anumite configurație se referă la parametrii prezentați în tabelele 3.1 și 3.2.
 
 Înainte de a prezenta rezultatele metricilor trebuie menționate două aspecte importante legate de configurația setului de date utilizat:
 \begin{enumerate}
@@ -365,12 +365,12 @@ Se observă că rețeaua InceptionV3 are scorurile pentru toate clasterele de la
 
 În cazul împărțirii utilizate numărul de interacțiuni se prezintă după cum urmează:
 \begin{itemize}
-	\item per tot setul de date, numărul de interacțiuni pe utilizator: minim: 1; mediu: 101; maxim: 1459; <k=10: 20/609 
-	\item per setul de date de train, numărul de interacțiuni pe utilizator: minim: 1; mediu: 81; maxim: 1165; <k=10: 38/609
-	\item per setul de date de test, numărul de interacțiuni pe utilizator: minim: 1; mediu: 20; maxim: 294; <k=10: 296/598
+	\item per tot setul de date, numărul de interacțiuni pe utilizator: minim: 1; mediu: 101; maxim: 1459; utilizatori cu mai puțin de k=10 interacțiuni: 20/609 
+	\item per setul de date de train, numărul de interacțiuni pe utilizator: minim: 1; mediu: 81; maxim: 1165; utilizatori cu mai puțin de k=10 interacțiuni: 38/609
+	\item per setul de date de test, numărul de interacțiuni pe utilizator: minim: 1; mediu: 20; maxim: 294; utilizatori cu mai puțin de k=10 interacțiuni: 296/598
 \end{itemize}
 
-Rezultatele metricii de acuratețe sunt prezentate în figura 4.10 (a). Aceste rezultate sun obținute utilizând parametrii optimi din tabelul 3.1. Reamintim că toate clasterele folosite pentru obținerea parametrilor optimi din acest tabel au fost create folosind rețeaua VGG19.
+Rezultatele metricii de acuratețe sunt prezentate în figura 4.10 (a). Aceste rezultate sun obținute utilizând parametrii optimi din tabelul 3.1. Reamintim că toate clusterele folosite pentru obținerea parametrilor optimi din acest tabel au fost create folosind rețeaua VGG19.
 \begin{figure}[!tbp]
   \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_18}
@@ -387,16 +387,16 @@ Rezultatele metricii de acuratețe sunt prezentate în figura 4.10 (a). Aceste r
 \end{figure}
 Principalele concluzii pe care e putem trage pe baza acestui grafic sunt următoarele:
 \begin{itemize}
-	\item modelul fără metadate are un start mai bun decât decât modelul cu genuri sau modelul cu genuri și cu clastere, însă acesta nu urcă prea mult pe durata perioadei de antrenare, astfel ajungând să aibă cel mai slab rezultat dintre toate cele patru variante de model testate;
-	\item modelul cu metadatele de genuri are un start destul de slab, fiind mai bun doar de modelul în care se folosesc atât genurile cât și clasterele, însă, până la final, acest model obține un rezultat bun și apropiat de rezultatul modelului cu genuri și clastere. O altă mențiune importantă ar fi că acest model are cea mai mare durată de antrenare față de toate celelalte modele;
-	\item modelul cu metadatele de clastere are cel mai bun start și în același timp cea mai scurtă perioadă de antrenare pentru a obține cel mai optim rezultat dintre toate modelele testate. Acuratețea obținută de acest model este peste acurateșea obținută de modelul fără metadate dar sub cea obținută de modelul cu genuri însă destul de apropiată de aceasta;
-	\item cel mai bun rezultat din acest experiment este obținut de modelul în care se folosesc atât metadatele de genuri cât și cele de clastere. Modelul are cel mai slab start însă cel mai bun rezultat final. Observăm că modul în care este obținut rezultatul este o combinație a avantajelor modelelor cu metadate de genuri și clastere. Pe de-o parte, acuratețea crește semnificativ față de modelul fără metadate și este apropiată de acuratețea modelului cu genuri. Pe de alta parte timpul de necesar obținerii acelui rezultat optim este mai scăzut decât la modelul cu genuri, timp influențat de metadatele de clastere.
+	\item modelul fără metadate are un start mai bun decât decât modelul cu genuri sau modelul cu genuri și cu clustere, însă acesta nu urcă prea mult pe durata perioadei de antrenare, astfel ajungând să aibă cel mai slab rezultat dintre toate cele patru variante de model testate;
+	\item modelul cu metadatele de genuri are un start destul de slab, fiind mai bun doar de modelul în care se folosesc atât genurile cât și clusterele, însă, până la final, acest model obține un rezultat bun și apropiat de rezultatul modelului cu genuri și clustere. O altă mențiune importantă ar fi că acest model are cea mai mare durată de antrenare față de toate celelalte modele;
+	\item modelul cu metadatele de clustere are cel mai bun start și în același timp cea mai scurtă perioadă de antrenare pentru a obține cel mai optim rezultat dintre toate modelele testate. Acuratețea obținută de acest model este peste acurateșea obținută de modelul fără metadate dar sub cea obținută de modelul cu genuri însă destul de apropiată de aceasta;
+	\item cel mai bun rezultat din acest experiment este obținut de modelul în care se folosesc atât metadatele de genuri cât și cele de clustere. Modelul are cel mai slab start însă cel mai bun rezultat final. Observăm că modul în care este obținut rezultatul este o combinație a avantajelor modelelor cu metadate de genuri și clustere. Pe de-o parte, acuratețea crește semnificativ față de modelul fără metadate și este apropiată de acuratețea modelului cu genuri. Pe de alta parte timpul de necesar obținerii acelui rezultat optim este mai scăzut decât la modelul cu genuri, timp influențat de metadatele de clustere.
 \end{itemize}
 
-Concluzia principală a acestui experiment este că un model ce conține genuri și clastere are o performanță de până la $1\%$ în plus față de modelul fără metadate și mai mare față de oricare alt model, iar timpul necesar pentru obținerea acestei performanțe este mai mic în comparație cu cel mai apropiat model din punct de vedere al metricii evaluate.
+Concluzia principală a acestui experiment este că un model ce conține genuri și clustere are o performanță de până la $1\%$ în plus față de modelul fără metadate și mai mare față de oricare alt model, iar timpul necesar pentru obținerea acestei performanțe este mai mic în comparație cu cel mai apropiat model din punct de vedere al metricii evaluate.
 
-Pentru a avea o imagine mai completă de cum se pot comporta aceste modele în timp am eliminat parametrul optimi găsit pe numărul de epoci și l-am setat pentru fiecare model la un număr de 300 de epoci. Iar după cum se observă în figura 4.13 (b) toate modele după punctul optim în care ating performanța maximă încep să scadă. Modelele fără metadate, cu metadatele de genuri și cu metadatele de clastere au o scădere destul de lină în timp, pe când scăderea este mai acelărată în cazul modelului ce folosește metadatele de clastere față de celelalte modele. 
-Acest al doilea grafic conturează și mai bine o concluzie pe care o putem trage despre modelul cu clastere și anume: acesta atinge performanța maximă foarte repede din punct de vedere al timpului de execuție în comparație cu oricare al model testat în cadrul acestei lucrări, iar din acel moment în care a fost obținută performanța maximă nu mai este recomandată prelungirea procesului de antrenare scăderea care va urma după punctul maxim va fi foarte acelărată.
+Pentru a avea o imagine mai completă de cum se pot comporta aceste modele în timp am eliminat parametrul optimi găsit pe numărul de epoci și l-am setat pentru fiecare model la un număr de 300 de epoci. Iar după cum se observă în figura 4.13 (b) toate modele după punctul optim în care ating performanța maximă încep să scadă. Modelele fără metadate, cu metadatele de genuri și cu metadatele de clustere au o scădere destul de lină în timp, pe când scăderea este mai acelărată în cazul modelului ce folosește metadatele de clustere față de celelalte modele. 
+Acest al doilea grafic conturează și mai bine o concluzie pe care o putem trage despre modelul cu clustere și anume: acesta atinge performanța maximă foarte repede din punct de vedere al timpului de execuție în comparație cu oricare al model testat în cadrul acestei lucrări, iar din acel moment în care a fost obținută performanța maximă nu mai este recomandată prelungirea procesului de antrenare scăderea care va urma după punctul maxim va fi foarte acelărată.
 
 \vspace{5mm}
 Rezultatele modelelor pe metrica precizie@k cu $k=10$ sunt prezentate în figura 4.14 (a). Un lucru care se poate remarca este faptul că, la fel ca în cazul metricii de acuratețe, se păstrează atât ordinea modelelor în rezultatele de precizie cât și în ordinea modelelor în timp de antrenare, în sensul celui mai bun rezultat, precizie mare, timp de antrenare mic.
@@ -417,7 +417,7 @@ Rezultatele modelelor pe metrica precizie@k cu $k=10$ sunt prezentate în figura
 Aceași corespondență între specificațiile rezultatelor obținute de metrici se regăsește și în situația în care mărim perioada de antrenare pentru a vedea o imagine de ansamblu dupa cum se poate observa în figura 4.14 (b).
 
 \vspace{5mm}
-În continuare vom prezenta rezultatele metricilor obținute prin creearea clasterelor cu rețelele preantrenate VGG19, InceptionV3 și ResNet50, atât clasterele singure cât și în combinație cu metadatele de genuri. După cum se poate observa în figura 4.15 rețeaua VGG19 își menține timpul de antrenare scăzut plus celelalte specificații descriese în experimentele anterioare. Rețeaua ResNet50 are cel mai bun rezultat al acurateții, iar ca timp de antrenare este situată între VGG19 și InceptionV3. În cele din urmă, rețeaua InceptionV3 are un rezultat mai bun decât VGG19 însă timpul de antrenare necesar este cel mai mare față de celelalte rețele.
+În continuare vom prezenta rezultatele metricilor obținute prin creearea clusterelor cu rețelele preantrenate VGG19, InceptionV3 și ResNet50, atât clusterele singure cât și în combinație cu metadatele de genuri. După cum se poate observa în figura 4.15 rețeaua VGG19 își menține timpul de antrenare scăzut plus celelalte specificații descriese în experimentele anterioare. Rețeaua ResNet50 are cel mai bun rezultat al acurateții, iar ca timp de antrenare este situată între VGG19 și InceptionV3. În cele din urmă, rețeaua InceptionV3 are un rezultat mai bun decât VGG19 însă timpul de antrenare necesar este cel mai mare față de celelalte rețele.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_22}
@@ -431,16 +431,16 @@ Dacă sunt introduse și metadatele de genuri în sistemul de recomandare (vezi 
 	\caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri.}
 \end{figure}
 
-În ceea ce privește metrica de precizie doar pe clastere (vezi figura 4.17) putem menționa următoarele: rețeaua VGG19 necesită cel mai mare timp de antrenare însă are cel mai bun rezultat al metricii de evaluare; rețeaua ResNet50 este situată între VGG19 și InceptionV3 ca performanță a preciziei și cea mai bună ca timp de antrenare; rețeaua Inception V3 are cea mai slabă performanță pe precizie dintre cele trei rețele dar ca timp de antrenare este situată între VGG19 și ResNet50.
+În ceea ce privește metrica de precizie doar pe clustere (vezi figura 4.17) putem menționa următoarele: rețeaua VGG19 necesită cel mai mare timp de antrenare însă are cel mai bun rezultat al metricii de evaluare; rețeaua ResNet50 este situată între VGG19 și InceptionV3 ca performanță a preciziei și cea mai bună ca timp de antrenare; rețeaua Inception V3 are cea mai slabă performanță pe precizie dintre cele trei rețele dar ca timp de antrenare este situată între VGG19 și ResNet50.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_24}
-	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate.}
+	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate, unde k=10.}
 \end{figure}
 
 Odată introduse și metadatele de genuri (vezi figura 4.18), toate rețelele tind să aibă aceași perioadă de antrenare; rețeaua InceptionV3 are cea mai slabă performanță; rețeaua ResNet50 devine cea mai performantă, VGG19 trecând pe locul secund ca performanță. 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_25}
-	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri.}
+	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri, unde k=10.}
 \end{figure}

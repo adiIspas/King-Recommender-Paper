@@ -66,7 +66,7 @@ unde:
 	\item \textbf{min\_rating}: este ratingul minim pentru de la care vor fi construite interacțiunile dintre utilizatori și articole. Spre exemplu, dacă setăm un rating minim de $3.5$, mulțimea interacțiunilor pozitive va fi definită de acele interacțiuni pentru care utilizatorii au acordat cel puțin un rating de $3.5$, acestea fiind considerate interacțiuni pozitive. Restul interacțiunilor sunt considerate negative;
 	\item \textbf{k}: este un parametru folosit doar pentru statisticii, în contextul de față prezintă câți utilizatori au minim $k$ interacțiuni în setul de date. Valoarea $k$ este folosită în metrica de evaluare $precizie@k$ după cum este prezentat în capitolul 3.1.1; 
 	\item \textbf{item\_features}: poate lua una sau mai multe valori din mulțimea ${'genres', 'clusters'}$ și descrie tipurile de metadate ale articolelor care se doresc a fi prezente în setul de date. Desigur, acest parametru poate fi omis, astfel nefiind adăugate metadate suplimentare pe lângă interacțiunile dintre utilizatori și articole.
-	\item \textbf{cluster\_n}: parametru folosit doar atunci când în $item\_features$ este prezentă valoarea $clusters$ și descrie în câte clastere trebuie să fie împărțite posterele filmelor. Clasterele sunt generate în prealabil și se găsesc în path-ul menționat;
+	\item \textbf{cluster\_n}: parametru folosit doar atunci când în $item\_features$ este prezentă valoarea $clusters$ și descrie în câte clustere trebuie să fie împărțite posterele filmelor. Clusterele sunt generate în prealabil și se găsesc în path-ul menționat;
 	\item \textbf{model}: specifică modelul cu care au fost create posterele. Poate fi unul dintre următoarele: vgg19, inception\_v3, resnet50.
 \end{itemize}
 Funcția $init\_movielens$ returnează atât setul de date de antrenare cât și pe cel de testare. De asemenea, dacă este specificat prin parametrii returnează și metadatele filmelor.
@@ -115,14 +115,14 @@ unde:
 \end{itemize}
 Rezultatul produs este reprezentat de un scor de precizie@k pentru fiecare utilizator din setul de antrenare, iar rezultatul final al modelului este reprezentat de $mean$-ul tuturor rezultatelor de precizie per utilizator.
 
-\section{Clasterizarea posterelor}
-Procesul de clusterizare al posterelor presupune transformarea posterelor filmelor din imagini în clastere asociate fiecărui poster. Numărul total de clustere poate varia de la 2 până la 20 în cadrul acestei aplicații. De cele mai multe ori s-au folosit 18 clustere pentru a fi mapate 1 la 1 cu genurile filmelor.
+\section{Clusterizarea posterelor}
+Procesul de clusterizare al posterelor presupune transformarea posterelor filmelor din imagini în clustere asociate fiecărui poster. Numărul total de clustere poate varia de la 2 până la 20 în cadrul acestei aplicații. De cele mai multe ori s-au folosit 18 clustere pentru a fi mapate 1 la 1 cu genurile filmelor.
 
 Acest proces poate fi împărțit în două etape:
 \begin{enumerate}
 	\item Extragerea caracteristicilor din postere: în extragerea caracteristicilor din postere se folosesc mai multe rețele preantrenate printre care VGG16, VGG19, InceptionV3, ResNet50 sau NASNet. Mai multe detalii despre rețelele preantrenate pot fi găsite în capitolul 2.4. Folosim fiecare dintre rețelele menționate anterior până la stratul de glasificare, adică fără top-ul rețelelor, pentru a ne extrage doar caracteristicile din imagini. Imaginile în toate cele cinci rețele preantrenate întră cu dimensiunea fixă de $224 \times 224 \times 3$, inclusiv în rețeaua NASNet, chiar dacă aceasta poate accepta și dimensiuni mai mari. Fiecare film are câte un set de postere asociate, după cum este prezentat în capitolul 4.2. Din aceste seturi de postere alegem pentru fiecare film doar primul poster, poster pe care il trecem prin fiecare dintre rețelele menționate mai sus. Odată trecut prin fiecare rețea, salvăm caracteristicile aferente fiecărei rețele într-un fișier specific. Aceste fișiere sunt formate din id-ul filmului și caracteristicile extrase de rețeaua specifică din primul poster al fimului.
 Funcția care se ocupă de acest proces este $extract\_images\_features()$ din modulul $extract\_features.py$.
-	\item Creeare clusterelor pe baza caracteristicilor posterelor: odată create fișierele cu caracteristici pentru fiecare rețea putem rula funcția $explore\_clusters()$ din modulul $create\_clusters.py$. În acest moment fiecare fișier de caracteristici va fi parcurs, iar pentru fiecare dintre aceste fișiere vom crea între 2 și 20 de clastere. La final, toate aceste clastere vor fi salvate într-un fișier asociat rețelei preantrenate. Spre exemplu, rulam funcția de creeare clastere pentru rețeaua preantrenată vgg19. Funcția va citi din fișierul asociate rețelei caracteristicile posterelor pentru fiecare film. Cu aceste caracteristici va genera $2, 4, 6, ..., 20$ de clastere. La final toate clasterele sunt salvate într-un fișier specific rețelei sub forma: id film, id poster, cluster 2 (unde va fi trecut în care claster dintre cele două face parte posterul curent), cluster 4 (similar cu cluster 2), ..., cluster 20 (similar cu celelalte).
+	\item Creeare clusterelor pe baza caracteristicilor posterelor: odată create fișierele cu caracteristici pentru fiecare rețea putem rula funcția $explore\_clusters()$ din modulul $create\_clusters.py$. În acest moment fiecare fișier de caracteristici va fi parcurs, iar pentru fiecare dintre aceste fișiere vom crea între 2 și 20 de clustere. La final, toate aceste clustere vor fi salvate într-un fișier asociat rețelei preantrenate. Spre exemplu, rulam funcția de creeare clustere pentru rețeaua preantrenată vgg19. Funcția va citi din fișierul asociate rețelei caracteristicile posterelor pentru fiecare film. Cu aceste caracteristici va genera $2, 4, 6, ..., 20$ de clustere. La final toate clusterele sunt salvate într-un fișier specific rețelei sub forma: id film, id poster, cluster 2 (unde va fi trecut în care cluster dintre cele două face parte posterul curent), cluster 4 (similar cu cluster 2), ..., cluster 20 (similar cu celelalte).
 \end{enumerate}
 
 \section{Construcția bazei de date}
@@ -132,10 +132,10 @@ Pe parte de caracteristici, se folosesc prestabilit atât pentru utilizatori câ
 
 În continuare, în funcție de parametrii setați în funcția \textit{init\_movielens} se încarcă și celelalte caracterstici specifice filmelor. Dacă avem setate genurile pentru a fi încărcate în matricea de caracteristici atunci pentru fiecare film vom citi din fișierul specific genurilor din setul de date genurile acestora. Un film poate avea unul sau mai multe genuri. Pentru a introduce aceste caracteristici în matricea de caracteristici vom aplica \textit{one hot encoding} ceea ce presupune că pentru o mulțime de genuri de dimensiune $n$ vom codifica mulțimea genurilor asociate unui film într-un vector de prezență de dimensiune $n$. Ceea ce înseamnă că dacă avem o mulțime de șapte genuri, fie ele genul 1, genul 2, ..., genul 7. Dacă un film are genul 3 și genul 7 atunci vectorul lui de caracteristici asociate genurilor va fi următorul $[0, 0, 1, 0, 0, 0, 1]$.
 
-De asemenea funcția \textit{init\_movielens} poate inițializa și clasterele aferente fiecărui film. Procesul este similar cu cel definit mai sus pentru transferul genurilor filmelor în matricea de caracteristici.
+De asemenea funcția \textit{init\_movielens} poate inițializa și clusterele aferente fiecărui film. Procesul este similar cu cel definit mai sus pentru transferul genurilor filmelor în matricea de caracteristici.
 
 Cu cele de mai sus definite propune un exemplu ce înglobează descrierea de mai sus:
-Fie un set de date cu 500 de utilizatori și 1000 de filme. Numărul total de genuri este de 18. Numărul total de clastere este corelat cu numărul total de genuri, ceea ce înseamnă că vom avea un total de 18 clastere.
+Fie un set de date cu 500 de utilizatori și 1000 de filme. Numărul total de genuri este de 18. Numărul total de clustere este corelat cu numărul total de genuri, ceea ce înseamnă că vom avea un total de 18 clustere.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_3_1}
@@ -163,7 +163,7 @@ space = [(1, 250),  # epochs
 \end{lstlisting}
 
 Un exemplu de funcție obiectiv de optimizare este următorul:
-\begin{lstlisting}[language=Python, caption=Funcție obiectiv de minimizat]
+\begin{lstlisting}[language=Python, caption=Funcția obiectiv]
 def objective(params):
     epochs, learning_rate, no_components, item_alpha, scale = params  # 'k_os'
 
@@ -191,25 +191,25 @@ Scriptul de a fost rulat pentru a optimiza parametrii modelului în următoarele
 \begin{enumerate}
 	\item \textbf{fără metadate}
 	\item \textbf{cu genuri}
-	\item \textbf{cu clastere pe rețeaua vgg19, 18 clastere}
-	\item \textbf{cu genuri și clastere pe rețeaua vgg19, 18 clastere}
-	\item \textbf{cu clastere pe toate celelalte rețele preantrenat, 18 clastere}
-	\item \textbf{cu genuri și clastere pe toate celelalte rețele preantrenate, 18 clastere}
+	\item \textbf{cu clustere pe rețeaua vgg19, 18 clustere}
+	\item \textbf{cu genuri și clustere pe rețeaua vgg19, 18 clustere}
+	\item \textbf{cu clustere pe toate celelalte rețele preantrenat, 18 clustere}
+	\item \textbf{cu genuri și clustere pe toate celelalte rețele preantrenate, 18 clustere}
 \end{enumerate}
 Rezultatele obținute se pot vedea în tabelele 3.1 și 3.2. Analizând cele două tabele putem trage următoarele concluzii, pe baza tabelului 3.1:
 \begin{enumerate}
 	\item funcția de eroare $warp$ obține cele mai bune rezultate atât pe precizie@k cât și pe acuratețe fie că alegem să folosim metadatele în orice combinație a lor, fie că alegem să nu le folosim, fapt pentru care în experimentele efectuate și relatate în tabelul 3.2 am ales să folosim doar această funcție de eroare;
 	\item introducerea de metadate este clar o îmbunătățire față de varianta fără aceste metadate;
-	\item există o corelație între genuri și clastere pe postere, rezultatele pe acuratețe și precizie fiind destul de apropiate;
+	\item există o corelație între genuri și clustere pe postere, rezultatele pe acuratețe și precizie fiind destul de apropiate;
 	\item modelul de recomandare cu metadatele de clustere converge mai repede către un rezultat optim decât cu metadatele de genuri, atât pe precizie cât și pe acuratețe;
-	\item folosite împreună, genurile + clasterele, se obține o îmbunătățire a sistemului de recomandare de aproximativ $1\%$ atât pe acuratețe cât și pe precizie față de modelul fără aceste metadate.
+	\item folosite împreună, genurile + clusterele, se obține o îmbunătățire a sistemului de recomandare de aproximativ $1\%$ atât pe acuratețe cât și pe precizie față de modelul fără aceste metadate.
 \end{enumerate}
 
 Analizând tabelul 3.2 observăm următoarele:
 \begin{enumerate}
-	\item cea mai bună precizie și acuratețe pentru un model care folosește doar clastere a fost obținută cu clasterele create prin rețeaua resnet50;
-	\item cea mai bună precizie atunci când se folosesc atât genurile cât și clusterele a fost obținută cu clasterele create prin rețeaua vgg19;
-	\item cea mai bună acuratețe atunci când se folosesc atât genurile cât și clusterele a fost obținută cu clasterele create prin rețeaua inception\_v3.
+	\item cea mai bună precizie și acuratețe pentru un model care folosește doar clustere a fost obținută cu clusterele create prin rețeaua resnet50;
+	\item cea mai bună precizie atunci când se folosesc atât genurile cât și clusterele a fost obținută cu clusterele create prin rețeaua vgg19;
+	\item cea mai bună acuratețe atunci când se folosesc atât genurile cât și clusterele a fost obținută cu clusterele create prin rețeaua inception\_v3.
 \end{enumerate}
 
 \begin{table}
@@ -246,29 +246,29 @@ genres                    & bpr                   & precision\_at\_k          & 
 \hline
 genres                    & bpr                   & auc\_score                & 113    & 0.3787098755163822    & 20            & 1.412418076659026e-06  & 0.8846058572960187    &      & 0.8697                    \\ 
 \hline
-clusters                  & warp                  & precision\_at\_k          & 63     & 0.05647434188275842   & 98            & 0.0031993742820159436  & 0.0933642796909375    &      & \textbf{0.0938}                    \\ 
+posters                  & warp                  & precision\_at\_k          & 63     & 0.05647434188275842   & 98            & 0.0031993742820159436  & 0.0933642796909375    &      & \textbf{0.0938}                    \\ 
 \hline
-clusters                  & warp                  & auc\_score                & 42     & 0.0570326091236193    & 68            & 0.0029503539747277366  & 0.02563602355611453   &      & \textbf{0.9338}                    \\ 
+posters                  & warp                  & auc\_score                & 42     & 0.0570326091236193    & 68            & 0.0029503539747277366  & 0.02563602355611453   &      & \textbf{0.9338}                    \\ 
 \hline
-clusters                  & warp-kos              & precision\_at\_k          & 111    & 0.12149792200676351   & 30            & 0.005138574720440468   & 0.22386245632097518   & 3    & 0.0900                    \\ 
+posters                  & warp-kos              & precision\_at\_k          & 111    & 0.12149792200676351   & 30            & 0.005138574720440468   & 0.22386245632097518   & 3    & 0.0900                    \\ 
 \hline
-clusters                  & warp-kos              & auc\_score                & 106    & 0.02060268158807219   & 153           & 0.0002768009203471932  & 0.01729102049278139   & 5    & 0.9139                    \\ 
+posters                  & warp-kos              & auc\_score                & 106    & 0.02060268158807219   & 153           & 0.0002768009203471932  & 0.01729102049278139   & 5    & 0.9139                    \\ 
 \hline
-clusters                  & bpr                   & precision\_at\_k          & 112    & 0.02783417000783745   & 53            & 0.043059513850700865   & 0.04509016538546181   &      & 0.0794                    \\ 
+posters                  & bpr                   & precision\_at\_k          & 112    & 0.02783417000783745   & 53            & 0.043059513850700865   & 0.04509016538546181   &      & 0.0794                    \\ 
 \hline
-clusters                  & bpr                   & auc\_score                & 76     & 0.39695046755245167   & 20            & 3.559358324483847e-05  & 0.749186059016229     &      & 0.8656                    \\ 
+posters                  & bpr                   & auc\_score                & 76     & 0.39695046755245167   & 20            & 3.559358324483847e-05  & 0.749186059016229     &      & 0.8656                    \\ 
 \hline
-genres, clusters          & warp                  & precision\_at\_k          & 96     & 0.1703221223672566    & 22            & 0.004206346506337412   & 0.041303781930858034  &      & \textbf{0.0980}                    \\ 
+genres, posters          & warp                  & precision\_at\_k          & 96     & 0.1703221223672566    & 22            & 0.004206346506337412   & 0.041303781930858034  &      & \textbf{0.0980}                    \\ 
 \hline
-genres, clusters          & warp                  & auc\_score                & 120    & 0.027730397776550147  & 189           & 0.0011133373244076297  & 0.4922360335772573    &      & \textbf{0.9406}                    \\ 
+genres, posters          & warp                  & auc\_score                & 120    & 0.027730397776550147  & 189           & 0.0011133373244076297  & 0.4922360335772573    &      & \textbf{0.9406}                    \\ 
 \hline
-genres, clusters          & warp-kos              & precision\_at\_k          & 83     & 0.07486946768773611   & 190           & 0.007918526926383375   & 0.012439949030585647  & 5    & 0.0916                    \\ 
+genres, posters          & warp-kos              & precision\_at\_k          & 83     & 0.07486946768773611   & 190           & 0.007918526926383375   & 0.012439949030585647  & 5    & 0.0916                    \\ 
 \hline
-genres, clusters          & warp-kos              & auc\_score                & 149    & 0.0374384222223599    & 98            & 6.392983080540728e-05  & 0.6204979332067604    & 5    & 0.9205                    \\ 
+genres, posters          & warp-kos              & auc\_score                & 149    & 0.0374384222223599    & 98            & 6.392983080540728e-05  & 0.6204979332067604    & 5    & 0.9205                    \\ 
 \hline
-genres, clusters          & bpr                   & precision\_at\_k          & 19     & 0.0012968105572226996 & 140           & 9.939007330655304e-05  & 0.0011379548833006527 &      & 0.0597                    \\ 
+genres, posters          & bpr                   & precision\_at\_k          & 19     & 0.0012968105572226996 & 140           & 9.939007330655304e-05  & 0.0011379548833006527 &      & 0.0597                    \\ 
 \hline
-genres, clusters          & bpr                   & auc\_score                & 98     & 0.3429430411358865    & 21            & 8.687526249607698e-06  & 0.7296865286380925    &      & 0.8681                    \\
+genres, posters          & bpr                   & auc\_score                & 98     & 0.3429430411358865    & 21            & 8.687526249607698e-06  & 0.7296865286380925    &      & 0.8681                    \\
 \hline
 \end{tabular}}
 \end{table}
@@ -283,29 +283,29 @@ genres, clusters          & bpr                   & auc\_score                & 
 \cline{4-8}
                                     &                                 &                                     & \textbf{epochs} & \textbf{learning rate} & \textbf{no components} & \textbf{item alpha}   & \textbf{scaling}      &                                  &                                     \\ 
 \hline
-clusters                            & warp                            & precision\_at\_k                    & 232             & 0.07171978672352887    & 42                     & 0.006517845577815826  & 0.016142300018137722  & vgg19                            & 0.0935                              \\ 
+posters                            & warp                            & precision\_at\_k                    & 232             & 0.07171978672352887    & 42                     & 0.006517845577815826  & 0.016142300018137722  & vgg19                            & 0.0935                              \\ 
 \hline
-clusters                            & warp                            & auc\_score                          & 89              & 0.018841927704689492   & 139                    & 0.0008662511914237855 & 0.2864763834214625    & vgg19                            & 0.9325                              \\ 
+posters                            & warp                            & auc\_score                          & 89              & 0.018841927704689492   & 139                    & 0.0008662511914237855 & 0.2864763834214625    & vgg19                            & 0.9325                              \\ 
 \hline
-genres, clusters                    & warp                            & precision\_at\_k                    & 218             & 0.12470857345083873    & 73                     & 0.005478316990150038  & 0.04637764141484815   & vgg19                            & \textbf{0.0995}                              \\ 
+genres, posters                    & warp                            & precision\_at\_k                    & 218             & 0.12470857345083873    & 73                     & 0.005478316990150038  & 0.04637764141484815   & vgg19                            & \textbf{0.0995}                              \\ 
 \hline
-genres, clusters                    & warp                            & auc\_score                          & 236             & 0.031860755009764305   & 139                    & 0.0010930770083784052 & 0.8362665749306415    & vgg19                            & 0.9413                              \\ 
+genres, posters                    & warp                            & auc\_score                          & 236             & 0.031860755009764305   & 139                    & 0.0010930770083784052 & 0.8362665749306415    & vgg19                            & 0.9413                              \\ 
 \hline
-clusters                            & warp                            & precision\_at\_k                    & 119             & 0.00852211930222011    & 192                    & 7.276515301192984e-05 & 0.027052254503857717  & inception\_v3                    & 0.0836                              \\ 
+posters                            & warp                            & precision\_at\_k                    & 119             & 0.00852211930222011    & 192                    & 7.276515301192984e-05 & 0.027052254503857717  & inception\_v3                    & 0.0836                              \\ 
 \hline
-clusters                            & warp                            & auc\_score                          & 232             & 0.02981041359364386    & 84                     & 0.004287524090264805  & 0.040501994149651166  & inception\_v3                    & 0.9327                              \\ 
+posters                            & warp                            & auc\_score                          & 232             & 0.02981041359364386    & 84                     & 0.004287524090264805  & 0.040501994149651166  & inception\_v3                    & 0.9327                              \\ 
 \hline
-genres, clusters                    & warp                            & precision\_at\_k                    & 245             & 0.028963892665938032   & 43                     & 0.0006238083410955659 & 0.36579038826022736   & inception\_v3                    & 0.0905                              \\ 
+genres, posters                    & warp                            & precision\_at\_k                    & 245             & 0.028963892665938032   & 43                     & 0.0006238083410955659 & 0.36579038826022736   & inception\_v3                    & 0.0905                              \\ 
 \hline
-genres, clusters                    & warp                            & auc\_score                          & 250             & 0.019411170816577752   & 136                    & 0.0008323333176050233 & 0.4767783602102349    & inception\_v3                    & \textbf{0.9425}                              \\ 
+genres, posters                    & warp                            & auc\_score                          & 250             & 0.019411170816577752   & 136                    & 0.0008323333176050233 & 0.4767783602102349    & inception\_v3                    & \textbf{0.9425}                              \\ 
 \hline
-clusters                            & warp                            & precision\_at\_k                    & 88              & 0.07492160698420884    & 21                     & 0.004634987385145838  & 0.028198967823831238  & resnet50                         & \textbf{0.0953}                              \\ 
+posters                            & warp                            & precision\_at\_k                    & 88              & 0.07492160698420884    & 21                     & 0.004634987385145838  & 0.028198967823831238  & resnet50                         & \textbf{0.0953}                              \\ 
 \hline
-clusters                            & warp                            & auc\_score                          & 198             & 0.016780379637566917   & 169                    & 0.0012939223653296507 & 0.6692069103186539    & resnet50                         & \textbf{0.9342}                              \\ 
+posters                            & warp                            & auc\_score                          & 198             & 0.016780379637566917   & 169                    & 0.0012939223653296507 & 0.6692069103186539    & resnet50                         & \textbf{0.9342}                              \\ 
 \hline
-genres, clusters                    & warp                            & precision\_at\_k                    & 224             & 0.04214027912721876    & 186                    & 0.008676073688466915  & 0.0024915458462563605 & resnet50                         & 0.0970                              \\ 
+genres, posters                    & warp                            & precision\_at\_k                    & 224             & 0.04214027912721876    & 186                    & 0.008676073688466915  & 0.0024915458462563605 & resnet50                         & 0.0970                              \\ 
 \hline
-genres, clusters                    & warp                            & auc\_score                          & 211             & 0.09767064566975311    & 48                     & 0.003428832598553235  & 0.11239835090728653   & resnet50                         & 0.9397                              \\
+genres, posters                    & warp                            & auc\_score                          & 211             & 0.09767064566975311    & 48                     & 0.003428832598553235  & 0.11239835090728653   & resnet50                         & 0.9397                              \\
 \hline
 \end{tabular}}
 \end{table}
