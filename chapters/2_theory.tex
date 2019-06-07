@@ -2,7 +2,7 @@
 
 \subsection{Noțiuni generale}
 
-Sistemele de recomandare au scopul de oferi sugestii cât mai relevante de articole utilizatorilor unei platforme pe baza unor strategii. Un sistem de recomandare poate folosi una sau mai multe strategii de recomandare după cum vom vedea în continuare. În cazul în care se folosesc cel puțin două strategii, sistemul de recomandare devine un sistem de recomandare hibrid. Prin folosirea mai multor strategii se urmărește ca fiecare strategie să vină în completarea celorlalte strategi cu avantajele sale. De cele mai multe ori, în implementarea unui sistem de recomandare, se folosește tehnica de filtrare coloborativă împreună cu o altă strategie de recomandare \hyperlink{ErionCanoMaurizioMorisio}{[4]}.
+Sistemele de recomandare au scopul de oferi sugestii cât mai relevante de articole utilizatorilor unei platforme pe baza unor strategii. Un sistem de recomandare poate folosi una sau mai multe strategii de recomandare după cum vom vedea în continuare. În cazul în care se folosesc cel puțin două strategii, sistemul de recomandare devine un sistem de recomandare hibrid. Prin folosirea mai multor strategii se urmărește ca fiecare strategie să vină în completarea celorlalte strategi cu avantajele sale. De cele mai multe ori, în implementarea unui sistem de recomandare se folosește tehnica de filtrare coloborativă împreună cu o altă strategie de recomandare \hyperlink{ErionCanoMaurizioMorisio}{[4]}.
 
 \subsection{Strategii de recomandare}
 
@@ -73,7 +73,6 @@ Cu aceste definiți putem defini și procedura de învățare a $BPR$ după cum 
 
 \vspace{5mm}
 \subsubsection*{WARP: Weighted Approximate-Rank}
-
 Această metodă își are originile în procesarea imaginilor și anume pentru un set de reprezentări ale unor imagini $x \in R^d$ și pentru un set de reprezentări ale unor adnotări $i \in \Upsilon = \{1, ..., Y\}$ - inidici intr-un dicționar cu posibile adnotări, metoda învață să mapeze imagini din spațiul reprezentărilor într-un spațiu comun $R^D$
 \begin{align}
 	\Phi_{I}(x):R^d \rightarrow R^D
@@ -150,7 +149,7 @@ unde $Z = \sum_iP(\frac{i}{|D_u|}$ normalizează ponderile introduse de $P$. $P(
 Cu aceste noțiuni definite putem defini alogoritmii pentru funcțiile de eroare AUC și WARP în contextul K-os după cum urmează în figura 2.8.
 \begin{figure}[!h]
 	\centering
-	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_27}
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_2_27}
 	\caption[Algoritmul k-os pentru alegerea unui element pozitiv]{Algoritmul k-os pentru alegerea unui element pozitiv. Imagine preluată din \hyperlink{jasonkos}{[19]}.}
 \end{figure} 
 
@@ -188,10 +187,10 @@ Spre deosebire de metoda prezentată anterior, stochastic gradient descent reali
 \begin{align}
 	\theta = \theta - \eta \cdot \nabla_{\theta}J(\theta;x^{(i)};y^{i})
 \end{align}
-Această abordare realizează calcule rendundante pentru un set de antrenare mare în sensul că recalculează gradienți pentru exemple similare. Această redundanță poate fi eliminată printr-o singură actualizare la un anumit moment, ceea ce o face și mai rapidă. Metoda prezintă fluctuații puternice. Fluctuațiile pot ajuta metoda să ajungă la un minim local mai bun însă aceste fluctuații pot convergența către un minim exact. Din punct de vedere al convergenței această metodă converge către un minim global pentru suprafețele convexe sau către un minim local pentru suprafețele nonconvexe.
+Această abordare realizează calcule redundante pentru un set de antrenare mare în sensul că recalculează gradienți pentru exemple similare. Această redundanță poate fi eliminată printr-o singură actualizare la un anumit moment, ceea ce o face și mai rapidă. Metoda prezintă fluctuații puternice. Fluctuațiile pot ajuta metoda să ajungă la un minim local mai bun însă aceste fluctuații pot convergența către un minim exact. Din punct de vedere al convergenței această metodă converge către un minim global pentru suprafețele convexe sau către un minim local pentru suprafețele nonconvexe.
 
 \subsubsection{Mini-batch gradient descent}
-Mini-batch gradient descent poate fi considerată ca o îmbinare a celor mai bune părți din cele două metode prezentate mai sus în sensul că se realizează o actualizare pentru fiecare mini-batch de $n$ exemple de antrenare:
+Mini-batch gradient descent poate fi considerată ca o îmbinare a celor mai bune părți dintre cele două metode prezentate mai sus în sensul că se realizează o actualizare pentru fiecare mini-batch de $n$ exemple de antrenare:
 \begin{align}
 	\theta = \theta - \eta \cdot \nabla_{\theta}J(\theta;x^{(i:i+n)};y^{(i:i+n)})
 \end{align} 
@@ -221,13 +220,12 @@ Modelul LightFM este un model hibrid de matrix factorisation în care utilizator
 \vspace{5mm}
 Cerințele de la care a fost dezvoltată structura modelului LightFM sunt \hyperlink{maciejlightfm}{[18]}:
 \begin{enumerate}
-	\item Modelul trebui să învețe reprezentările utilizatorilor și articolele din datele de interacțiune: această cerință este realizată prin utilizarea reprezentărilor latente. De exemplu, dacă două articole, fie $X$ și $Y$ sunt apreciate de aceași utilizatori, atunci reprezentările celor două articole, $X$ și $Y$, vor fi apropiate. Pe de altă parte, dacă articolele $X$ și $Y$ nu sunt apreciate de aceași utilizatori, atunci reprezentările celor două articole vor fi îndepărtate. Astfel, dacă reprezentările celor două articole $X$ și $Y$ sunt similare putem recomanda cu un grad ridicat de încredere articolul $Y$ unui utilizator dacă acel utilizator a interacționat cu articolul $X$;
-	\item Modelul trebuie să poată face recomandări pentru articole și utilizatori noi: această cerință este indeplinită cu ajutorul prin reprezentarea articolelor și utilizatorilor sub formă de combinații liniare a caracteristicilor. Se aplică această abordare deoarece caracteristicile unui articol sau utilizator sunt cunoscute în momentul în care intră în sistem (de cele mai multe ori). De exemplu, Un film științifico-fantastic cu Leonardo DiCaprio poate fi reprezentat ca sumă a reprezentării genului științifico-fantastic și a reprezentării actorului Leonardo DiCaprio. Unu utilizator masculin din România poate fi reprezentat ca sumă a reprezentării utilizatorilor masculini și reprezentării țării România.
+	\item Modelul trebui să învețe reprezentările utilizatorilor și articolelor din datele de interacțiune: această cerință este realizată prin utilizarea reprezentărilor latente. De exemplu, dacă două articole, fie $X$ și $Y$, sunt apreciate de aceași utilizatori, atunci reprezentările celor două articole, $X$ și $Y$, vor fi apropiate. Pe de altă parte, dacă articolele $X$ și $Y$ nu sunt apreciate de aceași utilizatori, atunci reprezentările celor două articole vor fi îndepărtate. Astfel, dacă reprezentările celor două articole $X$ și $Y$ sunt similare putem recomanda cu un grad ridicat de încredere articolul $Y$ unui utilizator dacă acel utilizator a interacționat cu articolul $X$;
+	\item Modelul trebuie să poată face recomandări pentru articole și utilizatori noi: această cerință este indeplinită prin reprezentarea articolelor și utilizatorilor sub formă de combinații liniare a caracteristicilor. Se aplică această abordare deoarece caracteristicile unui articol sau utilizator sunt cunoscute în momentul în care intră în sistem (de cele mai multe ori). De exemplu, Un film științifico-fantastic cu Leonardo DiCaprio poate fi reprezentat ca sumă a reprezentării genului științifico-fantastic și a reprezentării actorului Leonardo DiCaprio. Unu utilizator masculin din România poate fi reprezentat ca sumă a reprezentării utilizatorilor masculini și reprezentării țării România.
 \end{enumerate}
 
 \vspace{5mm}
-Din punct de vedere formal modelul LightFM este definit după cum urmează în continuare \hyperlink{maciejlightfm}{[18]}.
-Fie $U$ mulțimea de utilizatori, $I$ mulțimea de articole, $F^U$ mulțimea caracteristicilor utilizatorilor, $F^I$ mulțimea caracteristicilor articolelor. Fiecare utilizator interacționează cu un număr de elemente prin interacțiuni pozitive sau prin interacțiuni negative. Mulțimea tuturor interacțiunilor user - articol este definită ca $(u,i) \in U \times I$, unde în această reuniune sunt incluse atât interacțiunile pozitive cât și interacțiunile negative.
+Din punct de vedere formal modelul LightFM este definit după cum urmează în continuare \hyperlink{maciejlightfm}{[18]}: fie $U$ mulțimea de utilizatori, $I$ mulțimea de articole, $F^U$ mulțimea caracteristicilor utilizatorilor, $F^I$ mulțimea caracteristicilor articolelor. Fiecare utilizator interacționează cu un număr de elemente prin interacțiuni pozitive sau prin interacțiuni negative. Mulțimea tuturor interacțiunilor utilizator - articol este definită ca $(u,i) \in U \times I$, unde în această reuniune sunt incluse atât interacțiunile pozitive cât și interacțiunile negative.
 
 Utilizatorii și articolele sunt complet descrise de caracteristicile lor. Fiecare user $u$ este descris de un set de caracteristici $f_u \subset F^U$. Similar și pentru fiecare articol $i$, este descris de un set de caracteristici $f_i \subset F^I$. Caracteristicile sunt cunoscute dinainte și sunt reprezentate de metadatelor utilizatorilor sau articolelor.
 
@@ -255,12 +253,12 @@ Predicția modelului pentru utilizatorul $u$ și articolul $i$ este dată de pro
 \begin{align}
 	\hat{r_{ui}} = f(q_u \cdot p_i + b_u + b_i)
 \end{align}
-unde $f$ poate fi reprezentat de multe tipuri de funcții, însă în acest model $f$ este setat ca fiind funcția sigmoid:
+unde $f$ poate fi reprezentat de multe tipuri de funcții. În acest model $f$ este setat ca fiind funcția sigmoid:
 \begin{align}
 	f(x) = \frac{1}{1 + exp(-x)}
 \end{align}
 
-Obiectivul de optimizare al modelului constă în maximizarea probabilității următoare:
+Obiectivul de optimizare al modelului constă în maximizarea următoarei probabilității:
 \begin{align}
 	L(e^U, e^I, b^U, b^I) = \prod_{(u,i) \in S^+} \hat{r}_{ui} \times \prod_{(u,i) \in S^-} (1 -\hat{r}_{ui})
 \end{align}
@@ -280,14 +278,14 @@ Spre exemplu, la input se dă o imagine cu un autovehicul, iar rețeaua convolu�
 
 Rețelele convoluționale sunt compuse dintr-o secvență de straturi ce poate fi împărțită în trei tipuri principale \hyperlink{cs231n}{[7]}:
 \begin{enumerate}
-  \item Stratul convoluțional este stratul de bază într-o rețea. Parametrii acestui strat sunt reprezentați de filtre învățabile, unde fiecare filtru reprezintă o mică bucată din imaginea de input. De exemplu, un filtru pentru acest strat poate avea dimensiunea de $5 \times 5 \times 3$, dimensiune ce reprezintă faptul că se iau 5 pixeli pe lațime, 5 pixeli pe înălțime și o adâncime de 3 pixeli, unde adâncimea reprezintă canalele RGB. În continuare se glisează fiecare filtru peste input și se compune produsul dintre filtre și input la fiecare poziție. În urma acestei operații se produce un vector de activare 2-dimensional care reprezintă răspunsul filtrului la fiecare poziție. Altfel spun, rețeaua va învăța filtre care se activează atunci când sunt prezente anumite tipuri de caracteristici, precum culoarea sau orientarea (vezi figura 2.8).
+  \item Stratul convoluțional este stratul de bază într-o rețea. Parametrii acestui strat sunt reprezentați de filtre învățabile, unde fiecare filtru reprezintă o mică bucată din imaginea de input. De exemplu, un filtru pentru acest strat poate avea dimensiunea de $5 \times 5 \times 3$, dimensiune ce reprezintă faptul că se iau 5 pixeli pe lațime, 5 pixeli pe înălțime și o adâncime de 3 pixeli, unde adâncimea reprezintă canalele RGB. În continuare se glisează fiecare filtru peste input și se compune produsul dintre filtre și input la fiecare poziție. În urma acestei operații se produce un vector de activare 2-dimensional care reprezintă răspunsul filtrului la fiecare poziție. Altfel spun, rețeaua va învăța filtre care se activează atunci când sunt prezente anumite tipuri de caracteristici, precum culoarea sau orientarea (vezi figura 2.10).
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_4}
 	\caption[Exemplu de filtru aplicat peste input]{Exemplu de filtru aplicat peste input într-un strat convoluțional. Imagine preluată din \hyperlink{datameetsmedia}{[7]}.}
 \end{figure}   
   
-  \item Stratul de pooling reprezintă o practică des folosită între mai multe straturi convoluționale succesive. Această operație reduce numărul de parametrii (dimensiunea modelului), computațiile din rețea și controlează overfittingul. Se execută indepedent pe fiecare nivel al adâncimii unui input și pastrează valoarea maximă a acelei zone (de cele mai multe ori). Rezultatul este o zonă de caracteristicii mai mică dar care păstrează cea mai relevantă statistică (vezi figura 2.9).
+  \item Stratul de pooling reprezintă o practică des folosită între mai multe straturi convoluționale succesive. Această operație reduce numărul de parametrii (dimensiunea modelului), computațiile din rețea și controlează overfitting-ul. Se execută indepedent pe fiecare nivel al adâncimii unui input și pastrează valoarea maximă a acelei zone (de cele mai multe ori). Rezultatul este o zonă de caracteristicii mai mică dar care păstrează cea mai relevantă statistică (vezi figura 2.11).
 \begin{figure}[!tbp]
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{img_2_5}
@@ -310,7 +308,7 @@ Rețelele convoluționale sunt compuse dintr-o secvență de straturi ce poate f
 
 VGG este o arhitectură clasică de rețea cu filtre convoluționale foarte mici, de dimensiune $3 \times 3$ și care poate avea un număr a straturilor de ponderi de 16 - 19. 
 
-În ceea ce privește arhitectura (vezi figura 2.10), inputul în rețeaua convoluțională este de dimensiune fixă și anume $224 \times 224$ imagine RGB. Mai departe, imaginea este trecută printr-un set de straturi convoluționale unde sunt utilizate filtre de dimensiune mică, $3 \times 3$ - fiind cea mai mică dimensiune ce poate captura noțiunile de stânga/dreapta, sus/jos sau centru. Într-una dintre configurații se utilizează un filtru convoluțional de dimensiune $1 \times 1$. Pasul în straturile convoluționale este fixat la 1 pixel.
+În ceea ce privește arhitectura (vezi figura 2.12), inputul în rețeaua convoluțională este de dimensiune fixă și anume $224 \times 224$ imagine RGB. Mai departe, imaginea este trecută printr-un set de straturi convoluționale unde sunt utilizate filtre de dimensiune mică, $3 \times 3$ - fiind cea mai mică dimensiune ce poate captura noțiunile de stânga/dreapta, sus/jos sau centru. Într-una dintre configurații se utilizează un filtru convoluțional de dimensiune $1 \times 1$. Pasul în straturile convoluționale este fixat la 1 pixel.
 
 Poolingul este compus din cinci straturi de max-pooling care urmează după unele straturi convoluționale. Max-poolingul este calculat cu ferestre de $2\times2$ pixel și cu pas de 2 pixeli.
 
@@ -327,35 +325,35 @@ Ultimul strat din rețea este un strat soft-max \hyperlink{SimonyanKarenZisserma
 \subsection{InceptionV3}
 Prima arhitectura de Inception a apărut sub numele de GoogLeNet. O a doua versiune de Inception a fost definită prin introducerea de batch-uri normalizate. Iar mai apoi, versiunea a treia în care a fost adăugate idea de factorizare.
 
-Factorizarea în filtre convoluționale mici (vezi figura 2.11) presupune înlocuirea stratului cu filtru de dimensiune $5 \times 5$ cu două straturi de dimensiune $3 \times 3$ astfel reducânduse dimensiunea de la $5 \times 5 = 25$ la $3 \times 3 + 3 \times 3 = 18$.
+Factorizarea în filtre convoluționale mici (vezi figura 2.13) presupune înlocuirea stratului cu filtru de dimensiune $5 \times 5$ cu două straturi de dimensiune $3 \times 3$ astfel reducânduse dimensiunea de la $5 \times 5 = 25$ la $3 \times 3 + 3 \times 3 = 18$.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=7cm,max height=7cm,keepaspectratio]{img_2_17}
 	\caption[Factorizarea în filtre convoluționale mici]{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $5 \times 5$ înlocuit cu două de dimensiune $3 \times 3$. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
 \end{figure}   
 
-Factorizarea spațială în convoluții asimetrice (vezi figura 2.12) presupune înlocuirea stratului cu filtru de dimensiune $3 \times 3$ cu două straturi de dimensiune $3 \times 1$ și $1 \times 3$ astfel reducânduse dimensiunea de la $3 \times 3 = 9$ la $3 \times 1 + 1 \times 3 = 6$. 
+Factorizarea spațială în convoluții asimetrice (vezi figura 2.14) presupune înlocuirea stratului cu filtru de dimensiune $3 \times 3$ cu două straturi de dimensiune $3 \times 1$ și $1 \times 3$ astfel reducânduse dimensiunea de la $3 \times 3 = 9$ la $3 \times 1 + 1 \times 3 = 6$. 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=7cm,max height=7cm,keepaspectratio]{img_2_18}
 	\caption[Factorizarea spațială în convoluții asimetrice]{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $3 \times 3$ înlocuit cu două de dimensiune $3 \times 1$ și $1 \times 3$.  Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
 \end{figure}
 
-Clasificatorul auxiliar (vezi figura 2.13) este utilizat în InceptionV3 ca regulizator și este poziționat în partea superioară a utimelor $17 \times 17$ straturi. Batch-urile normalizate sunt de asemeanea folosite în clasificatorul auxiliar.
+Clasificatorul auxiliar (vezi figura 2.15) este utilizat în InceptionV3 ca regulizator și este poziționat în partea superioară a utimelor $17 \times 17$ straturi. Batch-urile normalizate sunt de asemeanea folosite în clasificatorul auxiliar.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_19}
 	\caption[Clasificator auxiliar]{Clasificatorul auxiliar. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
 \end{figure}
 
-Reducerea eficientă a dimensiunii (vezi figura 2.14) se face prin utilizarea a două blocuri paralele, fie P și C. Primul dintre acestea, P, fiind un strat de activare de pooling (media sau maxim pooling). Ambele straturi au filtre cu pas 2 care sunt concatenate.
+Reducerea eficientă a dimensiunii (vezi figura 2.16) se face prin utilizarea a două blocuri paralele, fie P și C. Primul dintre acestea, P, fiind un strat de activare de pooling (media sau maxim pooling). Ambele straturi au filtre cu pas 2 care sunt concatenate.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=17cm,max height=12cm,keepaspectratio]{img_2_20}
 	\caption[Reducerea eficientă a dimensiunii]{Modulul care reduce dimensiunea. Diagrama din dreapta reprezintă aceași soluție însă din perspectiva dimensiunii rețelei. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}
 \end{figure}   
 
-Arhitectura completă este prezentată în figura 2.15.
+Arhitectura completă este prezentată în figura 2.17.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=17cm,max height=12cm,keepaspectratio]{img_2_16}
@@ -384,20 +382,20 @@ Dimensiunea lui $x$ și $F$ din ecuația de mai sus trebuie să fie egale. Redef
 \end{align}
 unde $W_s$ este o proiecție liniară a scurtăturilor conexiunilor pentru ca dimensiunile să se potrivească.
 
-ResNet (vezi figura 2.17) pleacă de la o rețea simplă. Rețeaua simplă fiind inspirată de rețeaua VGG. Straturile convoluționale au în general filtre de dimensiune $3 \times 3$ și se bazează de două reguli de design: - pentru outputuri cu același număr de caracteristici, straturile vor avea același număr de filtre; - dacă numărul de caracteristicii este injumătățit, numărul de filtre este dublat astfel încât să fie păstrată complexitatea de timp pe strat.
-
-Poolingul se realizează dupa straturile convoluționale cu un pas de 2 pixeli. Rețeaua se termină cu un strat de pooling mediu și un strat fully-connected softmax cu 1000 de canale.
-
-Bazată pe rețeaua descrisă mai sus, rețeaua reziduală presupune inserția unor scurtături. Scurtăturile identice (vezi formula 2.8) pot fi direct utilizate când inputul și outputul au aceași dimensiune. Când dimensiunea crește considerăm două opțiuni: - scurtătura calculează în continuare maparea identității. Această opțiune nu introduce parametrii noi; - proiecția scurtăturii din formula 2.9 este utilizată pentru a potrivi dimensiunile. În ambele situații când se folosesc scurtăturile pentru pentru a sări peste două straturi sunt calculate cu un pas de 2 pixeli.
+ResNet (vezi figura 2.19) pleacă de la o rețea simplă. Rețeaua simplă fiind inspirată de rețeaua VGG. Straturile convoluționale au în general filtre de dimensiune $3 \times 3$ și se bazează de două reguli de design: - pentru outputuri cu același număr de caracteristici, straturile vor avea același număr de filtre; - dacă numărul de caracteristicii este injumătățit, numărul de filtre este dublat astfel încât să fie păstrată complexitatea de timp pe strat.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=20cm,keepaspectratio]{img_2_13}
 	\caption[Rețeaua ResNet]{Prima rețea (stânga) este o rețea VGG19. A doua rețea (centru) este o rețea simplă cu 34 de straturi. A treia rețea (dreapta) este o rețea reziduală cu 34 de straturi. Imagine preluată din \hyperlink{KaimingHeXiangyuZhangShaoqingRenJianSun}{[11]}.}
-\end{figure}  
+\end{figure} 
+
+Poolingul se realizează dupa straturile convoluționale cu un pas de 2 pixeli. Rețeaua se termină cu un strat de pooling mediu și un strat fully-connected softmax cu 1000 de canale.
+
+Bazată pe rețeaua descrisă mai sus, rețeaua reziduală presupune inserția unor scurtături. Scurtăturile identice (vezi formula 2.26) pot fi direct utilizate când inputul și outputul au aceași dimensiune. Când dimensiunea crește considerăm două opțiuni: - scurtătura calculează în continuare maparea identității. Această opțiune nu introduce parametrii noi; - proiecția scurtăturii din formula 2.27 este utilizată pentru a potrivi dimensiunile. În ambele situații când se folosesc scurtăturile pentru pentru a sări peste două straturi sunt calculate cu un pas de 2 pixeli. 
 
 \subsection{NASNet}
-NASNet este o arhitectură de rețea bazată pe tehnica de căutare Neural Architecture Search (NAS, figura 2.18). NAS presupune un controler cu o rețea neurală recurentă care conține mai multe rețele copii cu arhitecturi diferite. Rețelele copii sunt antrenate să conveargă pentru a obține o anumită precizie pe un set de antrenare. Rezultatele sunt utilizate pentru a actualiza controlerul ceea ce înseamnă că acest controler va genera arhitecturi mai bune în timp.
+NASNet este o arhitectură de rețea bazată pe tehnica de căutare Neural Architecture Search (NAS, figura 2.20). NAS presupune un controler cu o rețea neurală recurentă care conține mai multe rețele copii cu arhitecturi diferite. Rețelele copii sunt antrenate să conveargă pentru a obține o anumită precizie pe un set de antrenare. Rezultatele sunt utilizate pentru a actualiza controlerul ceea ce înseamnă că acest controler va genera arhitecturi mai bune în timp.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=20cm,keepaspectratio]{img_2_14}
@@ -406,7 +404,7 @@ NASNet este o arhitectură de rețea bazată pe tehnica de căutare Neural Archi
 
 Plusul principal pe care îl aduce rețeaua NASnet este reprezentat de proiectarea unui nou spațiu de căutare astfel încât cea mai bună arhitectură pe setul de date CIFAR-10 poate scala către rezoluții ale imaginilor cât mai mari într-un interval definit. Astfel, acest spațiu poartă numele de \textit{NASNet search space}. În abordarea NASNet, arhitecturile rețelelor convoluționale sunt manual predeterminate, fiind compuse din celule convoluționale repetate de multe ori unde, fiecare celulă convoluțională are aceași arhitectură dar ponderi diferite.
 
-Pentru a construi mai ușor arhitecturi scalabile pentru imagini de orice dimensiune este nevoie de două tipuri de celule convoluționale pentru a îndeplini două funcții principale: - celule convoluționale care returnează o hartă de caracteristici cu aceași dimensiune. Acest tip de celule se numește \textit{Celulă Normal}; - celule convoluționale care returnează o hartă de caracteristici cu înălțimea și lungimea harții divizată cu un factor doi. Acest tip de celule se numește \textit{Celulă de reducere} (vezi figura 2.19).
+Pentru a construi mai ușor arhitecturi scalabile pentru imagini de orice dimensiune este nevoie de două tipuri de celule convoluționale pentru a îndeplini două funcții principale: - celule convoluționale care returnează o hartă de caracteristici cu aceași dimensiune. Acest tip de celule se numește \textit{Celulă Normal}; - celule convoluționale care returnează o hartă de caracteristici cu înălțimea și lungimea harții divizată cu un factor doi. Acest tip de celule se numește \textit{Celulă de reducere} (vezi figura 2.21).
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=17cm,max height=17cm,keepaspectratio]{img_2_15}
@@ -457,8 +455,8 @@ Algoritmul de clasificare este definit după cum urmează:
 	\item dacă nu există nicio reprezentare în modelul M care să acopere $d_t$, clasificăm $d_t$ cu o clasă nouă.
 \end{enumerate}
 
-Un exemplu vizual de execuție a algoritmului de kNN, parcurs pas cu pas, este prezentat în figura 2.21. Exemplu conține 36 de intrări din 2 clase marcate prin pătrat și cerc. Datele de test sunt reprezentate prin tringhiuri.
-\begin{figure}[!tbp]
+Un exemplu vizual de execuție a algoritmului de kNN, parcurs pas cu pas, este prezentat în figura 2.23. Exemplu conține 36 de intrări din 2 clase marcate prin pătrat și cerc. Datele de test sunt reprezentate prin tringhiuri.
+\begin{figure}[!h]
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{img_2_22}
     \caption{Distribuția inițială a datelor (stânga) și prima reprezentare obținută (dreapta)}
@@ -479,8 +477,8 @@ Un exemplu vizual de execuție a algoritmului de kNN, parcurs pas cu pas, este p
   \caption[Exemplu 1 de clasificare cu kNN]{Exemplu 1 de clasificare cu kNN. Imagine preluată din \hyperlink{gongdeguo}{[16]}.}
 \end{figure}  
 
-Un al doilea exemplu de clasificare este prezentat în figura 2.22:
-\begin{figure}[!tbp]
+Un al doilea exemplu de clasificare este prezentat în figura 2.24:
+\begin{figure}[!h]
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{img_2_25}
     \caption{Prima reprezentare obținută (stânga) și a doua reprezentare obținută(dreapta)}

@@ -1,7 +1,7 @@
 \section{Implementarea modelului de recomandare}
 \subsection{Inițializarea}
-În implementarea prezentei aplicații a fost folosit framework-ul de construcție a sistemelor de recomandare $LightFM$ \hyperlink{lightfm}{[21]} peste care am construit un wrapper. 
-$LightFM$ conține o implemntare în Python a unor algoritmi de recomandare atât pentru feedback implicit cât și pentru feedback explicit. Metadatele articolelor și utilizatorilor pot fi încorporate intr-un algoritm tradițional de matrix factorization. Reprezentarea fiecărui articol și utilizator este o sumă a reprezentărilor latente ale caracteristicilor, ceea ce îi permite să generalizeze recomandările și către articole sau utilizatori noi.   
+În implementarea prezentei aplicații este folosit framework-ul de construcție a sistemelor de recomandare $LightFM$ \hyperlink{lightfm}{[21]} peste s-a construit un wrapper. 
+$LightFM$ conține o implemntare în Python a unor algoritmi de recomandare atât pentru feedback implicit cât și pentru feedback explicit. Metadatele filmelor și utilizatorilor pot fi încorporate intr-un algoritm tradițional de matrix factorization. Reprezentarea fiecărui film și utilizator este o sumă a reprezentărilor latente ale caracteristicilor, ceea ce îi permite să generalizeze recomandările și către filme sau utilizatori noi.   
 
 În continuare este prezentată inițializarea modelului de recomandare și explicația parametrilor folosiți atât cei definiți ca fiind maleabili cât și ceilalți parametrii puși la dispoziție de framework dar asupra cărora nu s-a intervenit în prezenta implementare:
 \begin{lstlisting}[language=Python, caption=Definirea modelului de recomandare]
@@ -27,8 +27,8 @@ class KingRec(object):
 
 Parametrii maleabili:
 \begin{itemize}
-  \item \textbf{no\_components}: numărul de componente reprezintă dimensiunea encodării latente a caracteristicilor utilizatorilor și articolelor. Spre exemplu, numărul de caracteristici pe fiecare user este de 1000 și avem 100 de utilizatori, ceea ce înseamnă o matrice de dimensiune $100 \times 1000$. Cu numărul de componente setat la 50, cum este prezentat în fragmentul de cod de mai sus, înseamnă ca numărul caracteristicilor pe fiecare user va fi redus la 50 de unde rezulta noua matrice a encodărilor latente a caracteristicilor de dimensiune $100 \times 50$.
-  \item \textbf{learning\_rate}: reprezintă rata de învățare de start pe care o foloseștesistemul de recomandare. Această rată se poate schimba pe parcusul rulării ca urmare a faptului că s-a folosit algoritmul de optimizare Adagrad. Mai multe detalii despre acest algoritmi au fost prezentate în capitolul 2.2.3.
+  \item \textbf{no\_components}: numărul de componente reprezintă dimensiunea encodării latente a caracteristicilor utilizatorilor și filmelor. Spre exemplu, numărul de caracteristici pe fiecare utilizator este de 1000 și avem 100 de utilizatori, ceea ce înseamnă o matrice de dimensiune $100 \times 1000$. Cu numărul de componente setat la 50, cum este prezentat în fragmentul de cod de mai sus, înseamnă ca numărul caracteristicilor pe fiecare utilizator va fi redus la 50 de unde rezultă noua matrice a encodărilor latente a caracteristicilor de dimensiune $100 \times 50$.
+  \item \textbf{learning\_rate}: reprezintă rata de învățare de start pe care o folosește sistemul de recomandare. Această rată se poate schimba pe parcusul rulării ca urmare a faptului că s-a folosit algoritmul de optimizare Adagrad. Mai multe detalii despre acest algoritmi au fost prezentate în capitolul 2.2.3.
   \item \textbf{loss} funcția de eroare care poate fi una dintre următoarele funcții implementate: logistic, bpr, warp, warp-kos. Mai multe detalii despre funcțiile de eroare au fost prezentate în capitolul 2.1.3.
   \item \textbf{item\_alpha} penalizarea L2 norm a caracteristicilor articolelor. Este asignată direct din parametrul $alpha$.
   \item \textbf{user\_alpha} similar cu $item\_alpha$ și este rezultatul înmulțirii dintre parametrul $alpha$ și $scale$.
@@ -63,9 +63,9 @@ def init_movielens(path, min_rating=0.0, k=3, item_features=None, cluster_n=18, 
 unde:
 \begin{itemize}
 	\item \textbf{path}: este calea către folderul cu fișierele din setul de date;
-	\item \textbf{min\_rating}: este ratingul minim pentru de la care vor fi construite interacțiunile dintre utilizatori și articole. Spre exemplu, dacă setăm un rating minim de $3.5$, mulțimea interacțiunilor pozitive va fi definită de acele interacțiuni pentru care utilizatorii au acordat cel puțin un rating de $3.5$, acestea fiind considerate interacțiuni pozitive. Restul interacțiunilor sunt considerate negative;
+	\item \textbf{min\_rating}: este ratingul minim pentru de la care vor fi construite interacțiunile dintre utilizatori și filme. Spre exemplu, dacă setăm un rating minim de $3.5$, mulțimea interacțiunilor pozitive va fi definită de acele interacțiuni pentru care utilizatorii au acordat cel puțin un rating de $3.5$, acestea fiind considerate interacțiuni pozitive. Restul interacțiunilor sunt considerate negative;
 	\item \textbf{k}: este un parametru folosit doar pentru statisticii, în contextul de față prezintă câți utilizatori au minim $k$ interacțiuni în setul de date. Valoarea $k$ este folosită în metrica de evaluare $precizie@k$ după cum este prezentat în capitolul 3.1.1; 
-	\item \textbf{item\_features}: poate lua una sau mai multe valori din mulțimea ${'genres', 'clusters'}$ și descrie tipurile de metadate ale articolelor care se doresc a fi prezente în setul de date. Desigur, acest parametru poate fi omis, astfel nefiind adăugate metadate suplimentare pe lângă interacțiunile dintre utilizatori și articole.
+	\item \textbf{item\_features}: poate lua una sau mai multe valori din mulțimea ${'genres', 'clusters'}$ și descrie tipurile de metadate ale filmelor care se doresc a fi prezente în setul de date. Desigur, acest parametru poate fi omis, astfel nefiind adăugate metadate suplimentare pe lângă interacțiunile dintre utilizatori și filme.
 	\item \textbf{cluster\_n}: parametru folosit doar atunci când în $item\_features$ este prezentă valoarea $clusters$ și descrie în câte clustere trebuie să fie împărțite posterele filmelor. Clusterele sunt generate în prealabil și se găsesc în path-ul menționat;
 	\item \textbf{model}: specifică modelul cu care au fost create posterele. Poate fi unul dintre următoarele: vgg19, inception\_v3, resnet50.
 \end{itemize}
@@ -120,13 +120,13 @@ Procesul de clusterizare al posterelor presupune transformarea posterelor filmel
 
 Acest proces poate fi împărțit în două etape:
 \begin{enumerate}
-	\item Extragerea caracteristicilor din postere: în extragerea caracteristicilor din postere se folosesc mai multe rețele preantrenate printre care VGG16, VGG19, InceptionV3, ResNet50 sau NASNet. Mai multe detalii despre rețelele preantrenate pot fi găsite în capitolul 2.4. Folosim fiecare dintre rețelele menționate anterior până la stratul de glasificare, adică fără top-ul rețelelor, pentru a ne extrage doar caracteristicile din imagini. Imaginile în toate cele cinci rețele preantrenate întră cu dimensiunea fixă de $224 \times 224 \times 3$, inclusiv în rețeaua NASNet, chiar dacă aceasta poate accepta și dimensiuni mai mari. Fiecare film are câte un set de postere asociate, după cum este prezentat în capitolul 4.2. Din aceste seturi de postere alegem pentru fiecare film doar primul poster, poster pe care il trecem prin fiecare dintre rețelele menționate mai sus. Odată trecut prin fiecare rețea, salvăm caracteristicile aferente fiecărei rețele într-un fișier specific. Aceste fișiere sunt formate din id-ul filmului și caracteristicile extrase de rețeaua specifică din primul poster al fimului.
+	\item Extragerea caracteristicilor din postere: în extragerea caracteristicilor din postere se folosesc mai multe rețele preantrenate printre care VGG16, VGG19, InceptionV3, ResNet50 sau NASNet. Mai multe detalii despre rețelele preantrenate pot fi găsite în capitolul 2.4. Folosim fiecare dintre rețelele menționate anterior până la stratul de clasificare, adică fără top-ul rețelelor, pentru a ne extrage doar caracteristicile din imagini. Imaginile în toate cele cinci rețele preantrenate întră cu dimensiunea fixă de $224 \times 224 \times 3$, inclusiv în rețeaua NASNet, chiar dacă aceasta poate accepta și dimensiuni mai mari. Fiecare film are câte un set de postere asociate, după cum este prezentat în capitolul 4.2. Din aceste seturi de postere alegem pentru fiecare film doar primul poster, poster pe care îl trecem prin fiecare dintre rețelele menționate mai sus. Odată trecut prin fiecare rețea, salvăm caracteristicile aferente fiecărei rețele într-un fișier specific. Aceste fișiere sunt formate din id-ul filmului și caracteristicile extrase de rețeaua specifică din primul poster al fimului.
 Funcția care se ocupă de acest proces este $extract\_images\_features()$ din modulul $extract\_features.py$.
 	\item Creeare clusterelor pe baza caracteristicilor posterelor: odată create fișierele cu caracteristici pentru fiecare rețea putem rula funcția $explore\_clusters()$ din modulul $create\_clusters.py$. În acest moment fiecare fișier de caracteristici va fi parcurs, iar pentru fiecare dintre aceste fișiere vom crea între 2 și 20 de clustere. La final, toate aceste clustere vor fi salvate într-un fișier asociat rețelei preantrenate. Spre exemplu, rulam funcția de creeare clustere pentru rețeaua preantrenată vgg19. Funcția va citi din fișierul asociate rețelei caracteristicile posterelor pentru fiecare film. Cu aceste caracteristici va genera $2, 4, 6, ..., 20$ de clustere. La final toate clusterele sunt salvate într-un fișier specific rețelei sub forma: id film, id poster, cluster 2 (unde va fi trecut în care cluster dintre cele două face parte posterul curent), cluster 4 (similar cu cluster 2), ..., cluster 20 (similar cu celelalte).
 \end{enumerate}
 
 \section{Construcția bazei de date}
-Pentru construcția setului de date a fost folosită clasa \textit{Dataset} din framework-ul LightFM. Prima etapă în construirea de citirea ratingurilor date de utilizatori filmelor. Odată citite ratingurile aplicăm filtrarea de minim rating, dacă este cazul. Ratingurile astfel rămase compun matricea de interacțiune. Se face un split de $80\%$ date de antrenare și $20\%$ date de testare pe aceste interacțiuni.
+Pentru construcția setului de date a fost folosită clasa \textit{Dataset} din framework-ul LightFM. Prima etapă în construirea bazei de date este citirea ratingurilor date de utilizatori filmelor. Odată citite ratingurile aplicăm filtrarea de minim rating, dacă este cazul. Ratingurile astfel rămase compun matricea de interacțiune. Se face un split de $80\%$ date de antrenare și $20\%$ date de testare pe aceste interacțiuni.
 
 Pe parte de caracteristici, se folosesc prestabilit atât pentru utilizatori cât și pentru filme matrici de identitate. Spre exemplu, daca avem 500 de utilizatori și 1000 de filme vom avea matricea de caracteristici a utilizatorilor de dimensiune $500 \times 500$ având valoarea 1 pe diagonală, iar matricea de caracteristici a filmelor de dimensiune $1000 \times 1000$, având de asemenea valorea 1 pe diagonală.
 
@@ -149,7 +149,7 @@ Fie un set de date cu 500 de utilizatori și 1000 de filme. Numărul total de ge
 \end{figure} 
 
 \section{Optimizarea parametrilor modelului}
-De multe ori în algoritmi de machine learning parametrii aleși precum rata de învățare sau numărul de epoci pot influența semnificativ rezultatul final. Astfel, pentru a reduce acest deficit există două variante: prima dintre ele presupune alegerea manuală a acestor parametrii prin diverse încercări; o a doua metodă presupune folosirea unor scripturi/librării specializate în minimizarea unor funcții definite fapt ce automatizează procesul de găsire a parametrilor optimi.
+De multe ori în algoritmii de machine learning parametrii aleși precum rata de învățare sau numărul de epoci pot influența semnificativ rezultatul final. Astfel, pentru a reduce acest deficit există două variante: prima dintre ele presupune alegerea manuală a acestor parametrii prin diverse încercări; o a doua metodă presupune folosirea unor scripturi/librării specializate în minimizarea unor funcții definite fapt ce automatizează procesul de găsire a parametrilor optimi.
 
 O astfel de librărie este folosită în prezenta lucrare de disertație și anume librăria skopt \hyperlink{skopt}{[22]}. Skopt este o librărie simplă și eficientă care minimizează funcții. Aceasta primește ca input o funcție de minimizat și un spațiu. Spațiul este definit ca fiind mulțimea parametrilor de optimizat și intervalele în care aceștia iau valori, spre exemplu:
 \begin{lstlisting}[language=Python, caption=Spațiul parametrilor de optimizat]
@@ -162,7 +162,7 @@ space = [(1, 250),  # epochs
         ] 
 \end{lstlisting}
 
-Un exemplu de funcție obiectiv de optimizare este următorul:
+Un exemplu de funcție obiectiv de optimizare este următorea:
 \begin{lstlisting}[language=Python, caption=Funcția obiectiv]
 def objective(params):
     epochs, learning_rate, no_components, item_alpha, scale = params  # 'k_os'
@@ -187,13 +187,13 @@ def objective(params):
 \end{lstlisting}
 unde function\_to\_optimize poate fi una dintre funcțiile de precizie@k sau de acuratețe. De menționat că în cazul acestor două funcții o valoare mai bună înseamnă o valoare mai mare vom face outputul funcției obiectiv negativ astfel încât minimizând funcția obiectiv de fapt să aveam o valoare mai bună pentru funcția de precizie și acuratețe.
 
-Scriptul de a fost rulat pentru a optimiza parametrii modelului în următoarele situații:
+Scriptul a fost rulat pentru a optimiza parametrii modelului în următoarele situații:
 \begin{enumerate}
 	\item \textbf{fără metadate}
 	\item \textbf{cu genuri}
 	\item \textbf{cu clustere pe rețeaua vgg19, 18 clustere}
 	\item \textbf{cu genuri și clustere pe rețeaua vgg19, 18 clustere}
-	\item \textbf{cu clustere pe toate celelalte rețele preantrenat, 18 clustere}
+	\item \textbf{cu clustere pe toate celelalte rețele preantrenate, 18 clustere}
 	\item \textbf{cu genuri și clustere pe toate celelalte rețele preantrenate, 18 clustere}
 \end{enumerate}
 Rezultatele obținute se pot vedea în tabelele 3.1 și 3.2. Analizând cele două tabele putem trage următoarele concluzii, pe baza tabelului 3.1:
@@ -202,7 +202,7 @@ Rezultatele obținute se pot vedea în tabelele 3.1 și 3.2. Analizând cele dou
 	\item introducerea de metadate este clar o îmbunătățire față de varianta fără aceste metadate;
 	\item există o corelație între genuri și clustere pe postere, rezultatele pe acuratețe și precizie fiind destul de apropiate;
 	\item modelul de recomandare cu metadatele de clustere converge mai repede către un rezultat optim decât cu metadatele de genuri, atât pe precizie cât și pe acuratețe;
-	\item folosite împreună, genurile + clusterele, se obține o îmbunătățire a sistemului de recomandare de aproximativ $1\%$ atât pe acuratețe cât și pe precizie față de modelul fără aceste metadate.
+	\item folosite împreună, genurile și clusterele, se obține o îmbunătățire a sistemului de recomandare de aproximativ $1\%$ atât pe acuratețe cât și pe precizie față de modelul fără aceste metadate.
 \end{enumerate}
 
 Analizând tabelul 3.2 observăm următoarele:
@@ -310,4 +310,4 @@ genres, posters                    & warp                            & auc\_scor
 \end{tabular}}
 \end{table}
 
-În capitolul următor va utiliza acești parametrii optimi găsiți pentru a studia evoluția performanței modelului în timp, studiu ce ne va permite să tragem concluziile finale.
+În capitolul următor sunt utilizați acești parametrii optimi găsiți pentru a studia evoluția performanței modelului în timp, studiu ce ne va permite să tragem concluziile finale.
