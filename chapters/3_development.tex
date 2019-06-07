@@ -214,7 +214,7 @@ Analizând tabelul 3.2 observăm următoarele:
 
 \begin{table}
 \centering
-\caption{Parametrii optimizați pentru modelul de recomandare pe tipuri de featureuri}
+\caption{Parametrii optimizați pentru modelul de recomandare pe tipuri de feature-uri}
 \label{table:1}
 \resizebox{\textwidth}{!}{\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|} 
 \hline
@@ -222,60 +222,60 @@ Analizând tabelul 3.2 observăm următoarele:
 \cline{4-9}
                           &                       &                           & \textbf{epochs} & \textbf{learning rate}         & \textbf{no components} & \textbf{item alpha}             & \textbf{scaling}               & \textbf{k os} &                           \\ 
 \hline
-None                      & warp                  & precision\_at\_k          & 141    & 0.043040683676705736  & 21            & 0.00541554967720231    & 0.014726505321746962  &      & \textbf{0.0920}                    \\ 
+None                      & warp                  & precision\_at\_k          & 141    & 0.0430  & 21            & 0.0054    & 0.0147  &      & \textbf{0.0920}                    \\ 
 \hline
-None                      & warp                  & auc\_score                & 93     & 0.013125743984880447  & 169           & 2.6154143367150727e-06 & 0.04382333041868763   &      & \textbf{0.9309}                    \\ 
+None                      & warp                  & auc\_score                & 93     & 0.0131  & 169           & 2.6154143367150727e-06 & 0.0438   &      & \textbf{0.9309}                    \\ 
 \hline
-None                      & warp-kos~             & precision\_at\_k          & 131    & 0.016193013939983108  & 131           & 0.014891088630376074   & 0.064172162850665     & 3    & 0.0915                    \\ 
+None                      & warp-kos~             & precision\_at\_k          & 131    & 0.0161  & 131           & 0.0148   & 0.0641     & 3    & 0.0915                    \\ 
 \hline
-None                      & warp-kos~             & auc\_score                & 136    & 0.025315151875417254  & 136           & 0.025315151875417254   & 0.0014438337247755933 & 5    & 0.9123                    \\ 
+None                      & warp-kos~             & auc\_score                & 136    & 0.0253  & 136           & 0.0253   & 0.0014 & 5    & 0.9123                    \\ 
 \hline
-None                      & bpr                   & precision\_at\_k          & 145    & 0.011882573141627583  & 145           & 0.011882573141627583   & 0.008731133377250924  &      & 0.0818                    \\ 
+None                      & bpr                   & precision\_at\_k          & 145    & 0.0118  & 145           & 0.0118   & 0.0087  &      & 0.0818                    \\ 
 \hline
-None                      & bpr                   & auc\_score                & 100    & 0.38336028927731636   & 22            & 0.38336028927731636    & 0.6705805738529935    &      & 0.8738                    \\ 
+None                      & bpr                   & auc\_score                & 100    & 0.3833   & 22            & 0.3833    & 0.6705    &      & 0.8738                    \\ 
 \hline
-genres                    & warp                  & precision\_at\_k          & 136    & 0.075490395178898     & 82            & 0.007065549151367718   & 0.00799962475267643   &      & \textbf{0.0990}                    \\ 
+genres                    & warp                  & precision\_at\_k          & 136    & 0.0754     & 82            & 0.0070   & 0.0079   &      & \textbf{0.0990}                    \\ 
 \hline
-genres                    & warp                  & auc\_score                & 133    & 0.026238747910509397  & 193           & 0.0027085249085071626  & 0.07322973067589604   &      & \textbf{0.9384}                    \\ 
+genres                    & warp                  & auc\_score                & 133    & 0.0262  & 193           & 0.0027  & 0.0732  &      & \textbf{0.9384}                    \\ 
 \hline
-genres                    & warp-kos              & precision\_at\_k          & 106    & 0.04588316930944897   & 200           & 0.005855900490702136   & 0.09739540959401453   & 5    & 0.0968                    \\ 
+genres                    & warp-kos              & precision\_at\_k          & 106    & 0.0458   & 200           & 0.0058   & 0.0973   & 5    & 0.0968                    \\ 
 \hline
-genres                    & warp-kos              & auc\_score                & 128    & 0.031396765253117284  & 103           & 5.6689548595143295e-06 & 0.2992760477740958    & 5    & 0.9184                    \\ 
+genres                    & warp-kos              & auc\_score                & 128    & 0.0313  & 103           & 5.6689548595143295e-06 & 0.2992    & 5    & 0.9184                    \\ 
 \hline
-genres                    & bpr                   & precision\_at\_k          & 4      & 0.3988094699004826    & 174           & 0.00020130127273975477 & 0.9668511270812562    &      & 0.0793                    \\ 
+genres                    & bpr                   & precision\_at\_k          & 4      & 0.3988    & 174           & 0.0002 & 0.9668    &      & 0.0793                    \\ 
 \hline
-genres                    & bpr                   & auc\_score                & 113    & 0.3787098755163822    & 20            & 1.412418076659026e-06  & 0.8846058572960187    &      & 0.8697                    \\ 
+genres                    & bpr                   & auc\_score                & 113    & 0.3787    & 20            & 1.412418076659026e-06  & 0.8846    &      & 0.8697                    \\ 
 \hline
-posters                  & warp                  & precision\_at\_k          & 63     & 0.05647434188275842   & 98            & 0.0031993742820159436  & 0.0933642796909375    &      & \textbf{0.0938}                    \\ 
+posters                  & warp                  & precision\_at\_k          & 63     & 0.0564   & 98            & 0.0031  & 0.0933    &      & \textbf{0.0938}                    \\ 
 \hline
-posters                  & warp                  & auc\_score                & 42     & 0.0570326091236193    & 68            & 0.0029503539747277366  & 0.02563602355611453   &      & \textbf{0.9338}                    \\ 
+posters                  & warp                  & auc\_score                & 42     & 0.0570    & 68            & 0.0029  & 0.0256   &      & \textbf{0.9338}                    \\ 
 \hline
-posters                  & warp-kos              & precision\_at\_k          & 111    & 0.12149792200676351   & 30            & 0.005138574720440468   & 0.22386245632097518   & 3    & 0.0900                    \\ 
+posters                  & warp-kos              & precision\_at\_k          & 111    & 0.1214   & 30            & 0.0051   & 0.2238   & 3    & 0.0900                    \\ 
 \hline
-posters                  & warp-kos              & auc\_score                & 106    & 0.02060268158807219   & 153           & 0.0002768009203471932  & 0.01729102049278139   & 5    & 0.9139                    \\ 
+posters                  & warp-kos              & auc\_score                & 106    & 0.0206   & 153           & 0.0002  & 0.0172   & 5    & 0.9139                    \\ 
 \hline
-posters                  & bpr                   & precision\_at\_k          & 112    & 0.02783417000783745   & 53            & 0.043059513850700865   & 0.04509016538546181   &      & 0.0794                    \\ 
+posters                  & bpr                   & precision\_at\_k          & 112    & 0.0278   & 53            & 0.0430   & 0.0450  &      & 0.0794                    \\ 
 \hline
-posters                  & bpr                   & auc\_score                & 76     & 0.39695046755245167   & 20            & 3.559358324483847e-05  & 0.749186059016229     &      & 0.8656                    \\ 
+posters                  & bpr                   & auc\_score                & 76     & 0.3969   & 20            & 3.559358324483847e-05  & 0.7491     &      & 0.8656                    \\ 
 \hline
-genres, posters          & warp                  & precision\_at\_k          & 96     & 0.1703221223672566    & 22            & 0.004206346506337412   & 0.041303781930858034  &      & \textbf{0.0980}                    \\ 
+genres, posters          & warp                  & precision\_at\_k          & 96     & 0.1703    & 22            & 0.0042   & 0.0413  &      & \textbf{0.0980}                    \\ 
 \hline
-genres, posters          & warp                  & auc\_score                & 120    & 0.027730397776550147  & 189           & 0.0011133373244076297  & 0.4922360335772573    &      & \textbf{0.9406}                    \\ 
+genres, posters          & warp                  & auc\_score                & 120    & 0.0277  & 189           & 0.0011  & 0.4922    &      & \textbf{0.9406}                    \\ 
 \hline
-genres, posters          & warp-kos              & precision\_at\_k          & 83     & 0.07486946768773611   & 190           & 0.007918526926383375   & 0.012439949030585647  & 5    & 0.0916                    \\ 
+genres, posters          & warp-kos              & precision\_at\_k          & 83     & 0.0748   & 190           & 0.0079   & 0.0124  & 5    & 0.0916                    \\ 
 \hline
-genres, posters          & warp-kos              & auc\_score                & 149    & 0.0374384222223599    & 98            & 6.392983080540728e-05  & 0.6204979332067604    & 5    & 0.9205                    \\ 
+genres, posters          & warp-kos              & auc\_score                & 149    & 0.0374    & 98            & 6.392983080540728e-05  & 0.6204    & 5    & 0.9205                    \\ 
 \hline
-genres, posters          & bpr                   & precision\_at\_k          & 19     & 0.0012968105572226996 & 140           & 9.939007330655304e-05  & 0.0011379548833006527 &      & 0.0597                    \\ 
+genres, posters          & bpr                   & precision\_at\_k          & 19     & 0.0012 & 140           & 9.939007330655304e-05  & 0.0011 &      & 0.0597                    \\ 
 \hline
-genres, posters          & bpr                   & auc\_score                & 98     & 0.3429430411358865    & 21            & 8.687526249607698e-06  & 0.7296865286380925    &      & 0.8681                    \\
+genres, posters          & bpr                   & auc\_score                & 98     & 0.3429    & 21            & 8.687526249607698e-06  & 0.7296    &      & 0.8681                    \\
 \hline
 \end{tabular}}
 \end{table}
 
 \begin{table}
 \centering
-\caption{Parametrii optimizați pentru modelul de recomandare pe tipuri de featureuri și modele de rețele preantrenate}
+\caption{Parametrii optimizați pentru modelul de recomandare pe tipuri de feature-uri și modele de rețele preantrenate}
 \label{table:2}
 \resizebox{\textwidth}{!}{\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|} 
 \hline
@@ -283,29 +283,29 @@ genres, posters          & bpr                   & auc\_score                & 9
 \cline{4-8}
                                     &                                 &                                     & \textbf{epochs} & \textbf{learning rate} & \textbf{no components} & \textbf{item alpha}   & \textbf{scaling}      &                                  &                                     \\ 
 \hline
-posters                            & warp                            & precision\_at\_k                    & 232             & 0.07171978672352887    & 42                     & 0.006517845577815826  & 0.016142300018137722  & vgg19                            & 0.0935                              \\ 
+posters                            & warp                            & precision\_at\_k                    & 232             & 0.0717    & 42                     & 0.0065  & 0.0161  & vgg19                            & 0.0935                              \\ 
 \hline
-posters                            & warp                            & auc\_score                          & 89              & 0.018841927704689492   & 139                    & 0.0008662511914237855 & 0.2864763834214625    & vgg19                            & 0.9325                              \\ 
+posters                            & warp                            & auc\_score                          & 89              & 0.0188   & 139                    & 0.0008 & 0.2864    & vgg19                            & 0.9325                              \\ 
 \hline
-genres, posters                    & warp                            & precision\_at\_k                    & 218             & 0.12470857345083873    & 73                     & 0.005478316990150038  & 0.04637764141484815   & vgg19                            & \textbf{0.0995}                              \\ 
+genres, posters                    & warp                            & precision\_at\_k                    & 218             & 0.1247    & 73                     & 0.0054  & 0.0463   & vgg19                            & \textbf{0.0995}                              \\ 
 \hline
-genres, posters                    & warp                            & auc\_score                          & 236             & 0.031860755009764305   & 139                    & 0.0010930770083784052 & 0.8362665749306415    & vgg19                            & 0.9413                              \\ 
+genres, posters                    & warp                            & auc\_score                          & 236             & 0.0318   & 139                    & 0.0010 & 0.8362    & vgg19                            & 0.9413                              \\ 
 \hline
-posters                            & warp                            & precision\_at\_k                    & 119             & 0.00852211930222011    & 192                    & 7.276515301192984e-05 & 0.027052254503857717  & inception\_v3                    & 0.0836                              \\ 
+posters                            & warp                            & precision\_at\_k                    & 119             & 0.0085    & 192                    & 7.276515301192984e-05 & 0.0270  & inception\_v3                    & 0.0836                              \\ 
 \hline
-posters                            & warp                            & auc\_score                          & 232             & 0.02981041359364386    & 84                     & 0.004287524090264805  & 0.040501994149651166  & inception\_v3                    & 0.9327                              \\ 
+posters                            & warp                            & auc\_score                          & 232             & 0.0298    & 84                     & 0.0042  & 0.0405  & inception\_v3                    & 0.9327                              \\ 
 \hline
-genres, posters                    & warp                            & precision\_at\_k                    & 245             & 0.028963892665938032   & 43                     & 0.0006238083410955659 & 0.36579038826022736   & inception\_v3                    & 0.0905                              \\ 
+genres, posters                    & warp                            & precision\_at\_k                    & 245             & 0.0289   & 43                     & 0.0006 & 0.3657   & inception\_v3                    & 0.0905                              \\ 
 \hline
-genres, posters                    & warp                            & auc\_score                          & 250             & 0.019411170816577752   & 136                    & 0.0008323333176050233 & 0.4767783602102349    & inception\_v3                    & \textbf{0.9425}                              \\ 
+genres, posters                    & warp                            & auc\_score                          & 250             & 0.0194   & 136                    & 0.0008 & 0.4767    & inception\_v3                    & \textbf{0.9425}                              \\ 
 \hline
-posters                            & warp                            & precision\_at\_k                    & 88              & 0.07492160698420884    & 21                     & 0.004634987385145838  & 0.028198967823831238  & resnet50                         & \textbf{0.0953}                              \\ 
+posters                            & warp                            & precision\_at\_k                    & 88              & 0.0749    & 21                     & 0.0046  & 0.0281  & resnet50                         & \textbf{0.0953}                              \\ 
 \hline
-posters                            & warp                            & auc\_score                          & 198             & 0.016780379637566917   & 169                    & 0.0012939223653296507 & 0.6692069103186539    & resnet50                         & \textbf{0.9342}                              \\ 
+posters                            & warp                            & auc\_score                          & 198             & 0.0167   & 169                    & 0.0012 & 0.6692    & resnet50                         & \textbf{0.9342}                              \\ 
 \hline
-genres, posters                    & warp                            & precision\_at\_k                    & 224             & 0.04214027912721876    & 186                    & 0.008676073688466915  & 0.0024915458462563605 & resnet50                         & 0.0970                              \\ 
+genres, posters                    & warp                            & precision\_at\_k                    & 224             & 0.0421    & 186                    & 0.0086  & 0.0024 & resnet50                         & 0.0970                              \\ 
 \hline
-genres, posters                    & warp                            & auc\_score                          & 211             & 0.09767064566975311    & 48                     & 0.003428832598553235  & 0.11239835090728653   & resnet50                         & 0.9397                              \\
+genres, posters                    & warp                            & auc\_score                          & 211             & 0.0976    & 48                     & 0.0034  & 0.1123   & resnet50                         & 0.9397                              \\
 \hline
 \end{tabular}}
 \end{table}
