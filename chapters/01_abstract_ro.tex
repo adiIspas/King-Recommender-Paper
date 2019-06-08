@@ -4,6 +4,17 @@
 	\Large \textbf{Abstract}	
 \end{center}
 
-Abstractul în limba română.
+Prezenta lucrare de disertație își propune să îmbunătățească sistemele de recomandare pentru filme cu ajutorul informației vizuale din postere. Informația vizuală din postere este extrasă sub formă de feature-uri, iar din feature-uri se creează clustere în număr egal cu numărul de genuri disponibile pentru filme în setul de date.
 
+\vspace{5mm}
+Din punct de vedere al rezultatelor au fost obținute îmbunătățiri ale metricile de precizie@k și de acuratețe. Dacă se folosesc doar posterele precizia este îmbunătățită cu $0.42\%$, iar acuratețea cu $0.32\%$. Dacă posterele se adaugă la genuri, precizia este îmbunătățită cu $0.82\%$, iar acuratețea cu $1.09\%$.
+
+\vspace{5mm}
+Din perspectiva implementării sistemul poate fi împărțit după cum urmează:
+\begin{enumerate}
+	\item Colectarea posterelor pentru filme în acord cu filmele existente în baza de date;
+	\item Extragerea caracteristicilor și crearea de clustere cu ajutorul lor; 
+	\item Antrenarea și evaluarea modelului cu diverse tipuri de metadate.
+\end{enumerate}
+Implementarea este realizată în Python 3.6 și are la bază patru librării: LightFM - folosită pentru construcția modelului de recomandare; Keras - folosită pentru extragerea de feature-uri din postere; Scikit learn - folosită pentru crearea de clustere; Skopt - folosită pentru optimizarea parametrilor modelului. Aplicația a fost rulată pe un sistem dotat cu Intel i7 Quad Core, 2.60 Ghz cu 16GB RAM și cu o extensie a memoriei swap de până la 70GB.
 \vspace*{\fill}
