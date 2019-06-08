@@ -1,5 +1,5 @@
 \section{Baza de date cu filme}
-În cadrul prezentei diserații a fost folosită ca bază de date pentru evaluarea experimentală baza oferita de grouplens \hyperlink{movielens}{[22]}. Aceștia pun la dispoziție mai multe seturi de date printre care:
+În cadrul prezentei diserații a fost folosită ca bază de date pentru evaluarea experimentală baza oferită de grouplens \hyperlink{movielens}{[22]}. Aceștia pun la dispoziție mai multe seturi de date printre care:
 \begin{enumerate}
 	\item \textbf{MovieLens 20M Dataset}: conține 20 milioane de ratinguri oferite de 138 000 de utilizatori peste 27 000 de filme;
 	\item \textbf{MovieLens 10M Dataset}: conține 10 milioane de ratinguri oferite de 72 000 de utilizatori peste 10 000 de filme;
@@ -12,9 +12,9 @@ Fiecare utilizator din \textit{ml-latest-small} a acordat ratinguri pentru cel p
 
 Structura fișierelor din baza de date:
 \begin{itemize}
-	\item \textbf{ratings.csv}: fiecare linie din acest fișier reprezintă un rating dat de un utilizator unui film, fișierul având formatul $userId, movieId, rating, timestamp$, unde $timestamp$ reprezintă momentul de timp când a fost acordat ratingul. Fiecare rating este cuprins între 0 și 5, iar între ratinguri este unpas de 0.5;
+	\item \textbf{ratings.csv}: fiecare linie din acest fișier reprezintă un rating dat de un utilizator unui film, fișierul având formatul $userId, movieId, rating, timestamp$, unde $timestamp$ reprezintă momentul de timp când a fost acordat ratingul. Fiecare rating este cuprins între 0 și 5, iar între ratinguri este un pas de 0.5;
 	\item \textbf{movies.csv}: conține metadate despre filme precum titlul și genul. Formatul fișierului este următorul: $movieId, title, genres$. Titlul conține și anul de apariție a filmului sub forma \textit{Titlu (an)}. Genul poate fi unul sau mai multe dintre următoarele: \textit{Action, Adventure, Animation, Children's, Comedy, Crime, Documentary, Drama, Fantasy, Film-Noir, Horror, Musical, Mystery Romance, Sci-Fi, Thriller, War Western, (no genres listed)}.
-	\item \textbf{links.csv}: conține referințele către site-urile movielens, imdb și themoviedb sub următorul format: $movieId,imdbId,tmdbId$.
+	\item \textbf{links.csv}: conține referințele către site-urile movielens, imdb și themoviedb sub următorul format: $movieId,imdbId,tmdbId$, unde movieId este id-ul de pe site-ul movielens.
 	\item \textbf{tags.csv}: fiecare linie conține un tag aplicat de un utilizator unui film, fișierul având următorul format $userId,movieId,tag,timestamp$. Fiecare tag este reprezentat de un cuvânt sau de o scurtă frază.
 \end{itemize}
 
@@ -75,7 +75,7 @@ unde:
 
 \subsection{Sanity check}
 Pentru testarea validității clusterelor un test de sanity check în care s-au luat opt filme și s-a încercat clasificarea lor în șapte clustere folosind caracteristicile extrase din rețelele preantrenate VGG16, VGG19, InceptionV3, ResNet50 și NASNet, clusterele create cu kNN iar evaluarea este făcută atât vizual cât și prin urmărirea evoluției metricii silhouette de la 2 la 7 clustere. Posterele de input pentru sanity check sunt prezentate în figura 4.2.
-\begin{figure}[!tbp]
+\begin{figure}[!h]
   \centering
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_4_7}
@@ -129,7 +129,7 @@ celelalte reţele, cu excepţia ResNet50 au fluctuaţii. ResNet50 este singura c
 în mod continuu trendul ascendent de la clusterul 2 până la clusterul 7.
 
 Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figurile 4.4 - 4.8.
-\begin{figure}[!tbp]
+\begin{figure}[!h]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_vgg16_c1}
@@ -168,7 +168,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
   \caption[Rezultate sanity check pentru rețeaua VGG16]{Rezultate sanity check pentru rețeaua VGG16}
 \end{figure}
 
-\begin{figure}[!tbp]
+\begin{figure}[!h]
   \centering
   \begin{subfigure}[b]{0.50\textwidth}
     \includegraphics[width=\textwidth]{img_vgg19_c1}
@@ -207,7 +207,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
   \caption[Rezultate sanity check pentru rețeaua VGG19]{Rezultate sanity check pentru rețeaua VGG19}
 \end{figure}
 
-\begin{figure}[!tbp]
+\begin{figure}[!h]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_inceptionv3_c1}
@@ -246,7 +246,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
   \caption[Rezultate sanity check pentru rețeaua InceptionV3]{Rezultate sanity check pentru rețeaua InceptionV3}
 \end{figure}
 
-\begin{figure}[!tbp]
+\begin{figure}[!h]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{img_resnet50_c1}
@@ -285,7 +285,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
   \caption[Rezultate sanity check pentru rețeaua ResNet50]{Rezultate sanity check pentru rețeaua ResNet50}
 \end{figure}
 
-\begin{figure}[!tbp]
+\begin{figure}[!h]
   \centering
   \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{img_nasnet_c1}
@@ -329,7 +329,7 @@ După cum se observă, din punct de vedere vizual doar rețeaua ResNet50 reușe�
 Observăm că deși InceptionV3 și NASNet aveau scoruri mai mari pe coeficientul silhouette, rețeaua ResNet50 are rezultate vizuale mai bune pe sanity check. De remarcat corelația dintre faptul că rețeaua ResNet50 este singura a cărui coeficient silhouette creștea de la un cluster la altul, ceea ce înseamnă că acele clustere deveneau din ce în ce mai bune pe măsură ce ne apropiam de numărul de clustere din realitate.
 
 \subsection{Rezultate generale}
-Pentru evaluarea clusterelor pe toate pe toate posterele filmelor, aproximativ 9 000, au fost eliminate din evaluare rețelele VGG16 și NASNet în baza rezultatelor prezentate în tabelul 3.1, în cazul rețelei VGG16 și a costului de memorie și timp de execuție din timpul experimentelor, în cazul rețelei NASNet.
+Pentru evaluarea clusterelor (vezi figura 4.9) pe toate posterele filmelor, aproximativ 9 000, au fost eliminate din evaluare rețelele VGG16 și NASNet în baza rezultatelor prezentate în tabelul 3.1, în cazul rețelei VGG16 și a costului de memorie și timp de execuție din timpul experimentelor, în cazul rețelei NASNet.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_17}
@@ -360,18 +360,18 @@ Se observă că rețeaua InceptionV3 are scorurile pentru toate clusterele de la
 Înainte de a prezenta rezultatele metricilor trebuie menționate două aspecte importante legate de configurația setului de date utilizat:
 \begin{enumerate}
 	\item ratingul minim pentru interacțiuni a fost setat la 3.5, ceea ce înseamnă că s-au folosit ca interacțiuni pozitive doar acele interacțiuni care au cel puțin acest rating;
-	\item rezultatul maxim al metricii de precizie@k este direct influențat de numărul interacțiuni dintre utilizatori și filme. Spre exemplu, dacă un utilizator are un număr total de interacțiuni de 5, iar metrica noastră de precizie are k-ul setat la 10, atunci rezultatul maxim pentru precizie@5 va fi 0.5, deoarece doar maxim $50\%$ deoarece nu există mai multe de 5 interacțiuni pozitive pentru acel utiliator.
+	\item rezultatul maxim al metricii de precizie@k este direct influențat de numărul de interacțiuni dintre utilizatori și filme. Spre exemplu, dacă un utilizator are un număr total de 5 interacțiuni, iar metrica noastră de precizie are k-ul setat la 10, atunci rezultatul maxim pentru precizie@5 va fi 0.5, $50\%$, deoarece nu există mai multe de 5 interacțiuni pozitive pentru acel utiliator.
 \end{enumerate}
 
 În cazul împărțirii utilizate numărul de interacțiuni se prezintă după cum urmează:
 \begin{itemize}
-	\item per tot setul de date, numărul de interacțiuni pe utilizator: minim: 1; mediu: 101; maxim: 1459; utilizatori cu mai puțin de k=10 interacțiuni: 20/609 
-	\item per setul de date de train, numărul de interacțiuni pe utilizator: minim: 1; mediu: 81; maxim: 1165; utilizatori cu mai puțin de k=10 interacțiuni: 38/609
-	\item per setul de date de test, numărul de interacțiuni pe utilizator: minim: 1; mediu: 20; maxim: 294; utilizatori cu mai puțin de k=10 interacțiuni: 296/598
+	\item per tot setul de date, numărul de interacțiuni pe utilizator: minim: 1; mediu: 101; maxim: 1459; utilizatori cu mai puțin de k=10 interacțiuni: 20 din 609 
+	\item per setul de date de train, numărul de interacțiuni pe utilizator: minim: 1; mediu: 81; maxim: 1165; utilizatori cu mai puțin de k=10 interacțiuni: 38 din 609
+	\item per setul de date de test, numărul de interacțiuni pe utilizator: minim: 1; mediu: 20; maxim: 294; utilizatori cu mai puțin de k=10 interacțiuni: 296 din 598
 \end{itemize}
 
-Rezultatele metricii de acuratețe sunt prezentate în figura 4.10 (a). Aceste rezultate sun obținute utilizând parametrii optimi din tabelul 3.1. Reamintim că toate clusterele folosite pentru obținerea parametrilor optimi din acest tabel au fost create folosind rețeaua VGG19.
-\begin{figure}[!tbp]
+Rezultatele metricii de acuratețe sunt prezentate în figura 4.13 (a). Aceste rezultate sun obținute utilizând parametrii optimi din tabelul 3.1. Reamintim că toate clusterele folosite pentru obținerea parametrilor optimi din acest tabel au fost create folosind rețeaua VGG19.
+\begin{figure}[!h]
   \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_18}
     \caption{}
@@ -385,22 +385,22 @@ Rezultatele metricii de acuratețe sunt prezentate în figura 4.10 (a). Aceste r
   \end{subfigure}
   \caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de metadate]{Comparație acuratețea modelului cu parametrii optimi pe tipuri de metadate (a) și cu parametrii optimi pe tipuri de metadate cu număr setat de epoci (b).}
 \end{figure}
-Principalele concluzii pe care e putem trage pe baza acestui grafic sunt următoarele:
+Principalele concluzii pe care le putem trage pe baza acestor grafice sunt următoarele:
 \begin{itemize}
 	\item modelul fără metadate are un start mai bun decât decât modelul cu genuri sau modelul cu genuri și cu clustere, însă acesta nu urcă prea mult pe durata perioadei de antrenare, astfel ajungând să aibă cel mai slab rezultat dintre toate cele patru variante de model testate;
-	\item modelul cu metadatele de genuri are un start destul de slab, fiind mai bun doar de modelul în care se folosesc atât genurile cât și clusterele, însă, până la final, acest model obține un rezultat bun și apropiat de rezultatul modelului cu genuri și clustere. O altă mențiune importantă ar fi că acest model are cea mai mare durată de antrenare față de toate celelalte modele;
+	\item modelul cu metadatele de genuri are un start destul de slab, fiind mai bun doar față de modelul în care se folosesc atât genurile cât și clusterele, însă, până la final, acest model obține un rezultat bun și apropiat de rezultatul modelului cu genuri și clustere. O altă mențiune importantă ar fi că acest model are cea mai mare durată de antrenare față de toate celelalte modele;
 	\item modelul cu metadatele de clustere are cel mai bun start și în același timp cea mai scurtă perioadă de antrenare pentru a obține cel mai optim rezultat dintre toate modelele testate. Acuratețea obținută de acest model este peste acurateșea obținută de modelul fără metadate dar sub cea obținută de modelul cu genuri însă destul de apropiată de aceasta;
-	\item cel mai bun rezultat din acest experiment este obținut de modelul în care se folosesc atât metadatele de genuri cât și cele de clustere. Modelul are cel mai slab start însă cel mai bun rezultat final. Observăm că modul în care este obținut rezultatul este o combinație a avantajelor modelelor cu metadate de genuri și clustere. Pe de-o parte, acuratețea crește semnificativ față de modelul fără metadate și este apropiată de acuratețea modelului cu genuri. Pe de alta parte timpul de necesar obținerii acelui rezultat optim este mai scăzut decât la modelul cu genuri, timp influențat de metadatele de clustere.
+	\item cel mai bun rezultat din acest experiment este obținut de modelul în care se folosesc atât metadatele de genuri cât și cele de clustere. Modelul are cel mai slab start însă cel mai bun rezultat final. Observăm că modul în care este obținut rezultatul este o combinație a avantajelor modelelor cu metadate de genuri și clustere. Pe de-o parte, acuratețea crește semnificativ față de modelul fără metadate și este apropiată de acuratețea modelului cu genuri. Pe de alta parte timpul necesar obținerii acelui rezultat optim este mai scăzut decât la modelul cu genuri, timp influențat de metadatele de clustere.
 \end{itemize}
 
 Concluzia principală a acestui experiment este că un model ce conține genuri și clustere are o performanță de până la $1\%$ în plus față de modelul fără metadate și mai mare față de oricare alt model, iar timpul necesar pentru obținerea acestei performanțe este mai mic în comparație cu cel mai apropiat model din punct de vedere al metricii evaluate.
 
-Pentru a avea o imagine mai completă de cum se pot comporta aceste modele în timp am eliminat parametrul optimi găsit pe numărul de epoci și l-am setat pentru fiecare model la un număr de 300 de epoci. Iar după cum se observă în figura 4.13 (b) toate modele după punctul optim în care ating performanța maximă încep să scadă. Modelele fără metadate, cu metadatele de genuri și cu metadatele de clustere au o scădere destul de lină în timp, pe când scăderea este mai acelărată în cazul modelului ce folosește metadatele de clustere față de celelalte modele. 
-Acest al doilea grafic conturează și mai bine o concluzie pe care o putem trage despre modelul cu clustere și anume: acesta atinge performanța maximă foarte repede din punct de vedere al timpului de execuție în comparație cu oricare al model testat în cadrul acestei lucrări, iar din acel moment în care a fost obținută performanța maximă nu mai este recomandată prelungirea procesului de antrenare scăderea care va urma după punctul maxim va fi foarte acelărată.
+Pentru a avea o imagine mai completă de cum se pot comporta aceste modele în timp am eliminat parametrul optimi găsit pe numărul de epoci și l-am setat pentru fiecare model la un număr de 300 de epoci. Iar după cum se observă în figura 4.13 (b) toate modele după punctul optim în care ating performanța maximă încep să scadă. Modelele fără metadate, cu metadatele de genuri și clustere au o scădere destul de lină în timp, pe când scăderea este mai acelărată în cazul modelului ce folosește metadatele de clustere față de celelalte modele. 
+Acest al doilea grafic conturează și mai bine o concluzie pe care o putem trage despre modelul cu clustere și anume: acesta atinge performanța maximă foarte repede din punct de vedere al timpului de execuție în comparație cu oricare al model testat în cadrul acestei lucrări, iar din acel moment în care a fost obținută performanța maximă nu mai este recomandată prelungirea procesului de antrenare, scăderea care va urma după punctul maxim va fi foarte acelărată.
 
 \vspace{5mm}
 Rezultatele modelelor pe metrica precizie@k cu $k=10$ sunt prezentate în figura 4.14 (a). Un lucru care se poate remarca este faptul că, la fel ca în cazul metricii de acuratețe, se păstrează atât ordinea modelelor în rezultatele de precizie cât și în ordinea modelelor în timp de antrenare, în sensul celui mai bun rezultat, precizie mare, timp de antrenare mic.
-\begin{figure}[!tbp]
+\begin{figure}[!h]
   \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_20}
     \caption{}
@@ -417,7 +417,7 @@ Rezultatele modelelor pe metrica precizie@k cu $k=10$ sunt prezentate în figura
 Aceași corespondență între specificațiile rezultatelor obținute de metrici se regăsește și în situația în care mărim perioada de antrenare pentru a vedea o imagine de ansamblu dupa cum se poate observa în figura 4.14 (b).
 
 \vspace{5mm}
-În continuare vom prezenta rezultatele metricilor obținute prin creearea clusterelor cu rețelele preantrenate VGG19, InceptionV3 și ResNet50, atât clusterele singure cât și în combinație cu metadatele de genuri. După cum se poate observa în figura 4.15 rețeaua VGG19 își menține timpul de antrenare scăzut plus celelalte specificații descriese în experimentele anterioare. Rețeaua ResNet50 are cel mai bun rezultat al acurateții, iar ca timp de antrenare este situată între VGG19 și InceptionV3. În cele din urmă, rețeaua InceptionV3 are un rezultat mai bun decât VGG19 însă timpul de antrenare necesar este cel mai mare față de celelalte rețele.
+În continuare vom prezenta rezultatele metricilor obținute prin creearea clusterelor cu rețelele preantrenate VGG19, InceptionV3 și ResNet50, atât clusterele singure cât și în combinație cu metadatele de genuri. După cum se poate observa în figura 4.15 rețeaua VGG19 își menține timpul de antrenare scăzut plus celelalte specificații descrise în experimentele anterioare. Rețeaua ResNet50 are cel mai bun rezultat al acurateții, iar ca timp de antrenare este situată între VGG19 și InceptionV3. În cele din urmă, rețeaua InceptionV3 are un rezultat mai bun decât VGG19 însă timpul de antrenare necesar este cel mai mare față de celelalte rețele.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_22}
