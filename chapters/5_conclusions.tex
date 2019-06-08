@@ -1,1 +1,17 @@
-Concluziile disertației ...
+\subsection*{Concluziile generale}
+
+Ca urmare a rezultatelor prezentate în capitolul precedent putem afirma că prezenta lucrare de disertație și-a atins scopul și anume acela de a aduce o îmbunătățirea sistemelor de recomandare pentru filme folosind informația vizuală din postere. 
+Scorul de la care a plecat sistemul de recomandare fără metadate incluse este de $93.13\%$ în cazul acurateții și de $9.26\%$ în cazul preciziei. Acest scor urcă până la $93.45\%$ acuratețe în cazul în care se adaugă informația vizuală de clustere creată cu rețeaua preantrenată ResNet50, iar cel de precizie urcă până la $9.63\%$ folosind rețeaua VGG19. Dacă informația vizuală este adăugată alături de genurile filmelor în metadate atunci scorurile ajung până la $94.22\%$ pentru acuratețe folosind rețeaua InceptionV3 și $10.05\%$ pentru precizie folosind rețeaua VGG19.
+
+Se observă că în cazul acurateții rețeaua preantrenată optimă poate să difere în funcție de ce alte metadate sunt incluse în sistem, ResNet50 dacă sunt prezente doar posterele și InceptionV3 dacă sunt prezente atât posterele cât și genurile filmelor. Pe când în cazul preciziei rețeaua preantrenată optimă râmăne acceași indiferent de metadatele folosite și anume VGG19.
+
+O altă observație importantă de făcut este faptul că în general clusterele pe postere tind să scadă timpul necesar de antrenare după cum se poate observa în figurile din capitolul precedent. 
+
+Astfel, față de modelul de bază dacă introducem posterele ca informație vizuală metricile de acuratețe și precizie, cu parametrii optimi identificați, urcă până la $93.45\%$ pentru acuratețe și $9.63\%$ pentru precizie ceea ce înseamnă o îmbunătățire a modelului de recomandare de $0.32\%$ pe acuratețe și $0.42\%$ pe precizie.
+
+Dacă posterele sunt combinate cu genurile filmelor, atunci scorurile metricilor, cu parametrii optimi identificați, urcă până la $94.22\%$ în cazul acurateții și $10.05\%$ în cazul preciziei ceea ce înseamnă o îmbunătățire a modelului de recomandare de $1.09\%$ pe acuratețe și $0.82\%$ pe precizie. 
+
+\subsection*{Direcții viitoare de dezvoltare}
+Abordarea prezentată în cadrul acestei lucrări poate fi ușor generalizată și către alte zone. Spre exemplu, aceași idee poate funcționa și în cazul unui sistem de recomandare pe o platformă de ecommerce deoarece fiecare articol de pe site are un set de imagini reprezentative, iar din acel set de imagini se pot creea clustere care pot sa fie relative la numărul de categorii de pe site. Un cazul unui site de haine, din nou, imaginile articolelor sunt reprezentative. La fel de bine ar putea funcționa și pe un site de mâncare. 
+
+Situațiile în care este posibil ca rezultatele să nu fie neapărat satisfăcătoare ar putea fi reprezentate de siteurile cu cărți, deoarece coperțile cărților nu sunt la fel de reprezentative pentru acel produs precum sunt posterele filmelor sau imaginile cu haine.
