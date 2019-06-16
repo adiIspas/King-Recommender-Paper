@@ -74,7 +74,7 @@ unde:
 \section{Rezultate clusterizare postere}
 
 \subsection{Sanity check}
-Pentru testarea validității clusterelor un test de sanity check în care s-au luat opt filme și s-a încercat clasificarea lor în șapte clustere folosind caracteristicile extrase din rețelele preantrenate VGG16, VGG19, InceptionV3, ResNet50 și NASNet, clusterele create cu kNN iar evaluarea este făcută atât vizual cât și prin urmărirea evoluției metricii silhouette de la 2 la 7 clustere. Posterele de input pentru sanity check sunt prezentate în figura 4.2.
+Pentru testarea validității clusterelor a fost creat un test de sanity check în care s-au luat opt filme și s-a încercat clasificarea lor în șapte clustere folosind caracteristicile extrase din rețelele preantrenate VGG16, VGG19, InceptionV3, ResNet50 și NASNet, clusterele sunt create cu kNN, iar evaluarea este făcută atât vizual cât și prin urmărirea evoluției metricii silhouette de la 2 la 7 clustere. Posterele de input pentru sanity check sunt prezentate în figura 4.2.
 \begin{figure}[!h]
   \centering
   \begin{subfigure}[b]{0.48\textwidth}
@@ -115,14 +115,13 @@ Pentru testarea validității clusterelor un test de sanity check în care s-au 
   \caption[Postere input sanity check]{Posterele de input pentru sanity check.}
 \end{figure}
 
-Din punct de vedere al metricii de evaluare silhouette rezultatele se prezintă după cum urmează în figura 4.3.
+Din punct de vedere al metricii de evaluare silhouette rezultatele se prezintă după cum urmează în figura 4.3, unde un scor silhouette mai mare reprezintă un rezultat mai bun.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_16}
 	\caption[Silhouette score pentru clusterele din sanity check]{Silhouette score pentru clusterele din sanity check.}
 \end{figure} 
-După cum se oberservă reţelele InceptionV3 şi NASNet pare a ieşi
-mereu mai bine decât celelalte, cu un avantaj al reţelei InceptionV3. Această observaţie
+După cum se oberservă reţelele InceptionV3 şi NASNet au constant rezultate mai bune decât celelalte, cu un avantaj al reţelei InceptionV3. Această observaţie
 fiind valabile pentru toate clusterele de la 2 la 7. Toate celelalte reţele sunt destul de
 apropiate în rezultate în special începând cu clusterul 3 şi mai puţin la clusterul 2. Toate
 celelalte reţele, cu excepţia ResNet50 au fluctuaţii. ResNet50 este singura care păstrează
@@ -335,7 +334,7 @@ Observăm că deși InceptionV3 și NASNet aveau scoruri mai mari pe coeficientu
 
 \FloatBarrier
 \subsection{Rezultate generale}
-Pentru evaluarea clusterelor (vezi figura 4.9) pe toate posterele filmelor, aproximativ 9 000, au fost eliminate din evaluare rețelele VGG16 și NASNet în baza rezultatelor prezentate în tabelul 3.1, în cazul rețelei VGG16 și a costului de memorie și timp de execuție din timpul experimentelor, în cazul rețelei NASNet.
+Pentru evaluarea clusterelor (vezi figura 4.9) pe toate posterele filmelor, aproximativ 9 000, au fost eliminate din evaluare rețelele VGG16 și NASNet în baza rezultatelor prezentate în tabelul 3.1, în cazul rețelei VGG16 și a costului de memorie și timpului de execuție din timpul experimentelor, în cazul rețelei NASNet.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_17}
@@ -366,14 +365,14 @@ Se observă că rețeaua InceptionV3 are scorurile pentru toate clusterele de la
 Înainte de a prezenta rezultatele metricilor trebuie menționate două aspecte importante legate de configurația setului de date utilizat:
 \begin{enumerate}
 	\item ratingul minim pentru interacțiuni a fost setat la 3.5, ceea ce înseamnă că s-au folosit ca interacțiuni pozitive doar acele interacțiuni care au cel puțin acest rating;
-	\item rezultatul maxim al metricii de precizie@k este direct influențat de numărul de interacțiuni dintre utilizatori și filme. Spre exemplu, dacă un utilizator are un număr total de 5 interacțiuni, iar metrica noastră de precizie are k-ul setat la 10, atunci rezultatul maxim pentru precizie@5 va fi 0.5, $50\%$, deoarece nu există mai multe de 5 interacțiuni pozitive pentru acel utiliator.
+	\item rezultatul maxim al metricii de precizie@k este direct influențat de numărul de interacțiuni dintre utilizatori și filme. Spre exemplu, dacă un utilizator are un număr total de 5 interacțiuni, iar metrica noastră de precizie are k-ul setat la 10, atunci rezultatul maxim pentru precizie@5 va fi 0.5, $50\%$, deoarece nu există mai multe de 5 interacțiuni pozitive pentru acel utilizator.
 \end{enumerate}
 
 În cazul împărțirii utilizate numărul de interacțiuni se prezintă după cum urmează:
 \begin{itemize}
-	\item per tot setul de date, numărul de interacțiuni pe utilizator: minim: 1; mediu: 101; maxim: 1459; utilizatori cu mai puțin de k=10 interacțiuni: 20 din 609 
-	\item per setul de date de train, numărul de interacțiuni pe utilizator: minim: 1; mediu: 81; maxim: 1165; utilizatori cu mai puțin de k=10 interacțiuni: 38 din 609
-	\item per setul de date de test, numărul de interacțiuni pe utilizator: minim: 1; mediu: 20; maxim: 294; utilizatori cu mai puțin de k=10 interacțiuni: 296 din 598
+	\item pentru tot setul de date, numărul de interacțiuni pe utilizator: minim: 1; mediu: 101; maxim: 1459; utilizatori cu mai puțin de k=10 interacțiuni: 20 din 609 
+	\item pentru setul de date de train, numărul de interacțiuni pe utilizator: minim: 1; mediu: 81; maxim: 1165; utilizatori cu mai puțin de k=10 interacțiuni: 38 din 609
+	\item pentru setul de date de test, numărul de interacțiuni pe utilizator: minim: 1; mediu: 20; maxim: 294; utilizatori cu mai puțin de k=10 interacțiuni: 296 din 598
 \end{itemize}
 
 Rezultatele metricii de acuratețe sunt prezentate în figura 4.13 (a). Aceste rezultate sun obținute utilizând parametrii optimi din tabelul 3.1. Reamintim că toate clusterele folosite pentru obținerea parametrilor optimi din acest tabel au fost create folosind rețeaua VGG19.
@@ -394,15 +393,15 @@ Rezultatele metricii de acuratețe sunt prezentate în figura 4.13 (a). Aceste r
 Principalele concluzii pe care le putem trage pe baza acestor grafice sunt următoarele:
 \begin{itemize}
 	\item modelul fără metadate are un start mai bun decât decât modelul cu genuri sau modelul cu genuri și cu clustere, însă acesta nu urcă prea mult pe durata perioadei de antrenare, astfel ajungând să aibă cel mai slab rezultat dintre toate cele patru variante de model testate;
-	\item modelul cu metadatele de genuri are un start destul de slab, fiind mai bun doar față de modelul în care se folosesc atât genurile cât și clusterele, însă, până la final, acest model obține un rezultat bun și apropiat de rezultatul modelului cu genuri și clustere. O altă mențiune importantă ar fi că acest model are cea mai mare durată de antrenare față de toate celelalte modele;
-	\item modelul cu metadatele de clustere are cel mai bun start și în același timp cea mai scurtă perioadă de antrenare pentru a obține cel mai optim rezultat dintre toate modelele testate. Acuratețea obținută de acest model este peste acurateșea obținută de modelul fără metadate dar sub cea obținută de modelul cu genuri însă destul de apropiată de aceasta;
-	\item cel mai bun rezultat din acest experiment este obținut de modelul în care se folosesc atât metadatele de genuri cât și cele de clustere. Modelul are cel mai slab start însă cel mai bun rezultat final. Observăm că modul în care este obținut rezultatul este o combinație a avantajelor modelelor cu metadate de genuri și clustere. Pe de-o parte, acuratețea crește semnificativ față de modelul fără metadate și este apropiată de acuratețea modelului cu genuri. Pe de alta parte timpul necesar obținerii acelui rezultat optim este mai scăzut decât la modelul cu genuri, timp influențat de metadatele de clustere.
+	\item modelul cu metadatele de genuri are un start mai slab, fiind mai bun doar față de modelul în care se folosesc atât genurile cât și clusterele, însă, până la final, acest model obține un rezultat bun și apropiat de rezultatul modelului cu genuri și clustere. O altă mențiune importantă ar fi că acest model are o durată de antrenare mai mare față de toate celelalte modele;
+	\item modelul cu metadatele de clustere are start mai bun și în același timp o perioadă de antrenare mai scurtă pentru a obține cel mai optim rezultat dintre toate modelele testate. Acuratețea obținută de acest model este peste acuratețea obținută de modelul fără metadate dar sub cea obținută de modelul cu genuri însă destul de apropiată de aceasta;
+	\item cel mai bun rezultat din cadrul acestui experiment este obținut de modelul în care se folosesc atât metadatele de genuri cât și cele de clustere. Modelul are un start mai slab însă un rezultat final bun. Observăm că modul în care este obținut rezultatul este o combinație a avantajelor modelelor cu metadate de genuri și clustere. Pe de-o parte, acuratețea crește semnificativ față de modelul fără metadate și este apropiată de acuratețea modelului cu genuri. Pe de altă parte timpul necesar obținerii acelui rezultat optim este mai scăzut decât la modelul cu genuri, timp influențat de metadatele de clustere.
 \end{itemize}
 
 Concluzia principală a acestui experiment este că un model ce conține genuri și clustere are o performanță de până la $1\%$ în plus față de modelul fără metadate și mai mare față de oricare alt model, iar timpul necesar pentru obținerea acestei performanțe este mai mic în comparație cu cel mai apropiat model din punct de vedere al metricii evaluate.
 
-Pentru a avea o imagine mai completă de cum se pot comporta aceste modele în timp am eliminat parametrul optimi găsit pe numărul de epoci și l-am setat pentru fiecare model la un număr de 300 de epoci. Iar după cum se observă în figura 4.13 (b) toate modele după punctul optim în care ating performanța maximă încep să scadă. Modelele fără metadate, cu metadatele de genuri și clustere au o scădere destul de lină în timp, pe când scăderea este mai acelărată în cazul modelului ce folosește metadatele de clustere față de celelalte modele. 
-Acest al doilea grafic conturează și mai bine o concluzie pe care o putem trage despre modelul cu clustere și anume: acesta atinge performanța maximă foarte repede din punct de vedere al timpului de execuție în comparație cu oricare al model testat în cadrul acestei lucrări, iar din acel moment în care a fost obținută performanța maximă nu mai este recomandată prelungirea procesului de antrenare, scăderea care va urma după punctul maxim va fi foarte acelărată.
+Pentru a avea o imagine mai completă de cum se pot comporta aceste modele în timp am eliminat parametrul optimi găsit pe numărul de epoci și l-am setat pentru fiecare model la un număr de 300 de epoci. Iar după cum se observă în figura 4.13 (b) toate modele după punctul optim în care ating performanța maximă încep să scadă. Modelele fără metadate, cu metadatele de genuri și clustere au o scădere destul de lină în timp, pe când scăderea este mai accelărată în cazul modelului ce folosește metadatele de clustere față de celelalte modele.
+Acest al doilea grafic conturează și mai bine o concluzie pe care o putem trage despre modelul cu clustere și anume: acesta atinge performanța maximă mai repede din punct de vedere al timpului de execuție în comparație cu oricare al model testat în cadrul acestei lucrări, iar din acel moment în care a fost obținută performanța maximă nu mai este recomandată prelungirea procesului de antrenare, scăderea ce urmează după punctul maxim fiind acelărată.
 
 \vspace{5mm}
 Rezultatele modelelor pe metrica precizie@k cu $k=10$ sunt prezentate în figura 4.14 (a). Un lucru care se poate remarca este faptul că, la fel ca în cazul metricii de acuratețe, se păstrează atât ordinea modelelor în rezultatele de precizie cât și în ordinea modelelor în timp de antrenare, în sensul celui mai bun rezultat, precizie mare, timp de antrenare mic.
@@ -423,28 +422,28 @@ Rezultatele modelelor pe metrica precizie@k cu $k=10$ sunt prezentate în figura
 Aceași corespondență între specificațiile rezultatelor obținute de metrici se regăsește și în situația în care mărim perioada de antrenare pentru a vedea o imagine de ansamblu dupa cum se poate observa în figura 4.14 (b).
 
 \vspace{5mm}
-În continuare vom prezenta rezultatele metricilor obținute prin creearea clusterelor cu rețelele preantrenate VGG19, InceptionV3 și ResNet50, atât clusterele singure cât și în combinație cu metadatele de genuri. După cum se poate observa în figura 4.15 rețeaua VGG19 își menține timpul de antrenare scăzut plus celelalte specificații descrise în experimentele anterioare. Rețeaua ResNet50 are cel mai bun rezultat al acurateții, iar ca timp de antrenare este situată între VGG19 și InceptionV3. În cele din urmă, rețeaua InceptionV3 are un rezultat mai bun decât VGG19 însă timpul de antrenare necesar este cel mai mare față de celelalte rețele.
+În continuare vom prezenta rezultatele metricilor obținute prin crearea clusterelor cu rețelele preantrenate VGG19, InceptionV3 și ResNet50, atât clusterele singure cât și în combinație cu metadatele de genuri. După cum se poate observa în figura 4.15 rețeaua VGG19 își menține timpul de antrenare scăzut plus celelalte specificații descrise în experimentele anterioare. Rețeaua ResNet50 are un rezultat mai bun al acurateții, iar ca timp de antrenare este situată între VGG19 și InceptionV3. În cele din urmă, rețeaua InceptionV3 are un rezultat mai bun decât VGG19 însă timpul de antrenare necesar este cel mai mare față de celelalte rețele.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_22}
 	\caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate]{Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate.}
 \end{figure}
 
-Dacă sunt introduse și metadatele de genuri în sistemul de recomandare (vezi figura 4.16) ordinea rețelelor după performanța lor se schimbă astfel: rețeaua InceptionV3 devine cea mai performantă, însă își menține timpul de antrenare ridicat; rețeaua VGG19 devine a doua ca performanță însă are o creștere semnificativă a timpului de antrenare necesar; rețeaua ResNet50 este depășită de celelalte rețele ca performanță a metricii însă timpul de antrenare rămâne în aceași zonă.
+Dacă sunt introduse și metadatele de genuri în sistemul de recomandare (vezi figura 4.16) ordinea rețelelor după performanța lor se schimbă astfel: rețeaua InceptionV3 devine mai performantă, însă își menține timpul de antrenare ridicat; rețeaua VGG19 devine a doua ca performanță însă are o creștere semnificativă a timpului de antrenare necesar; rețeaua ResNet50 este depășită de celelalte rețele ca performanță a metricii însă timpul de antrenare rămâne în aceași zonă.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_23}
 	\caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri.}
 \end{figure}
 
-În ceea ce privește metrica de precizie doar pe clustere (vezi figura 4.17) putem menționa următoarele: rețeaua VGG19 necesită cel mai mare timp de antrenare însă are cel mai bun rezultat al metricii de evaluare; rețeaua ResNet50 este situată între VGG19 și InceptionV3 ca performanță a preciziei și cea mai bună ca timp de antrenare; rețeaua Inception V3 are cea mai slabă performanță pe precizie dintre cele trei rețele dar ca timp de antrenare este situată între VGG19 și ResNet50.
+În ceea ce privește metrica de precizie doar pe clustere (vezi figura 4.17) putem menționa următoarele: rețeaua VGG19 necesită un timp de antrenare mai mare însă are un rezultat al metricii de evaluare mai bun; rețeaua ResNet50 este situată între VGG19 și InceptionV3 ca performanță a preciziei și mai bună ca timp de antrenare; rețeaua Inception V3 are cea mai slabă performanță pe precizie dintre cele trei rețele dar ca timp de antrenare este situată între VGG19 și ResNet50.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_24}
 	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate, unde k=10.}
 \end{figure}
 
-Odată introduse și metadatele de genuri (vezi figura 4.18), toate rețelele tind să aibă aceași perioadă de antrenare; rețeaua InceptionV3 are cea mai slabă performanță; rețeaua ResNet50 devine cea mai performantă, VGG19 trecând pe locul secund ca performanță. 
+Odată introduse și metadatele de genuri (vezi figura 4.18), toate rețelele tind să aibă aceași perioadă de antrenare; rețeaua InceptionV3 are o performanță mai slabă; rețeaua ResNet50 devine mai performantă, VGG19 trecând pe locul secund ca performanță. 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_25}
