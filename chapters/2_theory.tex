@@ -458,7 +458,7 @@ Bazată pe rețeaua descrisă mai sus, rețeaua reziduală presupune inserția u
 NASNet este o arhitectură de rețea bazată pe tehnica de căutare Neural Architecture Search (NAS, figura 2.20). NAS presupune un controler cu o rețea neurală recurentă care conține mai multe rețele copii cu arhitecturi diferite. Rețelele copii sunt antrenate să conveargă pentru a obține o anumită precizie pe un set de antrenare. Rezultatele sunt utilizate pentru a actualiza controlerul ceea ce înseamnă că acest controler va genera arhitecturi mai bune în timp.
 \begin{figure}[!h]
 	\centering
-	\includegraphics[max width=10cm,max height=20cm,keepaspectratio]{img_2_14}
+	\includegraphics[max width=12cm,max height=20cm,keepaspectratio]{img_2_14}
 	\caption[NAS]{\textit{Privire de ansamblu asupra unei Neural Architecture Search. Imagine preluată din \hyperlink{Zoph2018LearningTA}{[13]}.}}
 \end{figure}  
 
@@ -517,19 +517,20 @@ Algoritmul de clasificare este definit după cum urmează:
 
 Un exemplu vizual de execuție a algoritmului de kNN, parcurs pas cu pas, este prezentat în figura 2.23. Exemplu conține 36 de intrări din două clase marcate prin pătrat și cerc. Datele de test sunt reprezentate prin tringhiuri.
 \begin{figure}[!h]
-  \begin{subfigure}[b]{0.4\textwidth}
+  \centering
+  \begin{subfigure}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{img_2_22}
     \caption{Distribuția inițială a datelor (stânga) și prima reprezentare obținută (dreapta)}
     \label{fig:f1}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.4\textwidth}
+  \begin{subfigure}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{img_2_23}
     \caption{A doua reprezentare obținută (stânga) și modelul înainte de triere (dreapta)}
     \label{fig:f2}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.4\textwidth}
+  \begin{subfigure}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{img_2_24}
     \caption{Modelul după triere (stânga) și distribuția datelor de test (dreapta)}
     \label{fig:f3}
@@ -539,13 +540,13 @@ Un exemplu vizual de execuție a algoritmului de kNN, parcurs pas cu pas, este p
 
 Un al doilea exemplu de clasificare este prezentat în figura 2.24:
 \begin{figure}[!h]
-  \begin{subfigure}[b]{0.4\textwidth}
+  \begin{subfigure}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{img_2_25}
     \caption{Prima reprezentare obținută (stânga) și a doua reprezentare obținută(dreapta)}
     \label{fig:f1}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.4\textwidth}
+  \begin{subfigure}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{img_2_26}
     \caption{A treia reprezentare obținută (stânga) și modelul final (dreapta)}
     \label{fig:f2}

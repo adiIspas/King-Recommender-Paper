@@ -28,7 +28,7 @@ Procesul de construcție a acestui set de postere pentru filme poate fi rezumat 
 	\item \textbf{Pasul 3}: având adresele posterelor pentru filmul curent, se descarcă și se salvează posterele la dimensiunea originală într-un folder specific filmului.
 \end{enumerate}
 Din punct de vedere al implementării putem menționa funcțiile:
-\begin{lstlisting}[language=Python, caption=\textit{Construcția setului de date cu postere}]
+\begin{lstlisting}[language=Python, caption=Construcția setului de date cu postere]
 def get_tmdb_posters(tmdb_api_key, max_movie_posters=10):
     # pasul 1    
     tmdb_movies_id = get_tmdb_ids()
@@ -76,36 +76,35 @@ unde:
 \subsection{Sanity check}
 Pentru testarea validității clusterelor a fost creat un test de sanity check în care s-au luat opt filme și s-a încercat clasificarea lor în șapte clustere folosind caracteristicile extrase din rețelele preantrenate VGG16, VGG19, InceptionV3, ResNet50 și NASNet, clusterele sunt create cu kNN, iar evaluarea este făcută atât vizual cât și prin urmărirea evoluției metricii silhouette de la 2 la 7 clustere. Posterele de input pentru sanity check sunt prezentate în figura 4.2.
 \begin{figure}[!h]
-  \centering
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_7}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_8}
   \end{subfigure}
     \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_9}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_10}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_11}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_12}
   \end{subfigure}
     \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_13}
   \end{subfigure}
     \hfill
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.5\textwidth}
     \includegraphics[width=\textwidth]{img_4_14}
   \end{subfigure}
       \hfill

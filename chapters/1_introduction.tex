@@ -10,10 +10,7 @@ Cu cât volumul de date pus la dispoziție de o platformă este mai mare cu atâ
 
 \section{Obiective propuse}
 În majoritatea cazurilor primul contact pe care îl avem cu un clip de pe Youtube, cu un film, serial de pe Netflix sau un produs de pe Amazon este contactul vizual cu imaginea de prezentare a acelui articol. 
-
-Astfel, prezenta lucrare de disertație are drept obiectiv principal introducerea în sistemul de recomandare de informații vizuale extrase din imaginile de prezentare ale produselor, în cazul de față, posterele filmelor. Informațiile vizuale sunt reprezentate de clusterele create peste posterele asociate filmelor. Fiecare film are un set de postere dintre care se alege unul, iar acel poster are un cluster căruia îi aparține din intervalul $[1, N]$ unde $N$ este corelat cu numărul de genuri din baza de date pe care se execută optimizarea. $N$ poate fi ales și pe baza altor raționamente.
-
-\begin{figure}[!htbp]
+\begin{figure}[!h]
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{img_1_1}
   \end{subfigure}
@@ -26,6 +23,19 @@ Astfel, prezenta lucrare de disertație are drept obiectiv principal introducere
     \includegraphics[width=\textwidth]{img_1_3}
   \end{subfigure}
   \caption[Exemple de postere]{\textit{Exemple de postere pentru diverse filme.}}
+\end{figure}
+
+
+Astfel, prezenta lucrare de disertație are drept obiectiv principal introducerea în sistemul de recomandare de informații vizuale extrase din imaginile de prezentare ale produselor, în cazul de față, posterele filmelor. Un exemplu vizual al obiectivului propus este exemplificat în figurile 1.2 și 1.3. Informațiile vizuale sunt reprezentate de clusterele create peste posterele asociate filmelor. Fiecare film are un set de postere dintre care se alege unul, iar acel poster are un cluster căruia îi aparține din intervalul $[1, N]$ unde $N$ este corelat cu numărul de genuri din baza de date pe care se execută optimizarea. $N$ poate fi ales și pe baza altor raționamente.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_1_4}
+	\caption[Abordarea clasică în implementarea sistemelor de recomandare]{\textit{Abordarea clasică în implementarea sistemelor de recomandare.}}
+\end{figure} 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_1_5}
+	\caption[Abordarea propusă de prezenta lucrare în implementarea sistemelor de recomandare]{\textit{Abordarea propusă de prezenta lucrare în implementarea sistemelor de recomandare.}}
 \end{figure}
 
 Scopul final al acestei abordări fiind acela de a observa evoluția metricilor de evaluare, în cazul nostru, acurateațea și precizia@k, atunci când informația vizuală este introdusă într-un sistem de recomandare, fiind singura informație prezentă exceptând matricea de interacțiuni, dar și cum se comportă un sistem de recomandare când primește această informație împreună cu alte informații, spre exemplu genul unui film.
