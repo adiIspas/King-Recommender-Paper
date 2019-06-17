@@ -28,7 +28,7 @@ Procesul de construcție a acestui set de postere pentru filme poate fi rezumat 
 	\item \textbf{Pasul 3}: având adresele posterelor pentru filmul curent, se descarcă și se salvează posterele la dimensiunea originală într-un folder specific filmului.
 \end{enumerate}
 Din punct de vedere al implementării putem menționa funcțiile:
-\begin{lstlisting}[language=Python, caption=Construcția setului de date cu postere]
+\begin{lstlisting}[language=Python, caption=\textit{Construcția setului de date cu postere}]
 def get_tmdb_posters(tmdb_api_key, max_movie_posters=10):
     # pasul 1    
     tmdb_movies_id = get_tmdb_ids()
@@ -68,7 +68,7 @@ unde:
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=9cm,height=5cm,keepaspectratio]{img_4_6}
   \end{subfigure}
-  \caption[Exemple de postere]{Exemplu de postere pentru filmul Paddington 2.}
+  \caption[Exemple de postere]{\textit{Exemplu de postere pentru filmul Paddington 2.}}
 \end{figure}
 
 \section{Rezultate clusterizare postere}
@@ -112,14 +112,14 @@ Pentru testarea validității clusterelor a fost creat un test de sanity check �
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{img_4_15}
   \end{subfigure}
-  \caption[Postere input sanity check]{Posterele de input pentru sanity check.}
+  \caption[Postere input sanity check]{\textit{Posterele de input pentru sanity check.}}
 \end{figure}
 
 Din punct de vedere al metricii de evaluare silhouette rezultatele se prezintă după cum urmează în figura 4.3, unde un scor silhouette mai mare reprezintă un rezultat mai bun.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_16}
-	\caption[Silhouette score pentru clusterele din sanity check]{Silhouette score pentru clusterele din sanity check.}
+	\caption[Silhouette score pentru clusterele din sanity check]{\textit{Silhouette score pentru clusterele din sanity check.}}
 \end{figure} 
 După cum se oberservă reţelele InceptionV3 şi NASNet au constant rezultate mai bune decât celelalte, cu un avantaj al reţelei InceptionV3. Această observaţie
 fiind valabile pentru toate clusterele de la 2 la 7. Toate celelalte reţele sunt destul de
@@ -164,7 +164,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
     \caption{cluster 7}
     \includegraphics[width=\textwidth]{img_vgg16_c7}
   \end{subfigure}
-  \caption[Rezultate sanity check pentru rețeaua VGG16]{Rezultate sanity check pentru rețeaua VGG16}
+  \caption[Rezultate sanity check pentru rețeaua VGG16]{\textit{Rezultate sanity check pentru rețeaua VGG16}}
 \end{figure}
 
 \begin{figure}[!h]
@@ -203,7 +203,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
     \caption{cluster 7}
     \includegraphics[width=\textwidth]{img_vgg19_c7}
   \end{subfigure}
-  \caption[Rezultate sanity check pentru rețeaua VGG19]{Rezultate sanity check pentru rețeaua VGG19}
+  \caption[Rezultate sanity check pentru rețeaua VGG19]{\textit{Rezultate sanity check pentru rețeaua VGG19}}
 \end{figure}
 
 \begin{figure}[!h]
@@ -247,7 +247,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
     \caption{cluster 7}
     \includegraphics[width=\textwidth]{img_inceptionv3_c7}
   \end{subfigure}
-  \caption[Rezultate sanity check pentru rețeaua InceptionV3]{Rezultate sanity check pentru rețeaua InceptionV3}
+  \caption[Rezultate sanity check pentru rețeaua InceptionV3]{\textit{Rezultate sanity check pentru rețeaua InceptionV3}}
 \end{figure}
 
 \begin{figure}[!h]
@@ -286,7 +286,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
     \caption{cluster 7}
     \includegraphics[width=\textwidth]{img_resnet50_c7}
   \end{subfigure}
-  \caption[Rezultate sanity check pentru rețeaua ResNet50]{Rezultate sanity check pentru rețeaua ResNet50}
+  \caption[Rezultate sanity check pentru rețeaua ResNet50]{\textit{Rezultate sanity check pentru rețeaua ResNet50}}
 \end{figure}
 
 \begin{figure}[!h]
@@ -325,7 +325,7 @@ Din punct de vedere vizual, rezultatatele clusterelor sunt prezentate în figuri
     \caption{cluster 7}
     \includegraphics[width=\textwidth]{img_nasnet_c7}
   \end{subfigure}
-  \caption[Rezultate sanity check pentru rețeaua NASNet]{Rezultate sanity check pentru rețeaua NASNet}
+  \caption[Rezultate sanity check pentru rețeaua NASNet]{\textit{Rezultate sanity check pentru rețeaua NASNet}}
 \end{figure}
 
 După cum se observă, din punct de vedere vizual doar rețeaua ResNet50 reușește să treacă acest sanity check clasificând sașe filme în șase clustere diferite, iar două filme în același cluster. Din punct de vedere vizual posterele celor două filme clasificate în același cluster sunt destul de similare având în prim plan mai multe persoane, predominant începând cu partea de jos a posterelor, iar in partea de sus fiind conținut alb, în general, cu text.
@@ -338,7 +338,7 @@ Pentru evaluarea clusterelor (vezi figura 4.9) pe toate posterele filmelor, apro
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_4_17}
-	\caption[Scorul silhouette pe setul de date de postere]{Scorul silhouette pe setul de date de postere.}
+	\caption[Scorul silhouette pe setul de date de postere]{\textit{Scorul silhouette pe setul de date de postere.}}
 \end{figure} 
 Se observă că rețeaua InceptionV3 are scorurile pentru toate clusterele de la 2 la 20 pozitive. Rețelele ResNet50 și VGG19 sunt negative, însă apropiate de 0 cu un avantaj de scoruri mai bune pentru rețeaua ResNet50.
 
@@ -356,7 +356,7 @@ Se observă că rețeaua InceptionV3 are scorurile pentru toate clusterele de la
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=16cm,max height=12cm,keepaspectratio]{img_4_28}
-	\caption[Cluster cu postere combinate]{Cluster cu postere combinate.}
+	\caption[Cluster cu postere combinate]{\textit{Cluster cu postere combinate.}}
 \end{figure} 
 
 \section{Rezultate sistem de recomandare}
@@ -388,7 +388,7 @@ Rezultatele metricii de acuratețe sunt prezentate în figura 4.13 (a). Aceste r
     \caption{}
     \label{fig:f2}
   \end{subfigure}
-  \caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de metadate]{Comparație acuratețea modelului cu parametrii optimi pe tipuri de metadate (a) și cu parametrii optimi pe tipuri de metadate cu număr setat de epoci (b).}
+  \caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de metadate]{\textit{Comparație acuratețea modelului cu parametrii optimi pe tipuri de metadate (a) și cu parametrii optimi pe tipuri de metadate cu număr setat de epoci (b).}}
 \end{figure}
 Principalele concluzii pe care le putem trage pe baza acestor grafice sunt următoarele:
 \begin{itemize}
@@ -417,7 +417,7 @@ Rezultatele modelelor pe metrica precizie@k cu $k=10$ sunt prezentate în figura
     \caption{}
     \label{fig:f2}
   \end{subfigure}
-  \caption[Comparație precizie@k a modelului cu parametrii optimi pe tipuri de metadate]{Comparație precizie@k a modelului cu parametrii optimi pe tipuri de metadate (a) și cu parametrii optimi pe tipuri de metadate cu număr setat de epoci (b), unde k = 10.}
+  \caption[Comparație precizie@k a modelului cu parametrii optimi pe tipuri de metadate]{\textit{Comparație precizie@k a modelului cu parametrii optimi pe tipuri de metadate (a) și cu parametrii optimi pe tipuri de metadate cu număr setat de epoci (b), unde k = 10.}}
 \end{figure}
 Aceași corespondență între specificațiile rezultatelor obținute de metrici se regăsește și în situația în care mărim perioada de antrenare pentru a vedea o imagine de ansamblu dupa cum se poate observa în figura 4.14 (b).
 
@@ -426,26 +426,26 @@ Aceași corespondență între specificațiile rezultatelor obținute de metrici
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_22}
-	\caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate]{Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate.}
+	\caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate]{\textit{Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate.}}
 \end{figure}
 
 Dacă sunt introduse și metadatele de genuri în sistemul de recomandare (vezi figura 4.16) ordinea rețelelor după performanța lor se schimbă astfel: rețeaua InceptionV3 devine mai performantă, însă își menține timpul de antrenare ridicat; rețeaua VGG19 devine a doua ca performanță însă are o creștere semnificativă a timpului de antrenare necesar; rețeaua ResNet50 este depășită de celelalte rețele ca performanță a metricii însă timpul de antrenare rămâne în aceași zonă.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_23}
-	\caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri.}
+	\caption[Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{\textit{Comparație acuratețea modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri.}}
 \end{figure}
 
 În ceea ce privește metrica de precizie doar pe clustere (vezi figura 4.17) putem menționa următoarele: rețeaua VGG19 necesită un timp de antrenare mai mare însă are un rezultat al metricii de evaluare mai bun; rețeaua ResNet50 este situată între VGG19 și InceptionV3 ca performanță a preciziei și mai bună ca timp de antrenare; rețeaua Inception V3 are cea mai slabă performanță pe precizie dintre cele trei rețele dar ca timp de antrenare este situată între VGG19 și ResNet50.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_24}
-	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate, unde k=10.}
+	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate]{\textit{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate, unde k=10.}}
 \end{figure}
 
 Odată introduse și metadatele de genuri (vezi figura 4.18), toate rețelele tind să aibă aceași perioadă de antrenare; rețeaua InceptionV3 are o performanță mai slabă; rețeaua ResNet50 devine mai performantă, VGG19 trecând pe locul secund ca performanță. 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_4_25}
-	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri, unde k=10.}
+	\caption[Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri]{\textit{Comparație precizia@k a modelului cu parametrii optimi pe tipuri de rețele preantrenate și cu metadatele de genuri, unde k=10.}}
 \end{figure}

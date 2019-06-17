@@ -30,6 +30,8 @@
 \graphicspath{{figures/}}
 \usepackage{array}
 \usepackage{afterpage}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage[font=small,labelfont=bf]{caption}
 
 \usepackage{booktabs}
@@ -86,6 +88,9 @@
 \newcommand*\xor{\mathbin{\oplus}}
 \renewcommand\lstlistlistingname{Listă fragmente de cod}
 \renewcommand{\lstlistingname}{Fragment de cod}
+\makeatletter
+\renewcommand{\ALG@name}{Algoritm}
+\makeatother
 
 
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}%

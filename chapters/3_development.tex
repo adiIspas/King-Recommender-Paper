@@ -4,7 +4,7 @@
 $LightFM$ conține o implemntare în Python a unor algoritmi de recomandare atât pentru feedback implicit cât și pentru feedback explicit. Metadatele filmelor și utilizatorilor pot fi încorporate într-un algoritm tradițional de factorizarea matricială. Reprezentarea fiecărui film și utilizator este o sumă a reprezentărilor latente ale caracteristicilor, ceea ce îi permite să generalizeze recomandările și către filme sau utilizatori noi.
 
 În continuare este prezentată inițializarea modelului de recomandare și explicația parametrilor:
-\begin{lstlisting}[language=Python, caption=Definirea modelului de recomandare]
+\begin{lstlisting}[language=Python, caption=\textit{Definirea modelului de recomandare}]
 from lightfm import LightFM
 
 __all__ = ['KingRec']
@@ -44,7 +44,7 @@ Alți parametrii:
 \end{itemize}
 
 Odată definit modelul de recomandare putem crea o instanță a acestuia cu parametrii doriți dupa cum urmează:
-\begin{lstlisting}[language=Python, caption=Instanțierea unui model]
+\begin{lstlisting}[language=Python, caption=\textit{Instanțierea unui model}]
 from kingrec import KingRec
 
 _, learning_rate, no_components, alpha, scaling = load_params(optimized_for='auc_clusters')
@@ -57,7 +57,7 @@ Funcția $load\_params$ încarcă parametrii optimi pentru pentru o anumită con
 \subsection{Antrenarea}
 Cu o instanță a unui model creată putem antrena acel model pe un set de antrenare. Pentru a încărca un set de antrenare putem folosi funcția $init\_movielens$ care încarcă setul de date pus la dispoziție de grouplens \hyperlink{movielens}{[22]}. Mai multe detalii despre structura setului de date se pot găsi în secțiunea 4.1.
 
-\begin{lstlisting}[language=Python, caption=Funcția de inițializare a bazei de date]
+\begin{lstlisting}[language=Python, caption=\textit{Funcția de inițializare a bazei de date}]
 def init_movielens(path, min_rating=0.0, k=3, item_features=None, cluster_n=18, model='vgg19')
 \end{lstlisting}
 unde:
@@ -73,7 +73,7 @@ Funcția $init\_movielens$ returnează atât setul de date de antrenare cât și
 
 Cu setul de date încarcat, putem face antrenarea cu funcția $fit$ sau $fit\_partial$. Diferența principală dintre cele două funcții este reprezentată de faptul că $fit\_partial$ reia antrenarea din starea curentă a modelului pe când $fit$ începe dintr-o stare nouă. 
 
-\begin{lstlisting}[language=Python, caption=Antrenarea modelului]
+\begin{lstlisting}[language=Python, caption=\textit{Antrenarea modelului}]
 model = king_rec.model
 model.fit(interactions=train, item_features=item_features, epochs=epochs, verbose=True, num_threads=threads)
 \end{lstlisting}
@@ -91,7 +91,7 @@ Pe un model antrenat vom evalua două metrici pe setul de date de testare și an
 Prima dintre ele, \textit{acuratețea} este definită ca fiind probabilitatea ca un exemplu pozitiv să fie clasat mai sus în recomandări decât un exemplu negativ. Cea de-a doua, \textit{precizia@k} este definită de numărul de exemple pozitive aflate în primele $k$ recomandări.
 
 Acuratețea poate fi calculată cu funcția $auc\_score$:
-\begin{lstlisting}[language=Python, caption=Acuratețea unui model]
+\begin{lstlisting}[language=Python, caption=\textit{Acuratețea unui model}]
 test_auc = auc_score(model, test_interactions, item_features=item_features, num_threads=threads).mean()
 \end{lstlisting}
 unde:
@@ -105,7 +105,7 @@ Rezultatul produs este reprezentat de un scor de acuratețe pentru fiecare utili
 
 Precizia@k poate fi calculată cu funcția $precision\_at\_k$:
 
-\begin{lstlisting}[language=Python, caption=Precizia@k a unui model]
+\begin{lstlisting}[language=Python, caption=\textit{Precizia@k a unui model}]
 test_precision = precision_at_k(model, test_interactions, item_features=item_features, k=k, num_threads=threads).mean()
 \end{lstlisting}
 unde:
@@ -139,20 +139,20 @@ Fie un set de date cu 500 de utilizatori și 1000 de filme. Numărul total de ge
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_3_1}
-	\caption[Structura setului de date pentru utilizatori]{Structura setului de date pentru utilizatori.}
+	\caption[Structura setului de date pentru utilizatori]{\textit{Structura setului de date pentru utilizatori.}}
 \end{figure} 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_3_2}
-	\caption[Structura setului de date pentru filme]{Structura setului de date pentru filme.}
+	\caption[Structura setului de date pentru filme]{\textit{Structura setului de date pentru filme.}}
 \end{figure} 
 
 \section{Optimizarea parametrilor modelului}
 De multe ori în algoritmii de machine learning parametrii aleși precum rata de învățare sau numărul de epoci pot influența semnificativ rezultatul final. Astfel, pentru a reduce acest deficit există două variante: prima dintre ele presupune alegerea manuală a acestor parametrii prin diverse încercări; o a doua metodă presupune folosirea unor scripturi/librării specializate în minimizarea unor funcții definite fapt ce automatizează procesul de găsire a parametrilor optimi.
 
 O astfel de librărie este folosită în prezenta lucrare de disertație și anume librăria skopt \hyperlink{skopt}{[22]}. Skopt este o librărie simplă și eficientă care minimizează funcții. Aceasta primește ca input o funcție de minimizat și un spațiu. Spațiul este definit ca fiind mulțimea parametrilor de optimizat și intervalele în care aceștia iau valori, spre exemplu:
-\begin{lstlisting}[language=Python, caption=Spațiul parametrilor de optimizat]
+\begin{lstlisting}[language=Python, caption=\textit{Spațiul parametrilor de optimizat}]
 space = [(1, 250),  # epochs
         (10 ** -4, 1.0, 'log-uniform'),  # learning_rate
         (20, 200),  # no_components
@@ -163,7 +163,7 @@ space = [(1, 250),  # epochs
 \end{lstlisting}
 
 Un exemplu de funcție obiectiv de optimizare este următorea:
-\begin{lstlisting}[language=Python, caption=Funcția obiectiv]
+\begin{lstlisting}[language=Python, caption=\textit{Funcția obiectiv}]
 def objective(params):
     epochs, learning_rate, no_components, item_alpha, scale = params  # 'k_os'
 

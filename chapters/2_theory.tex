@@ -64,14 +64,22 @@ Criteriul de optimizare pentru rangurile personalizate este definit după cum ur
 \end{align}
 unde $\sigma$ este funcția sigmoid, $\sigma(x) := \frac{1}{1+e^{-x}}$, $\Theta$ reprezintă vectorul parametru al modelului care definește interacțiunea dintre utilizatorul $u$, articolul $i$ și articolul $j$, iar $\lambda_\Theta$ reprezintă parametrii de regularizare.
 
-Cu aceste definiții putem defini și procedura de învățare a $BPR$ după cum urmează în figura 2.5:
-\begin{figure}[!h]
-	\centering
-	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_10}
-	\caption[Procedura de învățarea BPR]{\textit{Optimizarea modelului bazată metoda gradientului descendent cu parametrul de învățare $\alpha$ și regularizarea $\lambda_\Theta$. Imagine preluată din \hyperlink{SteffenRendleChristophFreudenthalerZenoGantnerLarsSchmidtThieme}{[9]}.}}
-\end{figure}
+Cu aceste definiții putem defini și procedura de învățare a $BPR$ după cum urmează în algoritmul 1:
+\begin{algorithm}[!h]
+\caption[Procedura de învățarea BPR]{\textit{Optimizarea modelului bazată metoda gradientului descendent cu parametrul de învățare $\alpha$ și regularizarea $\lambda_\Theta$. Algoritm preluat din \hyperlink{SteffenRendleChristophFreudenthalerZenoGantnerLarsSchmidtThieme}{[9]}.}}
+\begin{algorithmic}[!h]
+\Procedure{LEARN-BPR}{$D_S, \Theta$}
+    \State inițializează $\Theta$ 
+    \Repeat
+    \State alege $(u,i,j)$ din $D_S$
+    \State $\Theta \leftarrow \Theta + \alpha(\frac{e^{-\hat{x}_{uij}}}{1+e^{-\hat{x}_{uij}}} \cdot \frac{\partial}{\partial\Theta}\hat{x}_{uij} + \lambda_\Theta \cdot \Theta)$
+    \Until{converge}
+    \State \textbf{return $\hat{\Theta}$}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
-\vspace{5mm}
+\pagebreak
 \subsubsection*{WARP: Weighted Approximate-Rank}
 Această metodă își are originile în procesarea imaginilor și anume pentru un set de reprezentări ale unor imagini $x \in \mathbb{R}^d$ și pentru un set de reprezentări ale unor adnotări $i \in \Upsilon = \{1, ..., Y\}$ - inidici intr-un dicționar cu posibile adnotări, metoda învață să mapeze imagini din spațiul reprezentărilor într-un spațiu comun $\mathbb{R}^D$
 \begin{align}
@@ -106,12 +114,31 @@ unde I este funcția indicator, iar $L(\cdot)$ transformă rangul în penalizare
 
 $L(\cdot)$ poate lua diferite forme în funcție de ce se dorește a optimiza: $\alpha_j=\frac{1}{Y-1}$ optimizează rangul mediu, $\alpha_j=1$ și $\alpha_{j>1}=0$ optimizează proporția de ranguri corecte aflate în top, iar valorile mari ale lui $\alpha$ optimizează primele $k$ în lista de ranguri\hyperlink{JasonWestonSamyBengioNicolasUsunier}{[8]}.
 
-Cu definițiile prezentate mai sus putem descrie algoritmul acestei metode după cum urmează.
-\begin{figure}[!h]
-	\centering
-	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_7}
-	\caption[Online WARP Loss Optimization]{\textit{Online WARP Loss Optimization. Imagine preluată din \hyperlink{JasonWestonSamyBengioNicolasUsunier}{[8]}.}}
-\end{figure} 
+Cu definițiile prezentate mai sus putem descrie algoritmul acestei metode după cum urmează în algoritmul 2.
+\begin{algorithm}[!h]
+\caption[Online WARP Loss Optimization]{\textit{Online WARP Loss Optimization. Algoritm preluat din \hyperlink{JasonWestonSamyBengioNicolasUsunier}{[8]}.}}
+\begin{algorithmic}[!h]
+\Procedure{LEARN-BPR}{$D_S, \Theta$}
+    \State \textbf{Input:} datele etichetate $(x_i, y_i), y_i \in \{1,...,Y\}$ 
+    \Repeat
+    \State Alegem un exemplu etichetat în mod aleator $(x_i, y_i)$
+    \State Fie $f_{y_i}(x_i) = \Phi_W(y_i)^T\Phi_I(x_i)$
+    \State Setăm N = 0
+    \Repeat
+    \State Alegem o adnotare în mod aleator $\bar{y} \in \{1,...,Y\} \setminus y_i$
+    \State Fie $f_{\bar{y}}(x_i) = \Phi_W(\bar{y})^T\Phi_I(x_i)$
+    \State N = N + 1
+    \Until{$f_{\bar{y}}(x_i) > f_{y_i}(x_i) - 1$ or $N \geq Y - 1$}
+    \If {$f_{\bar{y}}(x_i) > f_{y_i}(x_i) - 1$}
+        \State Facem un pas al gradientului pentru a minimiza:
+        \State $L(\lfloor \frac{Y-1}{N} \rfloor) |1 - f_y(x_i) + f_{\bar{y}}(x_i)|_+$
+        \State Cu actualele w-uri verificăm constrângerile
+    \EndIf
+    \Until{eroare de validare nu este îmbunătățită}
+    \State \textbf{return $\hat{\Theta}$}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \vspace{5mm}
 \subsubsection*{k-OS WARP}
@@ -146,27 +173,61 @@ Pentru a generaliza funcțiile de mai sus se propune funcția de eroare numită 
 \end{align}
 unde $Z = \sum_iP(\frac{i}{|D_u|}$ normalizează ponderile introduse de $P$. $P(\frac{j}{100})$ este ponderea asignată fracțiunii $j$ a elementelor pozitiv ordonate. 
 
-Cu aceste noțiuni definite putem defini alogoritmii pentru funcțiile de eroare AUC și WARP în contextul K-os după cum urmează în figura 2.8.
-\begin{figure}[!h]
-	\centering
-	\includegraphics[max width=12cm,max height=12cm,keepaspectratio]{img_2_27}
-	\caption[Algoritmul k-os pentru alegerea unui element pozitiv]{\textit{Algoritmul k-os pentru alegerea unui element pozitiv. Imagine preluată din \hyperlink{jasonkos}{[19]}.}}
-\end{figure} 
+Cu aceste noțiuni definite putem defini alogoritmii pentru funcțiile de eroare AUC și WARP în contextul K-os după cum urmează în algoritmii 3-5.
+\begin{algorithm}[!h]
+\caption[Algoritmul k-os pentru alegerea unui element pozitiv]{\textit{Algoritmul k-os pentru alegerea unui element pozitiv. Algoritm preluat din \hyperlink{jasonkos}{[19]}.}}
+\begin{algorithmic}[!h]
+\Procedure{Alege-Element-Pozitiv}{}
+    \State Avem o distribuție de probabilitate P peste pozițiile $i$ într-o listă de dimensiune $K$. Aceasta definește alegerea funcției de eroare.
+   	\State Alegem un utilizator $u$ în mod aleator din setul de date de antrenare.
+   	\State Alegem $i=1,...,K$ elemente pozitive din $d_i \in D_u$.
+   	\State Calculăm $f_{d_i}(u)$ pentru fiecare $i$.
+   	\State Sortăm scorurile în ordine descrescătoare cu $o(j)$ index-ul în $d$ care reprezintă poziția $j$ în listă.
+   	\State Alegem o poziție $k \in 1,...,K$ utilizând distribuția P.
+   	\State Executăm un pas de învățare folosint elementele pozitive $d_o(k)$.
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
-\begin{figure}[!tbp]
-  \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{img_2_28}
-    \caption{K-os WARP}
-    \label{fig:f1}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.5\textwidth}
-    \includegraphics[width=\textwidth]{img_2_29}
-    \caption{K-os AUC}
-    \label{fig:f2}
-  \end{subfigure}
-  \caption[Algoritmii k-os AUC și WARP]{\textit{Algoritmii k-os AUC și WARP. Imagine preluată din \hyperlink{jasonkos}{[19]}.}}
-\end{figure}
+\begin{algorithm}[!h]
+\caption[Algoritmul k-os WARP]{\textit{Algoritmul k-os WARP. Imagine preluată din \hyperlink{jasonkos}{[19]}.}}
+\begin{algorithmic}[!h]
+\Procedure{K-OS-WARP-LOSS}{}
+    \State Inițializăm parametrii modelului (mean 0, std, deviație $\frac{1}{\sqrt{m}}$)
+    \Repeat
+    \State Alegem un element pozitiv $d$ folosind algoritmul 3.
+    \State Setăm N = 0
+    \Repeat
+    \State Alegem în mod aleator un element $\bar{d} \in D \setminus D_u$.
+    \State N = N + 1
+    \Until{$f_{\bar{d}}(u) > f_d(u) - 1$ sau $N \geq |D \setminus D_u|$}
+    \If {$f_{\bar{d}}(y) > f_d(u) - 1$}
+        \State Facem un pas al gradientului pentru a minimiza:
+        \State $\Phi(\frac{|D \setminus D_u|}{N})max(0, 1 + f_{\bar{d}}(u) - f_d(u))$.
+        \State Cu actualele w-uri verificăm constrângerea: dacă $|| V_i || > C$ atunci setăm $V_i \leftarrow (CV_i)/||V_i||$
+    \EndIf
+    \Until{eroare de validare nu este îmbunătățită}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[!h]
+\caption[Algoritmul k-os AUC]{\textit{Algoritmul k-os AUC. Imagine preluată din \hyperlink{jasonkos}{[19]}.}}
+\begin{algorithmic}[!h]
+\Procedure{K-OS-AUC-LOSS}{}
+    \State Inițializăm parametrii modelului (mean 0, std, deviație $\frac{1}{\sqrt{m}}$)
+    \Repeat
+    \State Alegem un element pozitiv $d$ folosind algoritmul 3.
+    \State Alegem în mod aleator un element $\bar{d} \in D \setminus D_u$
+    \If {$f_{\bar{d}}(u) > f_d(u) - 1$}
+        \State Facem un pas al gradientului pentru a minimiza:
+        \State $max(0, 1 + f_{\bar{d}}(u) - f_d(u))$.
+        \State Cu actualele w-uri verificăm constrângerea: dacă $|| V_i || > C$ atunci setăm $V_i \leftarrow (CV_i)/||V_i||$
+    \EndIf
+    \Until{eroare de validare nu este îmbunătățită}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \section{Optimizarea cu metoda gradientului descendent}
 \subsection{Noțiuni generale}
@@ -277,14 +338,14 @@ Spre exemplu, la input se dă o imagine cu un autovehicul, iar rețeaua convolu�
 
 Rețelele convoluționale sunt compuse dintr-o secvență de straturi ce poate fi împărțită în trei tipuri principale \hyperlink{cs231n}{[7]}:
 \begin{enumerate}
-  \item Stratul convoluțional este stratul de bază într-o rețea. Parametrii acestui strat sunt reprezentați de filtre învățabile, unde fiecare filtru reprezintă o mică bucată din imaginea de input. De exemplu, un filtru pentru acest strat poate avea dimensiunea de $5 \times 5 \times 3$, dimensiune ce reprezintă faptul că se iau 5 pixeli pe lațime, 5 pixeli pe înălțime și o adâncime de 3 pixeli, unde adâncimea reprezintă canalele RGB. În continuare se glisează fiecare filtru peste input și se compune produsul dintre filtre și input la fiecare poziție. În urma acestei operații se produce un vector de activare 2-dimensional care reprezintă răspunsul filtrului la fiecare poziție. Altfel spus, rețeaua va învăța filtre care au răspuns mai mare atunci când sunt prezente anumite tipuri de caracteristici, precum culoarea sau orientarea (vezi figura 2.10).
+  \item Stratul convoluțional este stratul de bază într-o rețea. Parametrii acestui strat sunt reprezentați de filtre învățabile, unde fiecare filtru reprezintă o mică bucată din imaginea de input. De exemplu, un filtru pentru acest strat poate avea dimensiunea de $5 \times 5 \times 3$, dimensiune ce reprezintă faptul că se iau 5 pixeli pe lațime, 5 pixeli pe înălțime și o adâncime de 3 pixeli, unde adâncimea reprezintă canalele RGB. În continuare se glisează fiecare filtru peste input și se compune produsul dintre filtre și input la fiecare poziție. În urma acestei operații se produce un vector de activare 2-dimensional care reprezintă răspunsul filtrului la fiecare poziție. Altfel spus, rețeaua va învăța filtre care au răspuns mai mare atunci când sunt prezente anumite tipuri de caracteristici, precum culoarea sau orientarea (vezi figura 2.7).
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_4}
 	\caption[Exemplu de filtru aplicat peste input]{\textit{Exemplu de filtru aplicat peste input într-un strat convoluțional. Imagine preluată din \hyperlink{datameetsmedia}{[7]}.}}
 \end{figure}   
   
-  \item Stratul de pooling reprezintă o practică des folosită între mai multe straturi convoluționale succesive. Această operație reduce numărul de parametrii (dimensiunea modelului), operațiile din rețea și controlează overfitting-ul. Se execută indepedent pe fiecare nivel al adâncimii unui input și pastrează valoarea maximă a acelei zone (de cele mai multe ori). Rezultatul este o zonă de caracteristicii mai mică dar care păstrează cea mai relevantă statistică (vezi figura 2.11).
+  \item Stratul de pooling reprezintă o practică des folosită între mai multe straturi convoluționale succesive. Această operație reduce numărul de parametrii (dimensiunea modelului), operațiile din rețea și controlează overfitting-ul. Se execută indepedent pe fiecare nivel al adâncimii unui input și pastrează valoarea maximă a acelei zone (de cele mai multe ori). Rezultatul este o zonă de caracteristicii mai mică dar care păstrează cea mai relevantă statistică (vezi figura 2.8).
 \begin{figure}[!tbp]
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{img_2_5}
@@ -307,7 +368,7 @@ Rețelele convoluționale sunt compuse dintr-o secvență de straturi ce poate f
 
 VGG este o arhitectură clasică de rețea cu filtre convoluționale foarte mici, de dimensiune $3 \times 3$ și care poate avea un număr a straturilor de ponderi de 16 - 19. 
 
-În ceea ce privește arhitectura (vezi figura 2.12), inputul în rețeaua convoluțională este de dimensiune fixă și anume $224 \times 224$ imagine RGB. Mai departe, imaginea este trecută printr-un set de straturi convoluționale unde sunt utilizate filtre de dimensiune mică, $3 \times 3$ - fiind cea mai mică dimensiune ce poate captura noțiunile de stânga/dreapta, sus/jos sau centru. Într-una dintre configurații se utilizează un filtru convoluțional de dimensiune $1 \times 1$. Pasul folosit pentru aplicarea filtrelor în straturile convoluționale este fixat la 1 pixel.
+În ceea ce privește arhitectura (vezi figura 2.9), inputul în rețeaua convoluțională este de dimensiune fixă și anume $224 \times 224$ imagine RGB. Mai departe, imaginea este trecută printr-un set de straturi convoluționale unde sunt utilizate filtre de dimensiune mică, $3 \times 3$ - fiind cea mai mică dimensiune ce poate captura noțiunile de stânga/dreapta, sus/jos sau centru. Într-una dintre configurații se utilizează un filtru convoluțional de dimensiune $1 \times 1$. Pasul folosit pentru aplicarea filtrelor în straturile convoluționale este fixat la 1 pixel.
 
 Poolingul este compus din cinci straturi de max-pooling care urmează după unele straturi convoluționale. Max-poolingul este calculat cu ferestre de $2\times2$ pixeli și cu pas de 2 pixeli.
 
@@ -324,28 +385,28 @@ Ultimul strat din rețea este un strat soft-max \hyperlink{SimonyanKarenZisserma
 \subsection{InceptionV3}
 Prima arhitectura de Inception a apărut sub numele de GoogLeNet. O a doua versiune de Inception a fost definită prin introducerea de batch-uri normalizate. Iar mai apoi, versiunea a treia în care a fost adăugată idea de factorizare.
 
-Factorizarea în filtre convoluționale mici (vezi figura 2.13) presupune înlocuirea stratului cu filtru de dimensiune $5 \times 5$ cu două straturi de dimensiune $3 \times 3$ astfel reducându-se dimensiunea de la $5 \times 5 = 25$ la $3 \times 3 + 3 \times 3 = 18$.
+Factorizarea în filtre convoluționale mici (vezi figura 2.10) presupune înlocuirea stratului cu filtru de dimensiune $5 \times 5$ cu două straturi de dimensiune $3 \times 3$ astfel reducându-se dimensiunea de la $5 \times 5 = 25$ la $3 \times 3 + 3 \times 3 = 18$.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=7cm,max height=7cm,keepaspectratio]{img_2_17}
 	\caption[Factorizarea în filtre convoluționale mici]{\textit{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $5 \times 5$ înlocuit cu două de dimensiune $3 \times 3$. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}}
 \end{figure}   
 
-Factorizarea spațială în convoluții asimetrice (vezi figura 2.14) presupune înlocuirea stratului cu filtru de dimensiune $3 \times 3$ cu două straturi de dimensiune $3 \times 1$ și $1 \times 3$ astfel reducându-se dimensiunea de la $3 \times 3 = 9$ la $3 \times 1 + 1 \times 3 = 6$. 
+Factorizarea spațială în convoluții asimetrice (vezi figura 2.11) presupune înlocuirea stratului cu filtru de dimensiune $3 \times 3$ cu două straturi de dimensiune $3 \times 1$ și $1 \times 3$ astfel reducându-se dimensiunea de la $3 \times 3 = 9$ la $3 \times 1 + 1 \times 3 = 6$. 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=7cm,max height=7cm,keepaspectratio]{img_2_18}
 	\caption[Factorizarea spațială în convoluții asimetrice]{\textit{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $3 \times 3$ înlocuit cu două de dimensiune $3 \times 1$ și $1 \times 3$.  Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}}
 \end{figure}
 
-Clasificatorul auxiliar (vezi figura 2.15) este utilizat în InceptionV3 ca regulizator și este poziționat în partea superioară a utimelor $17 \times 17$ straturi. Batch-urile normalizate sunt de asemenea folosite în clasificatorul auxiliar.
+Clasificatorul auxiliar (vezi figura 2.12) este utilizat în InceptionV3 ca regulizator și este poziționat în partea superioară a utimelor $17 \times 17$ straturi. Batch-urile normalizate sunt de asemenea folosite în clasificatorul auxiliar.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_19}
 	\caption[Clasificator auxiliar]{\textit{Clasificatorul auxiliar. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}}
 \end{figure}
 
-Reducerea eficientă a dimensiunii (vezi figura 2.16) se face prin utilizarea a două blocuri paralele, fie P și C. Primul dintre acestea, P, fiind un strat de activare de pooling (media sau maxim pooling). Ambele straturi au filtre cu pas 2 care sunt concatenate.
+Reducerea eficientă a dimensiunii (vezi figura 2.13) se face prin utilizarea a două blocuri paralele, fie P și C. Primul dintre acestea, P, fiind un strat de activare de pooling (media sau maxim pooling). Ambele straturi au filtre cu pas 2 care sunt concatenate.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=17cm,max height=12cm,keepaspectratio]{img_2_20}
@@ -381,7 +442,7 @@ Dimensiunile lui $x$ și $F$ din ecuația de mai sus trebuie să fie egale. Rede
 \end{align}
 unde $W_s$ este o proiecție liniară a scurtăturilor conexiunilor pentru ca dimensiunile să se potrivească.
 
-ResNet (vezi figura 2.19) pleacă de la o rețea simplă. Rețeaua simplă fiind inspirată de rețeaua VGG. Straturile convoluționale au în general filtre de dimensiune $3 \times 3$ și se bazează de două reguli de design: - pentru outputuri cu același număr de caracteristici, straturile vor avea același număr de filtre; - dacă numărul de caracteristicii este injumătățit, numărul de filtre este dublat astfel încât să fie păstrată complexitatea de timp pe strat.
+ResNet (vezi figura 2.16) pleacă de la o rețea simplă. Rețeaua simplă fiind inspirată de rețeaua VGG. Straturile convoluționale au în general filtre de dimensiune $3 \times 3$ și se bazează de două reguli de design: - pentru outputuri cu același număr de caracteristici, straturile vor avea același număr de filtre; - dacă numărul de caracteristicii este injumătățit, numărul de filtre este dublat astfel încât să fie păstrată complexitatea de timp pe strat.
 
 \begin{figure}[!h]
 	\centering
@@ -403,7 +464,7 @@ NASNet este o arhitectură de rețea bazată pe tehnica de căutare Neural Archi
 
 Plusul principal pe care îl aduce rețeaua NASnet este reprezentat de proiectarea unui nou spațiu de căutare astfel încât cea mai bună arhitectură pe setul de date CIFAR-10 poate scala către rezoluții ale imaginilor cât mai mari într-un interval definit. Astfel, acest spațiu poartă numele de \textit{NASNet search space}. În abordarea NASNet, arhitecturile rețelelor convoluționale sunt manual predeterminate, fiind compuse din celule convoluționale repetate de multe ori unde, fiecare celulă convoluțională are aceași arhitectură dar ponderi diferite.
 
-Pentru a construi mai ușor arhitecturi scalabile pentru imagini de orice dimensiune este nevoie de două tipuri de celule convoluționale pentru a îndeplini două funcții principale: - celule convoluționale care returnează o hartă de caracteristici cu aceași dimensiune. Acest tip de celule se numește \textit{Celulă Normal}; - celule convoluționale care returnează o hartă de caracteristici cu înălțimea și lungimea harții divizată cu un factor doi. Acest tip de celule se numește \textit{Celulă de reducere} (vezi figura 2.21).
+Pentru a construi mai ușor arhitecturi scalabile pentru imagini de orice dimensiune este nevoie de două tipuri de celule convoluționale pentru a îndeplini două funcții principale: - celule convoluționale care returnează o hartă de caracteristici cu aceași dimensiune. Acest tip de celule se numește \textit{Celulă Normal}; - celule convoluționale care returnează o hartă de caracteristici cu înălțimea și lungimea harții divizată cu un factor doi. Acest tip de celule se numește \textit{Celulă de reducere} (vezi figura 2.18).
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=17cm,max height=17cm,keepaspectratio]{img_2_15}
