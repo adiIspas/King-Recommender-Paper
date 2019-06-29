@@ -229,6 +229,7 @@ Cu aceste noțiuni definite putem defini alogoritmii pentru funcțiile de eroare
 \end{algorithmic}
 \end{algorithm}
 
+
 \section{Optimizarea cu metoda gradientului descendent}
 \subsection{Noțiuni generale}
 Metoda gradientului descendent este unul dintre cei mai populari algoritmi folosiți pentru optimizarea rețelelor neurale. Metoda gradientului descendent presupune optimizarea funcției obiectiv, fie $J(\theta)$ - parametrizată cu parametrii modelului $\theta \in \mathbb{R}^d$, actualizând parametrii în direcția opusă gradientului funcției obiectiv $\nabla_{\theta}J(\theta)$. Rata de învățare $\eta$ determină dimensiunea pașilor pe care metoda îi face pentru a ajunge la minimul local \hyperlink{ruder2016}{[20]}.
@@ -323,6 +324,8 @@ Obiectivul de optimizare al modelului constă în maximizarea următoarei probab
 	L(e^U, e^I, b^U, b^I) = \prod_{(u,i) \in S^+} \hat{r}_{ui} \times \prod_{(u,i) \in S^-} (1 -\hat{r}_{ui})
 \end{align}
 
+Probabilitatea 2.25 reprezintă produsul dintre scorul pe care modelul le-a prezis pentru articolele pozitive și 1 - scorurile pe care le-a prezis pentru articolele negative. Cu alte cuvinte, dacă scorurile prezise pentru articolele negative tind către 1 atunci probabilitatea modelului v-a tinde către 0, iar modelul v-a fi penalizat.
+
 \section{Rețele neurale convoluționale}
 
 \subsection{Noțiuni generale}
@@ -338,14 +341,14 @@ Spre exemplu, la input se dă o imagine cu un autovehicul, iar rețeaua convolu�
 
 Rețelele convoluționale sunt compuse dintr-o secvență de straturi ce poate fi împărțită în trei tipuri principale \hyperlink{cs231n}{[7]}:
 \begin{enumerate}
-  \item Stratul convoluțional este stratul de bază într-o rețea. Parametrii acestui strat sunt reprezentați de filtre învățabile, unde fiecare filtru reprezintă o mică bucată din imaginea de input. De exemplu, un filtru pentru acest strat poate avea dimensiunea de $5 \times 5 \times 3$, dimensiune ce reprezintă faptul că se iau 5 pixeli pe lațime, 5 pixeli pe înălțime și o adâncime de 3 pixeli, unde adâncimea reprezintă canalele RGB. În continuare se glisează fiecare filtru peste input și se compune produsul dintre filtre și input la fiecare poziție. În urma acestei operații se produce un vector de activare 2-dimensional care reprezintă răspunsul filtrului la fiecare poziție. Altfel spus, rețeaua va învăța filtre care au răspuns mai mare atunci când sunt prezente anumite tipuri de caracteristici, precum culoarea sau orientarea (vezi figura 2.7).
+  \item Stratul convoluțional este stratul de bază într-o rețea. Parametrii acestui strat sunt reprezentați de filtre învățabile, unde fiecare filtru reprezintă o mică bucată din imaginea de input. De exemplu, un filtru pentru acest strat poate avea dimensiunea de $5 \times 5 \times 3$, dimensiune ce reprezintă faptul că se iau 5 pixeli pe lațime, 5 pixeli pe înălțime și o adâncime de 3 pixeli, unde adâncimea reprezintă canalele RGB. În continuare se glisează fiecare filtru peste input și se compune produsul dintre filtre și input la fiecare poziție. În urma acestei operații se produce un vector de activare 2-dimensional care reprezintă răspunsul filtrului la fiecare poziție. Altfel spus, rețeaua va învăța filtre care au răspuns mai mare atunci când sunt prezente anumite tipuri de caracteristici, precum culoarea sau orientarea (vezi figura 2.6).
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_4}
 	\caption[Exemplu de filtru aplicat peste input]{\textit{Exemplu de filtru aplicat peste input într-un strat convoluțional. Imagine preluată din \hyperlink{datameetsmedia}{[7]}.}}
 \end{figure}   
   
-  \item Stratul de pooling reprezintă o practică des folosită între mai multe straturi convoluționale succesive. Această operație reduce numărul de parametrii (dimensiunea modelului), operațiile din rețea și controlează overfitting-ul. Se execută indepedent pe fiecare nivel al adâncimii unui input și pastrează valoarea maximă a acelei zone (de cele mai multe ori). Rezultatul este o zonă de caracteristicii mai mică dar care păstrează cea mai relevantă statistică (vezi figura 2.8).
+  \item Stratul de pooling reprezintă o practică des folosită între mai multe straturi convoluționale succesive. Această operație reduce numărul de parametrii (dimensiunea modelului), operațiile din rețea și controlează overfitting-ul. Se execută indepedent pe fiecare nivel al adâncimii unui input și pastrează valoarea maximă a acelei zone (de cele mai multe ori). Rezultatul este o zonă de caracteristicii mai mică dar care păstrează cea mai relevantă statistică (vezi figura 2.7).
 \begin{figure}[!tbp]
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{img_2_5}
@@ -368,7 +371,7 @@ Rețelele convoluționale sunt compuse dintr-o secvență de straturi ce poate f
 
 VGG este o arhitectură clasică de rețea cu filtre convoluționale foarte mici, de dimensiune $3 \times 3$ și care poate avea un număr a straturilor de ponderi de 16 - 19. 
 
-În ceea ce privește arhitectura (vezi figura 2.9), inputul în rețeaua convoluțională este de dimensiune fixă și anume $224 \times 224$ imagine RGB. Mai departe, imaginea este trecută printr-un set de straturi convoluționale unde sunt utilizate filtre de dimensiune mică, $3 \times 3$ - fiind cea mai mică dimensiune ce poate captura noțiunile de stânga/dreapta, sus/jos sau centru. Într-una dintre configurații se utilizează un filtru convoluțional de dimensiune $1 \times 1$. Pasul folosit pentru aplicarea filtrelor în straturile convoluționale este fixat la 1 pixel.
+În ceea ce privește arhitectura (vezi figura 2.8), inputul în rețeaua convoluțională este de dimensiune fixă și anume $224 \times 224$ imagine RGB. Mai departe, imaginea este trecută printr-un set de straturi convoluționale unde sunt utilizate filtre de dimensiune mică, $3 \times 3$ - fiind cea mai mică dimensiune ce poate captura noțiunile de stânga/dreapta, sus/jos sau centru. Într-una dintre configurații se utilizează un filtru convoluțional de dimensiune $1 \times 1$. Pasul folosit pentru aplicarea filtrelor în straturile convoluționale este fixat la 1 pixel.
 
 Poolingul este compus din cinci straturi de max-pooling care urmează după unele straturi convoluționale. Max-poolingul este calculat cu ferestre de $2\times2$ pixeli și cu pas de 2 pixeli.
 
@@ -385,42 +388,42 @@ Ultimul strat din rețea este un strat soft-max \hyperlink{SimonyanKarenZisserma
 \subsection{InceptionV3}
 Prima arhitectura de Inception a apărut sub numele de GoogLeNet. O a doua versiune de Inception a fost definită prin introducerea de batch-uri normalizate. Iar mai apoi, versiunea a treia în care a fost adăugată idea de factorizare.
 
-Factorizarea în filtre convoluționale mici (vezi figura 2.10) presupune înlocuirea stratului cu filtru de dimensiune $5 \times 5$ cu două straturi de dimensiune $3 \times 3$ astfel reducându-se dimensiunea de la $5 \times 5 = 25$ la $3 \times 3 + 3 \times 3 = 18$.
+Factorizarea în filtre convoluționale mici (vezi figura 2.9) presupune înlocuirea stratului cu filtru de dimensiune $5 \times 5$ cu două straturi de dimensiune $3 \times 3$ astfel reducându-se dimensiunea de la $5 \times 5 = 25$ la $3 \times 3 + 3 \times 3 = 18$.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=7cm,max height=7cm,keepaspectratio]{img_2_17}
 	\caption[Factorizarea în filtre convoluționale mici]{\textit{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $5 \times 5$ înlocuit cu două de dimensiune $3 \times 3$. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}}
 \end{figure}   
 
-Factorizarea spațială în convoluții asimetrice (vezi figura 2.11) presupune înlocuirea stratului cu filtru de dimensiune $3 \times 3$ cu două straturi de dimensiune $3 \times 1$ și $1 \times 3$ astfel reducându-se dimensiunea de la $3 \times 3 = 9$ la $3 \times 1 + 1 \times 3 = 6$. 
+Factorizarea spațială în convoluții asimetrice (vezi figura 2.10) presupune înlocuirea stratului cu filtru de dimensiune $3 \times 3$ cu două straturi de dimensiune $3 \times 1$ și $1 \times 3$ astfel reducându-se dimensiunea de la $3 \times 3 = 9$ la $3 \times 1 + 1 \times 3 = 6$. 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=7cm,max height=7cm,keepaspectratio]{img_2_18}
 	\caption[Factorizarea spațială în convoluții asimetrice]{\textit{Factorizarea în filtre convoluționale mici. Filtrul de dimensiune $3 \times 3$ înlocuit cu două de dimensiune $3 \times 1$ și $1 \times 3$.  Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}}
 \end{figure}
 
-Clasificatorul auxiliar (vezi figura 2.12) este utilizat în InceptionV3 ca regulizator și este poziționat în partea superioară a utimelor $17 \times 17$ straturi. Batch-urile normalizate sunt de asemenea folosite în clasificatorul auxiliar.
+Clasificatorul auxiliar (vezi figura 2.11) este utilizat în InceptionV3 ca regulizator și este poziționat în partea superioară a utimelor $17 \times 17$ straturi. Batch-urile normalizate sunt de asemenea folosite în clasificatorul auxiliar.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=10cm,max height=10cm,keepaspectratio]{img_2_19}
 	\caption[Clasificator auxiliar]{\textit{Clasificatorul auxiliar. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}}
 \end{figure}
 
-Reducerea eficientă a dimensiunii (vezi figura 2.13) se face prin utilizarea a două blocuri paralele, fie P și C. Primul dintre acestea, P, fiind un strat de activare de pooling (media sau maxim pooling). Ambele straturi au filtre cu pas 2 care sunt concatenate.
+Reducerea eficientă a dimensiunii (vezi figura 2.12) se face prin utilizarea a două blocuri paralele, fie P și C. Primul dintre acestea, P, fiind un strat de activare de pooling (media sau maxim pooling). Ambele straturi au filtre cu pas 2 care sunt concatenate.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=17cm,max height=12cm,keepaspectratio]{img_2_20}
 	\caption[Reducerea eficientă a dimensiunii]{\textit{Modulul care reduce dimensiunea. Diagrama din dreapta reprezintă aceași soluție însă din perspectiva dimensiunii rețelei. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}}
 \end{figure}   
 
-Arhitectura completă este prezentată în figura 2.17.
+Arhitectura completă este prezentată în figura 2.13.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[max width=17cm,max height=12cm,keepaspectratio]{img_2_16}
 	\caption[Arhitectura InceptionV3]{\textit{Arhitectura rețelei InceptionV3. Imagine preluată din \hyperlink{guideinceptionv3}{[14]}.}}
 \end{figure}   
 
-
+\clearpage
 \subsection{ResNet}
 Fie $H(x)$ maparea de bază unde $x$ reprezintă inputul. Funcția reziduală poate fi aproximată cu $F(x) := H(x) - x$, maparea de bază fiind $F(x) + x$.
 
